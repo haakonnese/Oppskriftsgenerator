@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="utf-8">
+    <title>Oppskriftgenerator</title>
+    <!-- make it mobile friendly -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <h1>Oppskriftgenerator</h1>
+</head>
+<body>
+    <button id="generate">Generer oppskrift</button>
+    <div class="main"></div>
+    <button id="findIngredients">Finn ingredienser</button>
+    <div id="ingredients"></div>
+    <button id="copy">Kopier</button>
+</body>
+
+</html>
+<style>
+    /* the main class should be a grid of the days as the rows, one column for category, one for button "Generate" and one column for the recipe*/
+    .main {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-gap: 10px;
+        /* padding: 10px; */
+        border: 1px solid black;
+    }
+    .day {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 10px;
+        padding: 10px;
+        border-bottom: 1px solid black;
+        
+    }
+</style>
+<script>
+    // the main class should be a grid of the days as the rows, one column for category, one for button "Generate" and one column for the recipe
+    // the categories should be a dropdown menu
+    // the button should generate a random recipe from the category
+    // the recipes are loaded from the file recipes.json, which is a list of recipes with the following structure:
+    // {
+    //     "name": "Recipe name",
+    //     "category": "Category name",
+    //     "ingredients": [
+    //         {    
+    //             "name": "Ingredient name",
+    //             "amount": "Amount of ingredient",
+    //             "unit": "Unit of ingredient",
+    //             "category": "Category of ingredient"
+    //         }
+    //     ],
+    // }
+    // the recipes should be loaded into a javascript object
+    // The different categories should be loaded into a dropdown menu
+    // The recipes should be picked randomly from the category
+    // The recipe should be displayed in the last column
+    // All ingredients should be added up and displayed below all the days
+    // The ingredients should be sorted by category
+
+    // load the recipes from the json file
+    async function readRecipesFileOnLoad() {
+        const recipesFile = 'recipes.json';
+        
+        // Fetch the JSON file
+        const data = fetch(recipesFile)
+            .then(response => response.json())
+            // .then(recipes => {
+            //     // Store the recipes object globally
+            //     window.recipes = recipes;
+
+            //     // Log the recipes object to the console
+            //     console.log(window.recipes);
+            // })
+            .catch(error => {
+                console.error('Error fetching and parsing JSON:', error);
+            });
+        return data;
+    }
+
+    // Call the function on page load
+    // window.onload = readRecipesFileOnLoad;
+    async function main() {
+        const recipes = await readRecipesFileOnLoad();
+        // get the main div
+        const main = document.querySelector('.main');
+
+        // for all the days of the week, create a div which contains the category, the button and the recipe
+        for (let i = 0; i < 7; i++) {
+            // create the div
+            const div = document.createElement('div');
+            // add the class
+            div.classList.add('day');
+            // add the div to the main div
+            main.appendChild(div);
+        }
+        // in the div, add the names of the days in norwegian
+        const days = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'];
+        const dayDivs = document.querySelectorAll('.day');
+        // const categories = ['Enkel', 'Rød fisk', 'Vegetar', 'Hvis fisk', 'Kjøtt', 'Lørdagsmat', 'Søndagsmat'];
+        const categories = recipes.map(recipe => recipe.categories).flat().filter((category, index, self) => self.indexOf(category) === index);
+        categories.push("Ingen")
+        // Default option for the differetn days
+        const defaultCategories = ['Enkel', 'Rød fisk', 'Kylling', 'Hvit fisk', 'Kjøtt', 'Lørdagsmat', 'Søndagsmat']
+        for (let i = 0; i < dayDivs.length; i++) {
+            const dayDiv = dayDivs[i];
+            const day = days[i];
+            dayDiv.innerHTML = day;
+            const dropdown = document.createElement('select');
+            dropdown.classList.add('dropdown');
+            // add the dropdown to the main div
+            dayDiv.appendChild(dropdown);
+            // add the categories to the dropdown
+            for (let i = 0; i < categories.length; i++) {
+                const category = categories[i];
+                const option = document.createElement('option');
+                option.value = category;
+                option.innerHTML = category;
+                dropdown.appendChild(option);
+            }
+            dropdown.value = defaultCategories[i];
+            const button = document.createElement('button');
+            button.classList.add('button');
+            button.innerHTML = 'Generer';
+            // add event listener to the button to generate a recipe. It needs to know which day it is
+            button.addEventListener('click', function() {
+                const category = dropdown.value;
+                const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category) );
+                const randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
+                if (randomRecipe === undefined) {
+                    return;
+                }
+                const recipeDiv = dayDiv.querySelector('.recipe');
+                recipeDiv.innerHTML = randomRecipe.name;
+            });
+
+            dayDiv.appendChild(button);
+            const recipe = document.createElement('div');
+            recipe.classList.add('recipe');
+            recipe.innerHTML = '';
+            dayDiv.appendChild(recipe);
+
+        }  
+
+        const generateButton = document.querySelector('#generate');
+        generateButton.addEventListener("click", () => {
+            const currentRecipies = [];
+            for (let i = 0; i < dayDivs.length; i++) {
+                const dayDiv = dayDivs[i];
+                const dropdown = dayDiv.querySelector('.dropdown');
+                const category = dropdown.value;
+                const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category) && !currentRecipies.includes(recipe.name));
+                const randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
+                if (randomRecipe === undefined) {
+                    continue;
+                }
+                currentRecipies.push(randomRecipe.name);
+                const recipeDiv = dayDiv.querySelector('.recipe');
+                recipeDiv.innerHTML = randomRecipe.name;
+            }
+        })
+        const findIngredientsButton = document.querySelector('#findIngredients');
+        findIngredientsButton.addEventListener("click", () => {
+            calculateIngredients();
+        })
+        function calculateIngredients() {
+            const ingredientsDiv = document.querySelector('#ingredients');
+            const allIngredients = [];
+            for (let i = 0; i < dayDivs.length; i++) {
+                const dayDiv = dayDivs[i];
+                const recipeDiv = dayDiv.querySelector('.recipe');
+                const recipeName = recipeDiv.innerHTML;
+                const recipe = recipes.find(recipe => recipe.name === recipeName);
+                if (recipe === undefined) {
+                    continue;
+                }
+                const ingredients = recipe.ingredients;
+                for (let i = 0; i < ingredients.length; i++) {
+                    allIngredients.push(ingredients[i]);
+                }
+            }
+            // add all ingredients with the same name together. If the unit is different, convert to the same unit. If the units are not compatible, add them as a list of units
+            const ingredientsByName = {};
+            for (let i = 0; i < allIngredients.length; i++) {
+                const ingredient = allIngredients[i];
+                const name = ingredient.name;
+                const amount = ingredient.amount;
+                const unit = ingredient.unit;
+                const category = ingredient.category;
+                if (ingredientsByName[name] === undefined) {
+                    ingredientsByName[name] = {
+                        'amount': amount,
+                        'unit': unit,
+                        'category': category,
+                    }
+                } else {
+                    const oldAmount = ingredientsByName[name].amount;
+                    const oldUnit = ingredientsByName[name].unit;
+                    const oldCategory = ingredientsByName[name].category;
+                    if (oldUnit === unit) {
+                        ingredientsByName[name].amount = oldAmount + amount;
+                    } else {
+                        // convert to the same unit
+                        // check if old unit as a list. If it is a list, do the conversion for each element in the list
+                        if (Array.isArray(oldUnit)) {
+                            for (let i = 0; i < oldUnit.length; i++) {
+                                const oldUnitElement = oldUnit[i];
+                                const oldAmountElement = oldAmount[i];
+                                if (conversionKg[oldUnitElement] !== undefined && conversionKg[unit] !== undefined) {
+                                    ingredientsByName[name].amount[i] = oldAmountElement * conversionKg[oldUnitElement] + amount * conversionKg[unit];
+                                    ingredientsByName[name].unit[i] = 'g';
+                                } else if (conversionL[oldUnitElement] !== undefined && conversionL[unit] !== undefined) {
+                                    ingredientsByName[name].amount[i] = oldAmountElement * conversionL[oldUnitElement] + amount * conversionL[unit];
+                                    ingredientsByName[name].unit[i] = 'ml';
+                                } else {
+                                    // add the units as a list
+                                    ingredientsByName[name].amount.push(amount);
+                                    ingredientsByName[name].unit.push(unit);
+                                }
+                            }
+                        } else {
+                            if (conversionKg[oldUnit] !== undefined && conversionKg[unit] !== undefined) {
+                                ingredientsByName[name].amount = oldAmount * conversionKg[oldUnit] + amount * conversionKg[unit];
+                                ingredientsByName[name].unit = 'g';
+                            } else if (conversionL[oldUnit] !== undefined && conversionL[unit] !== undefined) {
+                                ingredientsByName[name].amount = oldAmount * conversionL[oldUnit] + amount * conversionL[unit];
+                                ingredientsByName[name].unit = 'ml';
+                            } else {
+                                // add the units as a list
+                                ingredientsByName[name].amount = [oldAmount, amount];
+                                ingredientsByName[name].unit = [oldUnit, unit];
+                            }
+                        }
+                    }
+                }
+            }
+            // sort the ingredients by category, 
+            const sortOrder = ["grønnsaker", "kjøtt", "fisk", "meieri", "annet"]
+            const sortedIngredients = Object.entries(ingredientsByName).sort((a, b) => sortOrder.indexOf(a[1].category) - sortOrder.indexOf(b[1].category));
+            // add the ingredients to the ingredients div
+            ingredientsDiv.innerHTML = '';
+            for (let i = 0; i < sortedIngredients.length; i++) {
+                const ingredient = sortedIngredients[i];
+                const name = ingredient[0];
+                const amount = ingredient[1].amount;
+                const unit = ingredient[1].unit;
+                const category = ingredient[1].category;
+                const ingredientDiv = document.createElement('div');
+                if (Array.isArray(amount)) {
+                    let amountString = '';
+                    for (let i = 0; i < amount.length; i++) {
+                        const amountElement = amount[i];
+                        const unitElement = unit[i];
+                        if (amountElement === 0) {
+                            amountString += ', ';
+                        }
+                        amountString += `${amountElement} ${unitElement}, `;
+                    }
+                    amountString = amountString.slice(0, -2);
+                    ingredientDiv.innerHTML = `${name}: ${amountString}`;
+                } else {
+                    if (amount === 0) {
+                        ingredientDiv.innerHTML = `${name}`;
+                    }
+                    else {
+                        ingredientDiv.innerHTML = `${name}: ${amount} ${unit}`;
+                    }
+                }
+                ingredientsDiv.appendChild(ingredientDiv);
+            }
+            // add a copy button
+            const copyButton = document.querySelector('#copy');
+            copyButton.addEventListener('click', function() {
+                const text = ingredientsDiv.innerText;
+                navigator.clipboard.writeText(text);
+            });
+
+
+        }
+    }
+    window.onload = main();
+    // create the dropdown menu
+    // add the class
+    const conversionKg = {
+        'g': 1,
+        'kg': 1000,
+    }
+    const conversionL = {
+        'ml': 1,
+        'cl': 10,
+        'ts': 5,
+        'ss': 15,
+        'dl': 100,
+        'l': 1000,
+    }
+
+
+</script>
