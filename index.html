@@ -135,13 +135,18 @@
             button.addEventListener('click', function() {
                 const category = dropdown.value;
                 const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category));
+                const recipeDiv = dayDiv.querySelector('.recipe');
+                const currentRecipe = recipeDiv.innerHTML;
                 let randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
+                if (currentRecipe !== '') {
+                    const currentRecipeIndex = recipesOfCategory.findIndex(recipe => recipe.name === currentRecipe);
+                    randomRecipe = recipesOfCategory[(currentRecipeIndex + 1) % recipesOfCategory.length];
+                }
                 if (randomRecipe === undefined) {
                     randomRecipe = {
                         'name': '',
                     };
                 }
-                const recipeDiv = dayDiv.querySelector('.recipe');
                 recipeDiv.innerHTML = randomRecipe.name;
                 calculateIngredients();
             });
