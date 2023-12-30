@@ -1095,7 +1095,7 @@
     },
     {
         "name": "Stekt ris",
-        "categories": ["Enkel", "Rester"],
+        "categories": ["Enkel", "Rester", "Pølse"],
         "ingredients":[
             {
                 "name": "Amerikansk blanding", 
@@ -1137,7 +1137,7 @@
     },
     {
         "name": "Alt i ett, pølsegryte med pasta",
-        "categories": ["Enkel", "Rester"],
+        "categories": ["Enkel", "Rester", "Pølse"],
         "ingredients":[
             {
                 "name": "Pølse",
@@ -1203,7 +1203,7 @@
     },
     {
         "name": "Pølse stroganoff",
-        "categories": ["Enkel"],
+        "categories": ["Enkel", "Pølse"],
         "ingredients":[
             {
                 "name": "Pølse",
