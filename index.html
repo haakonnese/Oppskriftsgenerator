@@ -11,7 +11,6 @@
 <body>
     <button id="generate">Generer oppskrift</button>
     <div class="main"></div>
-    <button id="findIngredients">Finn ingredienser</button>
     <div id="ingredients"></div>
     <button id="copy">Kopier</button>
 </body>
@@ -103,7 +102,7 @@
         const categories = recipes.map(recipe => recipe.categories).flat().filter((category, index, self) => self.indexOf(category) === index);
         categories.push("Ingen")
         // Default option for the differetn days
-        const defaultCategories = ['Enkel', 'Rød fisk', 'Kylling', 'Hvit fisk', 'Kjøtt', 'Lørdagsmat', 'Søndagsmat']
+        const defaultCategories = ['Enkel', 'Rød fisk', 'Kylling', 'Hvit fisk', 'Kjøtt', 'Lørdagsmat', 'Suppe']
         for (let i = 0; i < dayDivs.length; i++) {
             const dayDiv = dayDivs[i];
             const day = days[i];
@@ -127,13 +126,16 @@
             // add event listener to the button to generate a recipe. It needs to know which day it is
             button.addEventListener('click', function() {
                 const category = dropdown.value;
-                const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category) );
-                const randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
+                const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category));
+                let randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
                 if (randomRecipe === undefined) {
-                    return;
+                    randomRecipe = {
+                        'name': '',
+                    };
                 }
                 const recipeDiv = dayDiv.querySelector('.recipe');
                 recipeDiv.innerHTML = randomRecipe.name;
+                calculateIngredients();
             });
 
             dayDiv.appendChild(button);
@@ -145,7 +147,9 @@
         }  
 
         const generateButton = document.querySelector('#generate');
-        generateButton.addEventListener("click", () => {
+
+        generateButton.addEventListener("click", generate);
+        function generate() {
             const currentRecipies = [];
             for (let i = 0; i < dayDivs.length; i++) {
                 const dayDiv = dayDivs[i];
@@ -160,11 +164,9 @@
                 const recipeDiv = dayDiv.querySelector('.recipe');
                 recipeDiv.innerHTML = randomRecipe.name;
             }
-        })
-        const findIngredientsButton = document.querySelector('#findIngredients');
-        findIngredientsButton.addEventListener("click", () => {
             calculateIngredients();
-        })
+        }
+        
         function calculateIngredients() {
             const ingredientsDiv = document.querySelector('#ingredients');
             const allIngredients = [];
@@ -205,21 +207,31 @@
                         // convert to the same unit
                         // check if old unit as a list. If it is a list, do the conversion for each element in the list
                         if (Array.isArray(oldUnit)) {
+                            let converted = false;
                             for (let i = 0; i < oldUnit.length; i++) {
                                 const oldUnitElement = oldUnit[i];
                                 const oldAmountElement = oldAmount[i];
                                 if (conversionKg[oldUnitElement] !== undefined && conversionKg[unit] !== undefined) {
                                     ingredientsByName[name].amount[i] = oldAmountElement * conversionKg[oldUnitElement] + amount * conversionKg[unit];
                                     ingredientsByName[name].unit[i] = 'g';
+                                    converted = true;
+                                    break;
                                 } else if (conversionL[oldUnitElement] !== undefined && conversionL[unit] !== undefined) {
                                     ingredientsByName[name].amount[i] = oldAmountElement * conversionL[oldUnitElement] + amount * conversionL[unit];
                                     ingredientsByName[name].unit[i] = 'ml';
-                                } else {
+                                    converted = true;
+                                    break;
+                                } else if (oldUnitElement === unit) {
+                                    ingredientsByName[name].amount[i] = oldAmountElement + amount;
+                                    converted = true;
+                                    break;
+                                }
+                            }
+                            if (!converted) {
                                     // add the units as a list
                                     ingredientsByName[name].amount.push(amount);
                                     ingredientsByName[name].unit.push(unit);
                                 }
-                            }
                         } else {
                             if (conversionKg[oldUnit] !== undefined && conversionKg[unit] !== undefined) {
                                 ingredientsByName[name].amount = oldAmount * conversionKg[oldUnit] + amount * conversionKg[unit];

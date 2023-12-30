@@ -54,6 +54,85 @@
         ]
     },
     {
+        "name": "Sei med soppstuing",
+        "categories": ["Hvit fisk"],
+        "ingredients": [
+            {    
+                "name": "Sei",
+                "amount": 400,
+                "unit": "g",
+                "category": "fisk"
+            },
+            {    
+                "name": "Sopp",
+                "amount": 500,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Bacon",
+                "amount": 100,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {    
+                "name": "Creme fraiche",
+                "amount": 2,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {    
+                "name": "Potet",
+                "amount": 600,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Gulrot",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Blomkål",
+                "amount": 0.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
+        "name": "Sei med sopp og ris",
+        "categories": ["Hvit fisk"],
+        "ingredients": [
+            {    
+                "name": "Sei",
+                "amount": 400,
+                "unit": "g",
+                "category": "fisk"
+            },
+            {    
+                "name": "Sopp",
+                "amount": 500,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Ris",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {    
+                "name": "Matfløte",
+                "amount": 3,
+                "unit": "dl",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    
+    {
         "name": "Ingefærsei med eple og karrisaus",
         "categories": ["Hvit fisk"],
         "ingredients": [
@@ -101,6 +180,73 @@
             }
         ]
     },
+    {
+        "name": "Hvit fisk med eplesmørsaus",
+        "categories": ["Hvit fisk"],
+        "ingredients": [
+            {    
+                "name": "Hvit fisk",
+                "amount": 500,
+                "unit": "g",
+                "category": "fisk"
+            },
+            {    
+                "name": "Potet",
+                "amount": 600,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Sjalottløk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Hvitløk",
+                "amount": 1,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Eplejuice",
+                "amount": 1.5,
+                "unit": "dl",
+                "category": "annet"
+            },
+            {    
+                "name": "Kremfløte",
+                "amount": 2,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {    
+                "name": "Smør",
+                "amount": 25,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {    
+                "name": "Sitronsaft",
+                "amount": 0.5,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {    
+                "name": "Eple",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Granateple",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    
     {
         "name": "Soyamarinert laks",
         "categories": ["Enkel", "Rød fisk"],
@@ -331,7 +477,7 @@
     },
     {
         "name": "Hot kyllingsuppe",
-        "categories": ["Kylling"],
+        "categories": ["Kylling", "Suppe"],
         "ingredients": [
             {
                 "name": "Kyllingfilet",
@@ -366,7 +512,7 @@
             {
                 "name": "Hakka tomater",
                 "amount": 2,
-                "unit": "bokser",
+                "unit": "boks",
                 "category": "annet"
             },
             {
@@ -385,7 +531,7 @@
     },
     {
         "name": "Pastapanne med kylling og bacon",
-        "categories": ["Kylling"],
+        "categories": ["Kylling", "Pasta"],
         "ingredients": [
             {
                 "name": "Kyllingfilet",
@@ -433,6 +579,72 @@
                 "name": "Spinat",
                 "amount": 100,
                 "unit": "g",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
+        "name": "Pasta carbonara",
+        "categories": ["Pasta"],
+        "ingredients": [
+            {
+                "name": "Bacon",
+                "amount": 100,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Parmesan",
+                "amount": 50,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {
+                "name": "Egg",
+                "amount": 2,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Tagliatelle",
+                "amount": 200,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Brokkoli",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
+        "name": "Pasta med kylling og pesto",
+        "categories": ["Kylling", "Pasta"],
+        "ingredients": [
+            {
+                "name": "Kyllingfilet",
+                "amount": 2,
+                "unit": "fileter",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Pesto",
+                "amount": 2,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Pasta",
+                "amount": 200,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Brokkoli",
+                "amount": 1,
+                "unit": "stk",
                 "category": "grønnsaker"
             }
         ]
@@ -511,7 +723,7 @@
     },
     {
         "name": "Enkel kyllingwok",
-        "categories": ["Kylling", "Enkel"],
+        "categories": ["Kylling", "Enkel", "Asiatisk"],
         "ingredients": [
             {
                 "name": "Kyllingfilet",
@@ -684,8 +896,68 @@
         ]
     },
     {
+        "name": "Kremet baconpasta",
+        "categories": ["Pasta"],
+        "ingredients": [
+            {
+                "name": "Bacon",
+                "amount": 3,
+                "unit": "skiver",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 2,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Kyllingbuljong",
+                "amount": 1,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Tomatpure",
+                "amount": 1,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Matfløte",
+                "amount": 2.5,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Cherrytomater",
+                "amount": 200,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Kremost",
+                "amount": 1,
+                "unit": "ss",
+                "category": "meieri"
+            },
+            {
+                "name": "Parmesan",
+                "amount": 0.25,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Spaghetti",
+                "amount": 100,
+                "unit": "g",
+                "category": "annet"
+            }        
+        ]
+    },
+    {
         "name": "Kremet pasta i panne med skine og tomat",
-        "categories": ["Enkel"],
+        "categories": ["Enkel", "Pasta"],
         "ingredients":[
             {
                 "name": "Pasta",
@@ -750,6 +1022,78 @@
         ]
     },
     {
+        "name": "Enchiladas",
+        "categories": ["Enkel", "Lørdagsmat", "Kylling"],
+        "ingredients":[
+            {
+                "name": "Kyllingfilet",
+                "amount": 200,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Rødløk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Paprika",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Ost",
+                "amount": 75,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {
+                "name": "Tacokrydder",
+                "amount": 0.5,
+                "unit": "pose",
+                "category": "annet"
+            },
+            {
+                "name": "Tortillalefser",
+                "amount": 4,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Avokado",
+                "amount": 0.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Koriander",
+                "amount": 0.5,
+                "unit": "potte",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Vårløk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Chili",
+                "amount": 0.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Avokado",
+                "amount": 0.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
         "name": "Stekt ris",
         "categories": ["Enkel", "Rester"],
         "ingredients":[
@@ -788,6 +1132,978 @@
                 "amount": 400,
                 "unit": "g",
                 "category": "kjøtt"
+            }
+        ]
+    },
+    {
+        "name": "Alt i ett, pølsegryte med pasta",
+        "categories": ["Enkel", "Rester"],
+        "ingredients":[
+            {
+                "name": "Pølse",
+                "amount": 300,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Løk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Gulrot",
+                "amount": 3,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Squash",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Pasta",
+                "amount": 150,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Spinat",
+                "amount": 65,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Buljong",
+                "amount": 1,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Hakka tomater",
+                "amount": 2,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Matfløte",
+                "amount": 1.5,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Ost",
+                "amount": 100,
+                "unit": "g",
+                "category": "meieri"
+            }
+        ]
+    },
+    {
+        "name": "Pølse stroganoff",
+        "categories": ["Enkel"],
+        "ingredients":[
+            {
+                "name": "Pølse",
+                "amount": 500,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Ris",
+                "amount": 250,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Løk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Gulrot",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Paprika",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Sopp",
+                "amount": 150,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Tomatpure",
+                "amount": 2,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Hvetemel",
+                "amount": 1,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Buljong",
+                "amount": 1,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Melk",
+                "amount": 2,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Sukker",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            }
+        ]
+    },
+    {
+        "name": "Meksikansk gatemat",
+        "categories": ["Lørdagsmat"],
+        "ingredients":[
+            {
+                "name": "Chorizopølse",
+                "amount": 200,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Vårløk",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Ost",
+                "amount": 100,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {
+                "name": "Rømme",
+                "amount": 2,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Tacolefser",
+                "amount": 8,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 2,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Chili",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Rødløk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Eddik",
+                "amount": 3,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Tomatpure",
+                "amount": 1,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Spisskummen",
+                "amount": 3,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Chipotlepulver",
+                "amount": 2,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Kidneybønner",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Tomat",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Paprika",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Sitronsaft",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            }
+        ]
+    },    
+    {
+        "name": "Vårruller",
+        "categories": ["Rester", "Kjøtt", "Asiatisk"],
+        "ingredients":[
+            {
+                "name": "Kjøttdeig",
+                "amount": 2,
+                "unit": "pakker",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Kål",
+                "amount": 0.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Gulrot",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Vårrullkrydder",
+                "amount": 3,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Oystersaus",
+                "amount": 1,
+                "unit": "flaske",
+                "category": "annet"
+            },
+            {
+                "name": "Vårrullpapir",
+                "amount": 30,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Egg",
+                "amount": 1,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Løk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
+        "name": "Lasagne",
+        "categories": ["Kjøtt", "Lørdagsmat"],
+        "ingredients":[
+            {
+                "name": "Kjøttdeig",
+                "amount": 400,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 3,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Chili",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Tomatpure",
+                "amount": 200,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Hakka tomater",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Løk",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Gulrot",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Buljong",
+                "amount": 1,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Sukker",
+                "amount": 2,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Lasagneplater",
+                "amount": 1,
+                "unit": "pakke",
+                "category": "annet"
+            },
+            {
+                "name": "Ost",
+                "amount": 150,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {
+                "name": "Melk",
+                "amount": 7,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Hvetemel",
+                "amount": 60,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Smør",
+                "amount": 60,
+                "unit": "g",
+                "category": "meieri"
+            }
+        ]
+    },  
+    {
+        "name": "Koteletter med bakt søtpotet",
+        "categories": ["Kjøtt"],
+        "ingredients":[
+            {
+                "name": "Koteletter",
+                "amount": 2,
+                "unit": "stk",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Søtpotet",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Kikerter",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Tacokrydder",
+                "amount": 1,
+                "unit": "pose",
+                "category": "annet"
+            },
+            {
+                "name": "Granateple",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Vårløk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Rømme",
+                "amount": 2,
+                "unit": "ss",
+                "category": "meieri"
+            }
+        ]
+    },
+    {
+        "name": "Ostesuppe",
+        "categories": ["Kjøtt", "Suppe"],
+        "ingredients":[
+            {
+                "name": "Smør",
+                "amount": 40,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {
+                "name": "Mel",
+                "amount": 40,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Melk",
+                "amount": 7.5,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Fløte",
+                "amount": 2.5,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Buljong",
+                "amount": 2,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Krydderost",
+                "amount": 1,
+                "unit": "boks",
+                "category": "meieri"
+            },
+            {
+                "name": "Ost",
+                "amount": 75,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {
+                "name": "Kjøttdeig",
+                "amount": 400,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Løk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
+        "name": "Burger med søtpotet fries",
+        "categories": ["Kjøtt", "Lørdagsmat"],
+        "ingredients":[
+            {
+                "name": "Kjøttdeig",
+                "amount": 400,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Bacon",
+                "amount": 4,
+                "unit": "skiver",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Briochebrød",
+                "amount": 4,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Salatblader",
+                "amount": 0,
+                "unit": "",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Tomat",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Løk",
+                "amount": 1.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Honning",
+                "amount": 1.5,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Eddik",
+                "amount": 3,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Majones",
+                "amount": 3,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Creme fraîche",
+                "amount": 2,
+                "unit": "ss",
+                "category": "meieri"
+            },
+            {
+                "name": "Tomatpure",
+                "amount": 2,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Worcester sauce",
+                "amount": 1,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Tabasko",
+                "amount": 0.5,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Sennep",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Sjalottløk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 1,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Sukker",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Søtpotet",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
+        "name": "Gulrot- og ingefærsuppe",
+        "categories": ["Vegetar", "Suppe"],
+        "ingredients":[
+            {
+                "name": "Løk",
+                "amount": 1,
+                "unit": "liten",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 1,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Olje",
+                "amount": 1,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Gulrot",
+                "amount": 300,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Ingefær",
+                "amount": 1,
+                "unit": "ss",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Buljong",
+                "amount": 1,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Melk",
+                "amount": 0.5,
+                "unit": "dl",
+                "category": "meieri"
+            }
+        ]
+    },
+    {
+        "name": "Mangogryte",
+        "categories": ["Enkel", "Vegetar"],
+        "ingredients":[
+            {
+                "name": "Kikerter",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Linser",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Hakka tomater",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Løk",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 2,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Matfløte",
+                "amount": 3,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Melk",
+                "amount": 1,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Mangochutney",
+                "amount": 4,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Karri",
+                "amount": 3,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Buljong",
+                "amount": 1,
+                "unit": "stk",
+                "category": "annet"
+            }
+        ]
+    },
+    {
+        "name": "Torleivs chiligryte",
+        "categories": ["Enkel", "Suppe"],
+        "ingredients":[
+            {
+                "name": "Olje",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Buljong",
+                "amount": 2,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Løk",
+                "amount": 3,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 3,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hakka tomater",
+                "amount": 2,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Hermetiserte cherrytomater",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Kidneybønner",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Tomatbønner",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Mais",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Cayennepepper",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Matfløte",
+                "amount": 3,
+                "unit": "dl",
+                "category": "meieri"
+            }
+        ]
+    },
+    {
+        "name": "Potetsuppe",
+        "categories": ["Suppe", "Vegetar"],
+        "ingredients":[
+            {
+                "name": "Poteter",
+                "amount": 5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Gulrot",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hakka tomater",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Linser",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Løk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 1,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Tomatpure",
+                "amount": 2,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Chili",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Buljong",
+                "amount": 2,
+                "unit": "stk",
+                "category": "annet"
+            }
+        ]
+    },
+    {
+        "name": "Linsemoussaka",
+        "categories": ["Vegetar"],
+        "ingredients":[
+            {
+                "name": "Løk",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 4,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Olje",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Chili",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hakka tomater",
+                "amount": 2,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Kremfløte",
+                "amount": 2,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Sukker",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Basilikum",
+                "amount": 1,
+                "unit": "neve",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Røde linser",
+                "amount": 1,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Aubergine",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Fetaost",
+                "amount": 200,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {
+                "name": "Spinat",
+                "amount": 300,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Ost",
+                "amount": 200,
+                "unit": "g",
+                "category": "meieri"
+            }
+        ]
+    },
+    {
+        "name": "Sopp- og baconstuing",
+        "categories": ["Tilbehør"],
+        "ingredients":[
+            {
+                "name": "Bacon",
+                "amount": 200,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Sjampinjong",
+                "amount": 250,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Rømme",
+                "amount": 5,
+                "unit": "ss",
+                "category": "meieri"
+            },
+            {
+                "name": "Basilikum",
+                "amount": 1,
+                "unit": "ts",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Persille",
+                "amount": 1,
+                "unit": "ss",
+                "category": "grønnsaker"
             }
         ]
     }
