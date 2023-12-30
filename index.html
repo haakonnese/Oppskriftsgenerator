@@ -103,6 +103,14 @@
         categories.push("Ingen")
         // Default option for the differetn days
         const defaultCategories = ['Enkel', 'Rød fisk', 'Kylling', 'Hvit fisk', 'Kjøtt', 'Lørdagsmat', 'Suppe']
+
+        // load local storage name of recipies at a day if it exists
+        let recipeNames = JSON.parse(localStorage.getItem('recipeNames'));
+        if (recipeNames === null) {
+            recipeNames = ["", "", "", "", "", "", ""];
+        }
+
+
         for (let i = 0; i < dayDivs.length; i++) {
             const dayDiv = dayDivs[i];
             const day = days[i];
@@ -141,13 +149,13 @@
             dayDiv.appendChild(button);
             const recipe = document.createElement('div');
             recipe.classList.add('recipe');
-            recipe.innerHTML = '';
+            recipe.innerHTML = recipeNames[i];
             dayDiv.appendChild(recipe);
 
         }  
 
         const generateButton = document.querySelector('#generate');
-
+        calculateIngredients();
         generateButton.addEventListener("click", generate);
         function generate() {
             const currentRecipies = [];
@@ -288,8 +296,15 @@
                 const text = ingredientsDiv.innerText;
                 navigator.clipboard.writeText(text);
             });
-
-
+            // save the recipy-names for each day to local storage
+            const recipeNames = [];
+            for (let i = 0; i < dayDivs.length; i++) {
+                const dayDiv = dayDivs[i];
+                const recipeDiv = dayDiv.querySelector('.recipe');
+                const recipeName = recipeDiv.innerHTML;
+                recipeNames.push(recipeName);
+            }
+            localStorage.setItem('recipeNames', JSON.stringify(recipeNames));
         }
     }
     window.onload = main();
