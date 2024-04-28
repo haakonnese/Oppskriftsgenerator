@@ -13,11 +13,13 @@
     <div class="main"></div>
     <div id="current"></div>
     <div>
-        <h2>Ingredienser alle oppskrifter</h2>
-        <div id="ingredients"></div>
+        <h2 id="ingredients-header">Ingredienser alle oppskrifter</h2>
         <div id="copyDiv">
             <button id="copy" class="button"><img src="copy-28-32.png"></button>
         </div>
+
+        </div>
+        <div id="ingredients"></div>
     </div>
 </body>
 
@@ -77,6 +79,12 @@
     html, body {
         height: 100%;
         scroll-behavior: smooth;
+    }
+    #ingredients-header, #ingredients-header+#copyDiv {
+        display: inline-block;
+    }
+    #copyDiv {
+        position: relative;
     }
 
 </style>
@@ -394,15 +402,12 @@
             copyButton.addEventListener('click', function() {
                 const text = ingredientsDiv.innerText;
                 navigator.clipboard.writeText(text);
-                // add a popup to show that the text has been copied
                 const popup = document.createElement('div');
                 popup.innerHTML = 'Kopiert';
-                // position it on top of the copy button
-                popup.style.position = 'relative';
+                popup.style.position = 'absolute';
                 popup.style.marginTop = '-80px';
                 popup.style.left = '40px';
                 popup.style.zIndex = '1';
-                popup.style.width = '60px';
 
                 popup.style.backgroundColor = 'lightblue';
                 popup.style.padding = '10px';
