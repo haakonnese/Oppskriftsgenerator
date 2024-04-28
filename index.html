@@ -197,7 +197,10 @@
                 recipeDiv.innerHTML = randomRecipe.name;
                 calculateIngredients();
             });
-            buttonsDiv.style.display = "inline-block";
+            // make sure that the elements are displayed in a row
+            buttonsDiv.style.display = "flex";
+            buttonsDiv.style.flexDirection = "row";
+
             buttonsDiv.appendChild(button);
             dayDiv.appendChild(innerDiv);
             
