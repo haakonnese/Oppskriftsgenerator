@@ -9,10 +9,16 @@
     <h1>Oppskriftgenerator</h1>
 </head>
 <body>
-    <button id="generate">Generer oppskrift</button>
+    <button id="generate">Generer oppskrifter</button>
     <div class="main"></div>
-    <div id="ingredients"></div>
-    <button id="copy">Kopier</button>
+    <div id="current"></div>
+    <div>
+        <h2>Ingredienser alle oppskrifter</h2>
+        <div id="ingredients"></div>
+        <div id="copyDiv">
+            <button id="copy" class="button"><img src="copy-28-32.png"></button>
+        </div>
+    </div>
 </body>
 
 </html>
@@ -28,13 +34,47 @@
     }
     .day {
         display: grid;
-        grid-template-columns: 0.4fr 0.7fr 0.3fr 1fr;
+        grid-template-columns: 0.1fr 0.1fr 1fr;
         grid-gap: 10px;
         padding: 10px;
-        height: 90px;
+        height: 80px;
         border-bottom: 1px solid black;
         
     }
+    .button {
+        background-color: lightblue;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    .dropdown {
+        /* fancy dropdown */
+        background-color: #f1f1f1;
+        color: black;
+        padding: 2px;
+        border: none;
+        cursor: pointer;
+        height: 40%
+    }
+    #generate {
+        background-color: lightblue;
+        border: 1px solid black;
+        border-radius: 2px;
+        color: black;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 26px;
+        margin: 4px 2px;
+        padding: 10px;
+        cursor: pointer;
+    }
+
 </style>
 <script>
     // the main class should be a grid of the days as the rows, one column for category, one for button "Generate" and one column for the recipe
@@ -119,7 +159,6 @@
             const dropdown = document.createElement('select');
             dropdown.classList.add('dropdown');
             // add the dropdown to the main div
-            dayDiv.appendChild(dropdown);
             // add the categories to the dropdown
             for (let i = 0; i < categories.length; i++) {
                 const category = categories[i];
@@ -129,9 +168,14 @@
                 dropdown.appendChild(option);
             }
             dropdown.value = defaultCategories[i];
+            const recipe = document.createElement('div');
+            recipe.classList.add('recipe');
+            recipe.innerHTML = recipeNames[i];
+            const innerDiv = document.createElement('div');
+            innerDiv.appendChild(dropdown);
             const button = document.createElement('button');
             button.classList.add('button');
-            button.innerHTML = 'Generer';
+            button.innerHTML = '<img src="refresh-151-32.png">';
             // add event listener to the button to generate a recipe. It needs to know which day it is
             button.addEventListener('click', function() {
                 const category = dropdown.value;
@@ -151,12 +195,51 @@
                 recipeDiv.innerHTML = randomRecipe.name;
                 calculateIngredients();
             });
-
-            dayDiv.appendChild(button);
-            const recipe = document.createElement('div');
-            recipe.classList.add('recipe');
-            recipe.innerHTML = recipeNames[i];
+            innerDiv.appendChild(button);
+            dayDiv.appendChild(innerDiv);
+            
             dayDiv.appendChild(recipe);
+            const showRecipe = document.createElement('button');
+            showRecipe.innerHTML = '<img src="show-14-32.png">';
+            showRecipe.classList.add('button');
+            showRecipe.addEventListener('click', function() {
+                const day = this.parentElement.parentElement;
+                const recipeName = day.querySelector('.recipe').innerHTML;
+                const recipe = recipes.find(r => r.name === recipeName);
+                if (recipe === undefined) {
+                    return;
+                }
+                const ingredients = recipe.ingredients;
+                const approach = recipe.approach;
+                const recipeDiv = document.createElement('div');
+                const approachDiv = document.createElement('div');
+                const approachList = document.createElement('ol');
+                const ingredientsList = document.createElement('ul');
+                for (let i = 0; i < ingredients.length; i++) {
+                    const ingredient = ingredients[i];
+                    const ingredientListItem = document.createElement('li');
+                    ingredientListItem.innerHTML = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit}`;
+                    ingredientsList.appendChild(ingredientListItem);
+                }
+                for (let i = 0; i < approach.length; i++) {
+                    const approachElement = approach[i];
+                    const approachListItem = document.createElement('li');
+                    approachListItem.innerHTML = approachElement;
+                    approachList.appendChild(approachListItem);
+                }
+                const recipeTitle = document.createElement('h2');
+                recipeTitle.innerHTML = recipeName;
+                recipeDiv.appendChild(recipeTitle);
+                recipeDiv.appendChild(ingredientsList);
+                const apporachTitle = document.createElement('h3');
+                apporachTitle.innerHTML = 'Fremgangsmåte';
+                approachDiv.appendChild(apporachTitle);
+                approachDiv.appendChild(approachList);
+                recipeDiv.appendChild(approachDiv);
+                document.querySelector("#current").innerHTML = recipeDiv.outerHTML;
+                document.querySelector("#current").scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+            });
+            innerDiv.appendChild(showRecipe);
 
         }  
 
@@ -301,6 +384,25 @@
             copyButton.addEventListener('click', function() {
                 const text = ingredientsDiv.innerText;
                 navigator.clipboard.writeText(text);
+                // add a popup to show that the text has been copied
+                const popup = document.createElement('div');
+                popup.innerHTML = 'Kopiert';
+                // position it on top of the copy button
+                popup.style.position = 'relative';
+                popup.style.marginTop = '-80px';
+                popup.style.left = '40px';
+                popup.style.zIndex = '1';
+                popup.style.width = '60px';
+
+                popup.style.backgroundColor = 'lightblue';
+                popup.style.padding = '10px';
+                popup.style.border = '1px solid black';
+                // add shading
+                popup.style.boxShadow = '0 0 10px 0 rgba(0, 0, 0, 0.8)';
+                document.getElementById("copyDiv").appendChild(popup);
+                setTimeout(() => {
+                    popup.remove();
+                }, 2000);
             });
             // save the recipy-names for each day to local storage
             const recipeNames = [];
