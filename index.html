@@ -172,7 +172,9 @@
             recipe.classList.add('recipe');
             recipe.innerHTML = recipeNames[i];
             const innerDiv = document.createElement('div');
+            const buttonsDiv = document.createElement('div');
             innerDiv.appendChild(dropdown);
+            innerDiv.appendChild(buttonsDiv);
             const button = document.createElement('button');
             button.classList.add('button');
             button.innerHTML = '<img src="refresh-151-32.png">';
@@ -195,7 +197,7 @@
                 recipeDiv.innerHTML = randomRecipe.name;
                 calculateIngredients();
             });
-            innerDiv.appendChild(button);
+            buttonsDiv.appendChild(button);
             dayDiv.appendChild(innerDiv);
             
             dayDiv.appendChild(recipe);
@@ -239,7 +241,7 @@
                 document.querySelector("#current").innerHTML = recipeDiv.outerHTML;
                 document.querySelector("#current").scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
             });
-            innerDiv.appendChild(showRecipe);
+            buttonsDiv.appendChild(showRecipe);
 
         }  
 
