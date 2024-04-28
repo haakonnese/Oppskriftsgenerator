@@ -74,6 +74,10 @@
         padding: 10px;
         cursor: pointer;
     }
+    html, body {
+        height: 100%;
+        scroll-behavior: smooth;
+    }
 
 </style>
 <script>
@@ -209,7 +213,7 @@
             showRecipe.innerHTML = '<img src="show-14-32.png">';
             showRecipe.classList.add('button');
             showRecipe.addEventListener('click', function() {
-                const day = this.parentElement.parentElement;
+                const day = this.parentElement.parentElement.parentElement;
                 const recipeName = day.querySelector('.recipe').innerHTML;
                 const recipe = recipes.find(r => r.name === recipeName);
                 if (recipe === undefined) {
@@ -243,7 +247,7 @@
                 approachDiv.appendChild(approachList);
                 recipeDiv.appendChild(approachDiv);
                 document.querySelector("#current").innerHTML = recipeDiv.outerHTML;
-                document.querySelector("#current").scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+                document.querySelector("#current").scrollIntoView();
             });
             buttonsDiv.appendChild(showRecipe);
 
