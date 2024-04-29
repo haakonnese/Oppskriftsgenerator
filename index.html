@@ -11,7 +11,10 @@
 <body>
     <button id="generate">Generer oppskrifter</button>
     <div class="main"></div>
-    <div id="current"></div>
+    <div id="scrollTo" style="display: none;">
+        <button id="keepScreenOn">Hold skjermen på</button>
+        <div id="recipiesDiv"></div>
+    </div>
     <div>
         <h2 id="ingredients-header">Ingredienser alle oppskrifter</h2>
         <div id="copyDiv">
@@ -86,6 +89,19 @@
     #copyDiv {
         position: relative;
     }
+    #keepScreenOn {
+        background-color: lightblue;
+        border: 1px solid black;
+        border-radius: 2px;
+        color: black;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 26px;
+        margin: 4px 2px;
+        padding: 10px;
+        cursor: pointer;
+    }
 
 </style>
 <script>
@@ -111,7 +127,8 @@
     // The recipe should be displayed in the last column
     // All ingredients should be added up and displayed below all the days
     // The ingredients should be sorted by category
-
+    let screenOn = false;
+    let wakeLock = null;
     // load the recipes from the json file
     async function readRecipesFileOnLoad() {
         const recipesFile = 'recipes.json';
@@ -162,7 +179,28 @@
         if (recipeNames === null) {
             recipeNames = ["", "", "", "", "", "", ""];
         }
+        const keepScreenOn = document.getElementById('keepScreenOn');
+        keepScreenOn.addEventListener('click', async () => {
+            keepScreenOn.style.display = "block";
+            if (screenOn) {
+                if (wakeLock !== null) {
+                    wakeLock.release().then(() => {
+                    wakeLock = null;
+                    });
+                }
+                keepScreenOn.innerHTML = 'Hold skjermen på';
 
+                screenOn = false;
+                return;
+            }
+            screenOn = true;
+            keepScreenOn.innerHTML = 'Ikke hold skjermen på';
+            wakeLock = await navigator.wakeLock.request('screen');
+            wakeLockOnButton.addEventListener("click", () => {
+                requestWakeLock();
+            });
+        });
+        // recipeDiv.appendChild(keepScreenOn);
 
         for (let i = 0; i < dayDivs.length; i++) {
             const dayDiv = dayDivs[i];
@@ -220,7 +258,9 @@
             const showRecipe = document.createElement('button');
             showRecipe.innerHTML = '<img src="show-14-32.png">';
             showRecipe.classList.add('button');
-            showRecipe.addEventListener('click', function() {
+            showRecipe.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log(e)
                 const day = this.parentElement.parentElement.parentElement;
                 const recipeName = day.querySelector('.recipe').innerHTML;
                 const recipe = recipes.find(r => r.name === recipeName);
@@ -229,7 +269,14 @@
                 }
                 const ingredients = recipe.ingredients;
                 const approach = recipe.approach;
-                const recipeDiv = document.createElement('div');
+                const recipeDiv = document.getElementById('recipiesDiv');
+                const scrollDiv = document.getElementById('scrollTo');
+                scrollDiv.style.display = "block";
+                recipeDiv.innerHTML = '';
+                // add a button which keeps the screen on while the recipe is displayed
+
+                
+
                 const approachDiv = document.createElement('div');
                 const approachList = document.createElement('ol');
                 const ingredientsList = document.createElement('ul');
@@ -254,8 +301,8 @@
                 approachDiv.appendChild(apporachTitle);
                 approachDiv.appendChild(approachList);
                 recipeDiv.appendChild(approachDiv);
-                document.querySelector("#current").innerHTML = recipeDiv.outerHTML;
-                document.querySelector("#current").scrollIntoView();
+                // document.querySelector("#recipeDiv").innerHTML = recipeDiv.outerHTML;
+                document.querySelector("#scrollTo").scrollIntoView();
             });
             buttonsDiv.appendChild(showRecipe);
 
