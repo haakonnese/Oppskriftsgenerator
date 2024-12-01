@@ -10,9 +10,21 @@
 </head>
 <body>
     <button id="generate">Generer oppskrifter</button>
+    <button id="clear">Tøm oppskrifter</button>
+    <!-- add toggle button  -->
+    <br>
+    <label for="choseYourself" class="switchLabel">Velg oppskrifter selv</label>
+    <label class="switch">  
+        <input type="checkbox" id="choseYourself">
+        <span class="slider round"></span>
+    </label>
     <div class="main"></div>
     <div id="scrollTo" style="display: none;">
-        <button id="keepScreenOn">Hold skjermen på</button>
+        <label class="switchLabel">Hold skjermen på</label>
+        <label class="switch">  
+            <input type="checkbox" id="keepScreenOn">
+            <span class="slider round"></span>
+        </label>
         <div id="recipiesDiv"></div>
     </div>
     <div>
@@ -79,17 +91,7 @@
         padding: 10px;
         cursor: pointer;
     }
-    html, body {
-        height: 100%;
-        scroll-behavior: smooth;
-    }
-    #ingredients-header, #ingredients-header+#copyDiv {
-        display: inline-block;
-    }
-    #copyDiv {
-        position: relative;
-    }
-    #keepScreenOn {
+    #clear {
         background-color: lightblue;
         border: 1px solid black;
         border-radius: 2px;
@@ -101,6 +103,85 @@
         margin: 4px 2px;
         padding: 10px;
         cursor: pointer;
+    }
+    /* The switch - the box around the slider */
+    .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    top: -7px;
+
+    }
+    .switchLabel {
+        display: inline-block;
+        margin-right: 10px;
+        font-size: 1.5rem;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    }
+
+    /* The slider */
+    .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    }
+
+    input:checked + .slider {
+    background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+    border-radius: 34px;
+    }
+
+    .slider.round:before {
+    border-radius: 50%;
+    }
+    html, body {
+        height: 100%;
+        scroll-behavior: smooth;
+    }
+    #ingredients-header, #ingredients-header+#copyDiv {
+        display: inline-block;
+    }
+    #copyDiv {
+        position: relative;
     }
 
 </style>
@@ -180,7 +261,7 @@
             recipeNames = ["", "", "", "", "", "", ""];
         }
         const keepScreenOn = document.getElementById('keepScreenOn');
-        keepScreenOn.addEventListener('click', async () => {
+        keepScreenOn.addEventListener('change', async () => {
             keepScreenOn.style.display = "block";
             if (screenOn) {
                 if (wakeLock !== null) {
@@ -188,125 +269,157 @@
                     wakeLock = null;
                     });
                 }
-                keepScreenOn.innerHTML = 'Hold skjermen på';
+                // keepScreenOn.innerHTML = 'Hold skjermen på';
 
                 screenOn = false;
                 return;
             }
             screenOn = true;
-            keepScreenOn.innerHTML = 'Ikke hold skjermen på';
+            // keepScreenOn.innerHTML = 'Ikke hold skjermen på';
             wakeLock = await navigator.wakeLock.request('screen');
-            wakeLockOnButton.addEventListener("click", () => {
+            keepScreenOn.addEventListener("click", () => {
                 requestWakeLock();
             });
         });
+        console.log(screenOn)
         // recipeDiv.appendChild(keepScreenOn);
-
-        for (let i = 0; i < dayDivs.length; i++) {
-            const dayDiv = dayDivs[i];
-            const day = days[i];
-            dayDiv.innerHTML = day;
-            const dropdown = document.createElement('select');
-            dropdown.classList.add('dropdown');
-            // add the dropdown to the main div
-            // add the categories to the dropdown
-            for (let i = 0; i < categories.length; i++) {
-                const category = categories[i];
-                const option = document.createElement('option');
-                option.value = category;
-                option.innerHTML = category;
-                dropdown.appendChild(option);
-            }
-            dropdown.value = defaultCategories[i];
-            const recipe = document.createElement('div');
-            recipe.classList.add('recipe');
-            recipe.innerHTML = recipeNames[i];
-            const innerDiv = document.createElement('div');
-            const buttonsDiv = document.createElement('div');
-            innerDiv.appendChild(dropdown);
-            innerDiv.appendChild(buttonsDiv);
-            const button = document.createElement('button');
-            button.classList.add('button');
-            button.innerHTML = '<img src="refresh-151-32.png">';
-            // add event listener to the button to generate a recipe. It needs to know which day it is
-            button.addEventListener('click', function() {
-                const category = dropdown.value;
-                const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category));
-                const recipeDiv = dayDiv.querySelector('.recipe');
-                const currentRecipe = recipeDiv.innerHTML;
-                let randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
-                if (currentRecipe !== '') {
-                    const currentRecipeIndex = recipesOfCategory.findIndex(recipe => recipe.name === currentRecipe);
-                    randomRecipe = recipesOfCategory[(currentRecipeIndex + 1) % recipesOfCategory.length];
+        choseRecipiesYourself = document.getElementById('choseYourself');
+        choseRecipiesYourself.addEventListener('change', setDropdown);
+        function setDropdown() {
+            for (let i = 0; i < dayDivs.length; i++) {
+                const dayDiv = dayDivs[i];
+                const day = days[i];
+                dayDiv.innerHTML = day;
+                const recipe = document.createElement('div');
+                recipe.classList.add('recipe');
+                recipe.innerHTML = recipeNames[i];
+                const innerDiv = document.createElement('div');
+                const buttonsDiv = document.createElement('div');
+                const dropdown = document.createElement('select');
+                dropdown.classList.add('dropdown');
+                if (choseRecipiesYourself.checked) {
+                    dropdown.innerHTML = '';
+                    for (let i = 0; i < recipes.length; i++) {
+                        const recipeName = recipes[i].name;
+                        const option = document.createElement('option');
+                        option.value = recipeName;
+                        option.innerHTML = recipeName;
+                        dropdown.appendChild(option);
+                    }
+                    dropdown.addEventListener('change', function() {
+                        const recipeDiv = dayDiv.querySelector('.recipe');
+                        recipeDiv.innerHTML = this.value;
+                        calculateIngredients();
+                    });
+                } else {
+                    // add the dropdown to the main div
+                    // add the categories to the dropdown
+                    for (let i = 0; i < categories.length; i++) {
+                        const category = categories[i];
+                        const option = document.createElement('option');
+                        option.value = category;
+                        option.innerHTML = category;
+                        dropdown.appendChild(option);
+                    }
+                    dropdown.value = defaultCategories[i];
                 }
-                if (randomRecipe === undefined) {
-                    randomRecipe = {
-                        'name': '',
-                    };
-                }
-                recipeDiv.innerHTML = randomRecipe.name;
-                calculateIngredients();
-            });
-            // make sure that the elements are displayed in a row
-            buttonsDiv.style.display = "flex";
-            buttonsDiv.style.flexDirection = "row";
+                innerDiv.appendChild(dropdown);
+                innerDiv.appendChild(buttonsDiv);
+                const button = document.createElement('button');
+                button.classList.add('button');
+                button.innerHTML = '<img src="refresh-151-32.png">';
+                // add event listener to the button to generate a recipe. It needs to know which day it is
+                button.addEventListener('click', function() {
+                    const recipeDiv = dayDiv.querySelector('.recipe');
+                    const currentRecipe = recipeDiv.innerHTML;
+                    let randomRecipe;
+                    if (choseRecipiesYourself.checked) {
+                        randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+                        if (currentRecipe !== '') {
+                            const currentRecipeIndex = recipes.findIndex(recipe => recipe.name === currentRecipe);
+                            randomRecipe = recipes[(currentRecipeIndex + 1) % recipes.length];
+                        }
+                        dropdown.value = randomRecipe.name;
+                    }
+                    else {
+                        const category = dropdown.value;
+                        const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category));
+                        randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
+                        if (currentRecipe !== '') {
+                            const currentRecipeIndex = recipesOfCategory.findIndex(recipe => recipe.name === currentRecipe);
+                            randomRecipe = recipesOfCategory[(currentRecipeIndex + 1) % recipesOfCategory.length];
+                        }
+                    }
+                    if (randomRecipe === undefined) {
+                        randomRecipe = {
+                            'name': '',
+                        };
+                    }
+                    recipeDiv.innerHTML = randomRecipe.name;
+                    calculateIngredients();
+                });
+                // make sure that the elements are displayed in a row
+                buttonsDiv.style.display = "flex";
+                buttonsDiv.style.flexDirection = "row";
 
-            buttonsDiv.appendChild(button);
-            dayDiv.appendChild(innerDiv);
-            
-            dayDiv.appendChild(recipe);
-            const showRecipe = document.createElement('button');
-            showRecipe.innerHTML = '<img src="show-14-32.png">';
-            showRecipe.classList.add('button');
-            showRecipe.addEventListener('click', function(e) {
-                e.stopPropagation();
-                console.log(e)
-                const day = this.parentElement.parentElement.parentElement;
-                const recipeName = day.querySelector('.recipe').innerHTML;
-                const recipe = recipes.find(r => r.name === recipeName);
-                if (recipe === undefined) {
-                    return;
-                }
-                const ingredients = recipe.ingredients;
-                const approach = recipe.approach;
-                const recipeDiv = document.getElementById('recipiesDiv');
-                const scrollDiv = document.getElementById('scrollTo');
-                scrollDiv.style.display = "block";
-                recipeDiv.innerHTML = '';
-                // add a button which keeps the screen on while the recipe is displayed
-
+                buttonsDiv.appendChild(button);
+                dayDiv.appendChild(innerDiv);
                 
+                dayDiv.appendChild(recipe);
+                const showRecipe = document.createElement('button');
+                showRecipe.innerHTML = '<img src="show-14-32.png">';
+                showRecipe.classList.add('button');
+                showRecipe.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    console.log(e)
+                    const day = this.parentElement.parentElement.parentElement;
+                    const recipeName = day.querySelector('.recipe').innerHTML;
+                    const recipe = recipes.find(r => r.name === recipeName);
+                    if (recipe === undefined) {
+                        return;
+                    }
+                    const ingredients = recipe.ingredients;
+                    const approach = recipe.approach;
+                    const recipeDiv = document.getElementById('recipiesDiv');
+                    const scrollDiv = document.getElementById('scrollTo');
+                    scrollDiv.style.display = "block";
+                    recipeDiv.innerHTML = '';
+                    // add a button which keeps the screen on while the recipe is displayed
 
-                const approachDiv = document.createElement('div');
-                const approachList = document.createElement('ol');
-                const ingredientsList = document.createElement('ul');
-                for (let i = 0; i < ingredients.length; i++) {
-                    const ingredient = ingredients[i];
-                    const ingredientListItem = document.createElement('li');
-                    ingredientListItem.innerHTML = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit}`;
-                    ingredientsList.appendChild(ingredientListItem);
-                }
-                for (let i = 0; i < approach.length; i++) {
-                    const approachElement = approach[i];
-                    const approachListItem = document.createElement('li');
-                    approachListItem.innerHTML = approachElement;
-                    approachList.appendChild(approachListItem);
-                }
-                const recipeTitle = document.createElement('h2');
-                recipeTitle.innerHTML = recipeName;
-                recipeDiv.appendChild(recipeTitle);
-                recipeDiv.appendChild(ingredientsList);
-                const apporachTitle = document.createElement('h3');
-                apporachTitle.innerHTML = 'Fremgangsmåte';
-                approachDiv.appendChild(apporachTitle);
-                approachDiv.appendChild(approachList);
-                recipeDiv.appendChild(approachDiv);
-                // document.querySelector("#recipeDiv").innerHTML = recipeDiv.outerHTML;
-                document.querySelector("#scrollTo").scrollIntoView();
-            });
-            buttonsDiv.appendChild(showRecipe);
+                    
 
-        }  
+                    const approachDiv = document.createElement('div');
+                    const approachList = document.createElement('ol');
+                    const ingredientsList = document.createElement('ul');
+                    for (let i = 0; i < ingredients.length; i++) {
+                        const ingredient = ingredients[i];
+                        const ingredientListItem = document.createElement('li');
+                        ingredientListItem.innerHTML = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit}`;
+                        ingredientsList.appendChild(ingredientListItem);
+                    }
+                    for (let i = 0; i < approach.length; i++) {
+                        const approachElement = approach[i];
+                        const approachListItem = document.createElement('li');
+                        approachListItem.innerHTML = approachElement;
+                        approachList.appendChild(approachListItem);
+                    }
+                    const recipeTitle = document.createElement('h2');
+                    recipeTitle.innerHTML = recipeName;
+                    recipeDiv.appendChild(recipeTitle);
+                    recipeDiv.appendChild(ingredientsList);
+                    const apporachTitle = document.createElement('h3');
+                    apporachTitle.innerHTML = 'Fremgangsmåte';
+                    approachDiv.appendChild(apporachTitle);
+                    approachDiv.appendChild(approachList);
+                    recipeDiv.appendChild(approachDiv);
+                    // document.querySelector("#recipeDiv").innerHTML = recipeDiv.outerHTML;
+                    document.querySelector("#scrollTo").scrollIntoView();
+                });
+                buttonsDiv.appendChild(showRecipe);
+
+            }  
+        }
+        setDropdown();
 
         const generateButton = document.querySelector('#generate');
         calculateIngredients();
@@ -315,16 +428,41 @@
             const currentRecipies = [];
             for (let i = 0; i < dayDivs.length; i++) {
                 const dayDiv = dayDivs[i];
-                const dropdown = dayDiv.querySelector('.dropdown');
-                const category = dropdown.value;
-                const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category) && !currentRecipies.includes(recipe.name));
-                const randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
-                if (randomRecipe === undefined) {
-                    continue;
+                let randomRecipe;
+                if (choseRecipiesYourself.checked) {
+                    randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+                    if (currentRecipies.includes(randomRecipe.name)) {
+                        randomRecipe = recipes[(recipes.findIndex(recipe => recipe.name === randomRecipe.name) + 1) % recipes.length];
+                    }
+                    dayDiv.querySelector('.dropdown').value = randomRecipe.name;
+                }
+                else {
+                    const dropdown = dayDiv.querySelector('.dropdown');
+                
+                    const category = dropdown.value;
+                    const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category) && !currentRecipies.includes(recipe.name));
+                    randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
+                    if (randomRecipe === undefined) {
+                        continue;
+                    }
                 }
                 currentRecipies.push(randomRecipe.name);
                 const recipeDiv = dayDiv.querySelector('.recipe');
                 recipeDiv.innerHTML = randomRecipe.name;
+            }
+            calculateIngredients();
+        }
+        const clearButton = document.querySelector("#clear");
+        clearButton.addEventListener("click", clear);
+        function clear() {
+            for (let i = 0; i < dayDivs.length; i++) {
+                const dayDiv = dayDivs[i];
+                const recipeDiv = dayDiv.querySelector('.recipe');
+                recipeDiv.innerHTML = '';
+                if (choseRecipiesYourself.checked) {
+                    const dropdown = dayDiv.querySelector('.dropdown');
+                    dropdown.value = 'Ingen';
+                }
             }
             calculateIngredients();
         }

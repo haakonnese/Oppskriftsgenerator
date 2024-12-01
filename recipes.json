@@ -1,5 +1,11 @@
 [
     {
+        "name": "Ingen",
+        "categories": [],
+        "ingredients": [],
+        "approach": []
+    },
+    {
         "name": "Torsk med chorizosalsa, brokkoli og søtpotetmos",
         "categories": ["Hvit fisk"],
         "approach": [
@@ -419,8 +425,8 @@
             },
             {    
                 "name": "Ost",
-                "amount": 0,
-                "unit": "",
+                "amount": 100,
+                "unit": "g",
                 "category": "meieri"
             },
             {    
@@ -753,6 +759,78 @@
         ]
     },
     {
+        "name": "Green Coc-Chick-Thai",
+        "categories": ["Vegetar", "Kylling"],
+        "approach": [
+            "Stek grønnsaker og ev. kjøtt.",
+            "Tilsett spinat og kokosmelk.",
+            "Smak til med curry, soyasaus og fiskesaus.",
+            "Avslutt med kikerter/linser, vannkastanjer og kokte nudler."
+        ],
+        "ingredients": [
+            {
+                "name": "Kikerter",
+                "amount": 2,
+                "unit": "pk",
+                "category": "annet"
+            },
+            {
+                "name": "Grønne linser",
+                "amount": 2,
+                "unit": "pk",
+                "category": "annet"
+            },
+            {
+                "name": "Kylling",
+                "amount": 1,
+                "unit": "filet per person",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Spinat",
+                "amount": 1,
+                "unit": "pk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Grønn curry paste",
+                "amount": 2,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Fiskesaus",
+                "amount": 1,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Soyasaus",
+                "amount": 3,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Frosne grønnsaker",
+                "amount": 1,
+                "unit": "pk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Kokosmelk",
+                "amount": 2,
+                "unit": "bokser",
+                "category": "annet"
+            },
+            {
+                "name": "Eggenudler",
+                "amount": 2,
+                "unit": "pk",
+                "category": "annet"
+            }
+        ]
+    },
+    {
         "name": "Kyllinggryte med soltørkede tomater",
         "categories": ["Kylling", "Rester"],
         "approach": [
@@ -905,6 +983,240 @@
                 "amount": 1,
                 "unit": "boks",
                 "category": "meieri"
+            }
+        ]
+    },
+    {
+        "name": "Curry-mango, kylling i lefse",
+        "categories": ["Kylling", "Enkel"],
+        "approach": [
+            "Kutt kylling i strimler/biter og stek med salt og pepper.",
+            "Kutt opp grønnsakene.",
+            "Sett frem alle ingrediensene på bordet.",
+            "Smør pesto og Mangocurrysauce på lefsen og ha i resten."
+        ],
+        "ingredients": [
+            {
+                "name": "Kyllingfilet",
+                "amount": 2,
+                "unit": "fileter",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Avokado",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Mango",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Salat",
+                "amount": 0.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Rødløk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Mangocurrysauce",
+                "amount": 0.5,
+                "unit": "glass",
+                "category": "annet"
+            },
+            {
+                "name": "Pesto",
+                "amount": 2,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Ost",
+                "amount": 100,
+                "unit": "g",
+                "category": "meieri"
+            }
+        ]
+    },
+    {
+        "name": "Wraps med marinert kylling",
+        "categories": ["Kylling"],
+        "ingredients": [
+            {
+                "name": "Kyllingfilet",
+                "amount": 2,
+                "unit": "fileter",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Tortilla",
+                "amount": 4,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 2,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Sitron",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Avokado",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Rødløk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Fetaost",
+                "amount": 1,
+                "unit": "glass",
+                "category": "meieri"
+            },
+            {
+                "name": "Tyrkisk youghurt",
+                "amount": 1,
+                "unit": "boks",
+                "category": "meieri"
+            },
+            {
+                "name": "Olivenolje",
+                "amount": 1,
+                "unit": "dl",
+                "category": "annet"
+            }
+        ],
+        "approach": [
+            "Mariner kyllingen i olivenolje, sitronsaft, hvitløk, salt og pepper.",
+            "Stek kylling og server med tilbehør"
+        ]
+    },
+    {
+        "name": "Kylling BLT",
+        "categories": ["Kylling"],
+        "ingredients": [
+            {
+            "name": "Kyllingfilet",
+            "amount": 2,
+            "unit": "stk",
+            "category": "kjøtt"
+            },
+            {
+            "name": "Bacon",
+            "amount": 4,
+            "unit": "skiver",
+            "category": "kjøtt"
+            },
+            {
+            "name": "Hvitløksdressing",
+            "amount": 1,
+            "unit": "dl",
+            "category": "annet"
+            },
+            {
+            "name": "Brød",
+            "amount": 4,
+            "unit": "skiver",
+            "category": "annet"
+            },
+            {
+            "name": "Isbergsalat",
+            "amount": 0.5,
+            "unit": "stk",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Tomat",
+            "amount": 1,
+            "unit": "stk",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Rødløk",
+            "amount": 0.5,
+            "unit": "stk",
+            "category": "grønnsaker"
+            }
+        ],
+        "approach": [
+            "Stek kylling og bacon.",
+            "Varm brød på valgfri måte, f.eks. i stekepanne med godt med smør.",
+            "Kutt opp tomat og rødløk og «dra av» store blader med isbergsalat.",
+            "Smør brødskivene med hvitløksdressing/aioli.",
+            "Legg på salatblad og tomat og topp til slutt med kylling, bacon og et nytt lag med dressing/aioli, og legg andre halvdel av brødet på toppen slik at det blir en sandwich. (Kan være lettere å lage to skiver i stedet for en sandwich.)",
+            "Veldig godt med pommes frites (ikke de «riflete/hakkete») som kan dyppes i dressing/aioli."
+        ]
+    },
+    {
+        "name": "Wok med potet, kylling og ris",
+        "categories": ["Kylling", "Enkel"],
+        "approach": [
+            "Kutt grønsakene i terninger og stek i panne. Begynn med potetene.",
+            "Stek kylling i en liten panne ved siden av.",
+            "Bland alt sammen i en panne med soyasaus.",
+            "Kok ris og server ved siden av."
+        ],
+        "ingredients": [
+            {
+                "name": "Kyllingfilet",
+                "amount": 2,
+                "unit": "fileter",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Potet",
+                "amount": 4,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Gulrot",
+                "amount": 3,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Brokkoli",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Løk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Soyasaus",
+                "amount": 3,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Ris",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
             }
         ]
     },
@@ -1256,6 +1568,104 @@
         ]
     },
     {
+        "name": "Makaronigryte",
+        "categories": ["Pølse"],
+        "approach": [
+            "Hakk løken og fres den i en kjele med margarin til den er gyllen.",
+            "Rør inn gulerøtter og karri, og tilsett vann, buljongpulver, tomatpuré og sukker.",
+            "Tilsett makaroni når vannet koker. Rør rundt slik at den ikke kleber.",
+            "Tilsett pølsebiter når makaronien er neste ferdigkokt.",
+            "Smak til med salt og pepper før du strør oppå persille og ost.",
+            "Legg på lokket til osten smelter."
+        ],
+        "ingredients": [
+            {
+                "name": "Løk",
+                "amount": 1,
+                "unit": "stor",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Margarin",
+                "amount": 1.5,
+                "unit": "ss",
+                "category": "meieri"
+            },
+            {
+                "name": "Gulerøtter",
+                "amount": 2.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Karri",
+                "amount": 0.5,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Vann",
+                "amount": 7.5,
+                "unit": "dl",
+                "category": "annet"
+            },
+            {
+                "name": "Buljongpulver",
+                "amount": 1,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Tomatpuré",
+                "amount": 3.5,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Sukker",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Makaroni",
+                "amount": 200,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Pølser",
+                "amount": 400,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Salt",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Pepper",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Revet ost",
+                "amount": 3.5,
+                "unit": "ss",
+                "category": "meieri"
+            },
+            {
+                "name": "Persille",
+                "amount": 0.5,
+                "unit": "bunt",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
         "name": "Stekt ris",
         "categories": ["Enkel", "Rester", "Pølse"],
         "approach": [
@@ -1384,8 +1794,8 @@
             },
             {
                 "name": "Ris",
-                "amount": 250,
-                "unit": "g",
+                "amount": 0,
+                "unit": "",
                 "category": "annet"
             },
             {
@@ -1441,6 +1851,67 @@
                 "amount": 1,
                 "unit": "ts",
                 "category": "annet"
+            }
+        ]
+    },
+    {
+        "name": "Søtpotetsuppe med bacon",
+        "categories": ["Suppe"],
+        "approach": [
+            "Skrell søtpotetene og kutt opp i biter. Legg dem i gryta og dekk til med vann. Kok til de blir myke.",
+            "Hell av litt av vannet til potetene over i et litermål (typ 5 dl) og la litt vann være igjen i gryta, resten hives i vasken. Bruk en stavmikser til å mose potetene til du får en smud purre.",
+            "Hell i kokosmelk, buljong og hvitløk og rør til du får en deilig suppe. Hell i litt av vannet du satt til side for å få ønsket konsistens på suppen.",
+            "Bruk et rivjern til å rive opp ingefær og smak til.",
+            "Kutt opp og stek bacon. Topp suppen med dette."
+        ],
+        "ingredients": [
+            {
+            "name": "Søtpotet",
+            "amount": 2,
+            "unit": "stk",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Kokosmelk",
+            "amount": 1,
+            "unit": "boks",
+            "category": "annet"
+            },
+            {
+            "name": "Grønnsaksbuljong",
+            "amount": 1,
+            "unit": "stk",
+            "category": "annet"
+            },
+            {
+            "name": "Salt",
+            "amount": 0,
+            "unit": "",
+            "category": "annet"
+            },
+            {
+            "name": "Pepper",
+            "amount": 0,
+            "unit": "",
+            "category": "annet"
+            },
+            {
+            "name": "Hvitløk",
+            "amount": 1,
+            "unit": "fedd",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Bacon",
+            "amount": 1,
+            "unit": "pakke",
+            "category": "kjøtt"
+            },
+            {
+            "name": "Ingefær",
+            "amount": 5,
+            "unit": "cm",
+            "category": "grønnsaker"
             }
         ]
     },
@@ -1700,6 +2171,135 @@
         ]
     },  
     {
+        "name": "Lasagne med squash",
+        "categories": ["Kjøtt", "Lørdagsmat"],
+        "approach": [
+            "Start med å skjære skiver av squashen med en ostehøvel. Dryss salt over hver og en skive slik at fuktigheten blir dratt ut. La disse ligge mens du tilbereder resten. Når alt er klar tørkes skivene tørre med et kjøkkenpapir.",
+            "Hakk opp løk, hvitløk, chili, stangselleri, gulrot, vårløk i passelige biter. Jeg skjærer de i forholdsvis små biter. Dette stekes mykt i litt olje og has over i en kasserolle.",
+            "Ha i tomatpuré og sukkeret, bland sammen og varm lett før du tilsetter hermetisk tomat og buljongterningen.",
+            "Stek kjøttet og ha det i tomatsausen. Tilsett krydder og smak til med salt og pepper. La det putre lett i 5 minutter.",
+            "Bland cottage cheese og muskatnøtt sammen.",
+            "Bruk en ildfast form, start med kjøttsaus. Kjøttsaus, squash, cottage cheese, etc. Avslutt med kjøttsaus og topp med revet ost.",
+            "Stekes på 200 grader i 30-40 minutter."
+        ],
+        "ingredients": [
+            {
+                "name": "Karbonade- eller kjøttdeig",
+                "amount": 400,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Ost",
+                "amount": 100,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {
+                "name": "Parmesan",
+                "amount": 50,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {
+                "name": "Squash",
+                "amount": 1.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Løk",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 3,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Chili",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Stangselleri",
+                "amount": 2,
+                "unit": "stilk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Gulrot",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Vårløk",
+                "amount": 1,
+                "unit": "bunt",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Tomatpuré",
+                "amount": 5,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Sukker",
+                "amount": 2,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Hermetisk tomat",
+                "amount": 1.5,
+                "unit": "boks",
+                "category": "annet"
+            },
+            {
+                "name": "Grønnsaksbuljong",
+                "amount": 2,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Paprikapulver",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Oregano",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Cayennepepper",
+                "amount": 0.5,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Cottage cheese",
+                "amount": 800,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {
+                "name": "Muskatnøtt",
+                "amount": 0.5,
+                "unit": "ts",
+                "category": "annet"
+            }
+        ]
+    },
+    {
         "name": "Koteletter med bakt søtpotet",
         "categories": ["Kjøtt"],
         "approach": [
@@ -1750,6 +2350,109 @@
             }
         ]
     },
+    {
+        "name": "Lammefrikassé",
+        "categories": ["Kjøtt"],
+        "ingredients": [
+            {
+                "name": "Grytekjøtt av lam med bein",
+                "amount": 1,
+                "unit": "kg",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Vann",
+                "amount": 6,
+                "unit": "dl",
+                "category": "annet"
+            },
+            {
+                "name": "Salt",
+                "amount": 1.5,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Laurbærblad",
+                "amount": 1,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Gulrøtter",
+                "amount": 3,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Persillerot",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Sellerirot",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Purreløk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hvetemel",
+                "amount": 4,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Kaldt vann",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Kremfløte",
+                "amount": 1,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Sitronsaft",
+                "amount": 1,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Frisk bladpersille",
+                "amount": 3,
+                "unit": "ss",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Salt og pepper",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Poteter",
+                "amount": 400,
+                "unit": "g",
+                "category": "grønnsaker"
+            }
+        ],
+        "approach": [
+            "Del lammekjøttet i serveringsstykker og legg kjøttet i en gryte. Hell på vann til det såvidt dekket kjøttet og kok opp. Fjern skum og andre urenheter som legger seg på overflaten. Tilsett salt og laurbærblad, og la kjøttet trekke på lav varme i cirka 1-1,5 time (til det er mørt).",
+"Skyll og skrell grønnsakene, og skjært de opp i jevnstore biter. Gulrøtter, persillerot og sellerirot deles opp i terninger, purreløken i skiver. Ha grønnsakene sammen med lammekjøttet når det har blitt mørt. Kok grønnsakene i cirka 15 minutter. Nå passer det også fint å sette på potetene.",
+"Er det mye urenheter i kraften i gryten så kan du sile kraften om du ønsker. Visp hvetemel ut i litt kaldt vann. Spe meljevningen i kraften (eller gryten hvis du ikke har silt den). Kok opp og la den koke i 10-15 minutter for å bli kvitt melsmaken.",
+"Tilsett kremfløte og ha eventuelle grønnsaker og kjøtt tilbake i gryten. Skvis over litt sitronsaft og dryss over oppkuttet bladpersille. Smak til med salt og pepper. Server lammefrikasséen med kokte poteter. Håper det smaker!"
+        ]
+    },
+    
     {
         "name": "Ostesuppe",
         "categories": ["Kjøtt", "Suppe"],
@@ -1839,9 +2542,9 @@
                 "category": "annet"
             },
             {
-                "name": "Salatblader",
-                "amount": 0,
-                "unit": "",
+                "name": "Salat",
+                "amount": 0.3,
+                "unit": "stk",
                 "category": "grønnsaker"
             },
             {
@@ -2126,6 +2829,146 @@
         ]
     },
     {
+        "name": "Sprø pitadrøm",
+        "categories": ["Vegetar", "Lørdagsmat"],
+        "approach": [
+            "Tips: Skal du ha syltet rødløk til? Start i så fall med det.",
+            "Sett ovnen på 250 °C varmluft.",
+            "Bland alle ingredienser til «sprø kikerter» i en bakebolle, og fordel blandingen utover et stekebrett. Stek i 10–15 minutter, til kikertene er sprø. Ofte hører man en poppe-lyd når de er ferdige.",
+            "I mellomtiden: Ha alle ingrediensene til mosen i en foodprosessor eller blender, og kjør glatt. Dytt ned massen underveis så alt blir godt blandet.",
+            "Varm pitabrød eller nanbrød i en brødrister eller ovn. Hvis du er i det ekstra digge hjørnet, kan du gjerne ha litt smør på brødet før du har det i ovnen.",
+            "Når brødet er ferdig varmet, fordeler du dippen på brødene og topper med kikerter, tomater og ev. litt yoghurt, chiliflak og syltet rødløk. Pynt gjerne med frisk koriander!"
+        ],
+        "ingredients": [
+            {
+                "name": "Kikerter",
+                "amount": 350,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Olje",
+                "amount": 2,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Chilikrydder",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Garam masala krydderblanding",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Salt",
+                "amount": 0.5,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Pepper",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Hvite bønner",
+                "amount": 230,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Avokado",
+                "amount": 2,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Spinat",
+                "amount": 1,
+                "unit": "stor neve",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Koriander",
+                "amount": 1,
+                "unit": "liten neve",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Lime",
+                "amount": 0.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Hvitløkskrydder",
+                "amount": 0.5,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Olivenolje",
+                "amount": 2,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Salt",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Pepper",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Pitabrød",
+                "amount": 4,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Cherrytomater",
+                "amount": 150,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Naturell yoghurt",
+                "amount": 3,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Chiliflak",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            },
+            {
+                "name": "Syltet rødløk",
+                "amount": 100,
+                "unit": "g",
+                "category": "annet"
+            },
+            {
+                "name": "Koriander",
+                "amount": 0,
+                "unit": "",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
         "name": "Potetsuppe",
         "categories": ["Suppe", "Vegetar"],
         "approach": [
@@ -2386,8 +3229,8 @@
             },
             {
                 "name": "Salat",
-                "amount": 0,
-                "unit": "",
+                "amount": 0.3,
+                "unit": "stk",
                 "category": "grønnsaker"
             },
             {
