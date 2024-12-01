@@ -20,11 +20,7 @@
     </label>
     <div class="main"></div>
     <div id="scrollTo" style="display: none;">
-        <label class="switchLabel">Hold skjermen på</label>
-        <label class="switch">  
-            <input type="checkbox" id="keepScreenOn">
-            <span class="slider round"></span>
-        </label>
+        <button id="keepScreenOn">Hold skjermen på</button>
         <div id="recipiesDiv"></div>
     </div>
     <div>
@@ -138,7 +134,19 @@
     -webkit-transition: .4s;
     transition: .4s;
     }
-
+    #keepScreenOn {
+        background-color: lightblue;
+        border: 1px solid black;
+        border-radius: 2px;
+        color: black;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 26px;
+        margin: 4px 2px;
+        padding: 10px;
+        cursor: pointer;
+    }
     .slider:before {
     position: absolute;
     content: "";
@@ -261,7 +269,7 @@
             recipeNames = ["", "", "", "", "", "", ""];
         }
         const keepScreenOn = document.getElementById('keepScreenOn');
-        keepScreenOn.addEventListener('change', async () => {
+        keepScreenOn.addEventListener('click', async () => {
             keepScreenOn.style.display = "block";
             if (screenOn) {
                 if (wakeLock !== null) {
@@ -269,17 +277,17 @@
                     wakeLock = null;
                     });
                 }
-                // keepScreenOn.innerHTML = 'Hold skjermen på';
+                keepScreenOn.innerHTML = 'Hold skjermen på';
 
                 screenOn = false;
                 return;
             }
             screenOn = true;
-            // keepScreenOn.innerHTML = 'Ikke hold skjermen på';
+            keepScreenOn.innerHTML = 'Ikke hold skjermen på';
             wakeLock = await navigator.wakeLock.request('screen');
-            keepScreenOn.addEventListener("click", () => {
-                requestWakeLock();
-            });
+            // wakeLockOnButton.addEventListener("click", () => {
+            //     requestWakeLock();
+            // });
         });
         console.log(screenOn)
         // recipeDiv.appendChild(keepScreenOn);
