@@ -20,7 +20,11 @@
     <label for="numberOfDays" class="switchLabel">Antall dager:</label>
     <input type="number" class="numberOfDays" id="numberOfDays" value="1" min="1">
     <br>
-    <label for="numberOfDaysVeggies" class="switchLabel">Kjøp grønnsaker antall dager:</label>
+    <label for="numberOfDaysVeggies" class="switchLabel">Velg grønnsaksdager:</label>
+    <label class="switch">  
+        <input type="checkbox" id="numberOfDaysVeggiesSwitch">
+        <span class="slider round"></span>
+    </label>
     <input type="number" class="numberOfDays" id="numberOfDaysVeggies" value="1" min="1">
     <br>
     <label for="choseYourself" class="switchLabel">Velg oppskrifter selv</label>
@@ -404,8 +408,13 @@
             else if (Number(numDaysVeggies) >= Number(numberOfDays.value)) {
                 numDaysVeggies = numberOfDays.value;
             }
+            if (!document.querySelector("#numberOfDaysVeggiesSwitch").checked) {
+                numDaysVeggies = Number(numberOfDays.value);
+            }
 
             numberOfDaysVeggies.value = numDaysVeggies;
+            localStorage.setItem('numDaysVeggies', JSON.stringify(numDaysVeggies));
+
             localStorage.setItem('numDays', JSON.stringify(numberOfDays.value));
             for (let i = 0; i < numberOfDays.value; i++) {
                 const div = document.createElement('div');
@@ -912,7 +921,18 @@
         else {
             numberOfDays.value = numDays;
         }
+        document.querySelector("#numberOfDaysVeggiesSwitch").addEventListener('change', function() {
+            if (this.checked) {
+                numberOfDaysVeggies.value = numberOfDays.value;
+            } else {
+                numberOfDaysVeggies.value = numDays;
+            }
+            localStorage.setItem('numDaysVeggies', JSON.stringify(numberOfDaysVeggies.value));
+        });
         numberOfDaysVeggies.addEventListener('change', function() {
+            if (!document.querySelector("#numberOfDaysVeggiesSwitch").checked) {
+                this.value = numberOfDays.value;
+            }
             localStorage.setItem('numDaysVeggies', JSON.stringify(this.value));
         });        
         let previousRecipeNames = JSON.parse(localStorage.getItem('loadRecipes'));
