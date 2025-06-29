@@ -59,7 +59,7 @@
         display: grid;
         grid-template-columns: 0.15fr 0.15fr 1fr;
         gap: 12px;
-        align-items: center;
+        align-items: start;
         padding: 18px 14px;
         min-height: 72px;
         border-bottom: 1px solid #ececec;
@@ -107,8 +107,6 @@
         width: 100%;
         min-width: 120px;
         overflow-x: hidden;
-        text-overflow: ellipsis;
-        white-space: normal;
     }
     /* For long option text, show ellipsis and allow tooltip on hover */
     .dropdown option {
@@ -462,10 +460,12 @@
                     const dayDiv = dayDivs[i];
                     const day = days[i];
                     dayDiv.innerHTML = day;
+                    const wrapper = document.createElement('div');
                     const recipe = document.createElement('div');
                     recipe.classList.add('recipe');
                     recipe.innerHTML = recipeNames[i];
                     const innerDiv = document.createElement('div');
+                    const upperRightDiv = document.createElement('div');
                     const buttonsDiv = document.createElement('div');
                     const dropdown = document.createElement('select');
                     dropdown.classList.add('dropdown');
@@ -478,6 +478,7 @@
                             option.innerHTML = recipeName;
                             dropdown.appendChild(option);
                         }
+                        dropdown.value = recipeNames[i] || '';
                         dropdown.addEventListener('change', function() {
                             const recipeDiv = dayDiv.querySelector('.recipe');
                             recipeDiv.innerHTML = this.value;
@@ -498,6 +499,44 @@
                         } else {
                             dropdown.value = "Middag";
                         }
+                        const recipeDropdown = document.createElement('select');
+                        recipeDropdown.classList.add('dropdown', 'recipeDropdown');
+                        const updateRecipeDropdown = () => {
+                            recipeDropdown.innerHTML = '';
+                            const selectedCategory = dropdown.value;
+                            const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(selectedCategory));
+                            const emptyOption = document.createElement('option');
+                            emptyOption.value = '';
+                            emptyOption.innerHTML = 'Ingen';
+                            recipeDropdown.appendChild(emptyOption);
+                            recipesOfCategory.forEach(recipeObj => {
+                                const option = document.createElement('option');
+                                option.value = recipeObj.name;
+                                option.innerHTML = recipeObj.name;
+                                recipeDropdown.appendChild(option);
+                            });
+                            // Set selected value if recipeNames[i] matches
+                            if (recipeNames[i]) {
+                                recipeDropdown.value = recipeNames[i];
+                            }
+                        };
+                        dropdown.addEventListener('change', () => {
+                            updateRecipeDropdown();
+                            // Update recipe div if a recipe is selected in dropdown
+                            const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(dropdown.value));
+                            if (recipesOfCategory.length > 0) {
+                                recipeDropdown.value = '';
+                                dayDiv.querySelector('.recipe').innerHTML = '';
+                            }
+                            calculateIngredients();
+                        });
+                        recipeDropdown.addEventListener('change', function() {
+                            const recipeDiv = dayDiv.querySelector('.recipe');
+                            recipeDiv.innerHTML = this.value;
+                            calculateIngredients();
+                        });
+                        updateRecipeDropdown();
+                        upperRightDiv.appendChild(recipeDropdown);
                     }
                     innerDiv.appendChild(dropdown);
                     innerDiv.appendChild(buttonsDiv);
@@ -519,12 +558,14 @@
                         }
                         else {
                             const category = dropdown.value;
+                            
                             const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category));
                             randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
                             if (currentRecipe !== '') {
                                 const currentRecipeIndex = recipesOfCategory.findIndex(recipe => recipe.name === currentRecipe);
                                 randomRecipe = recipesOfCategory[(currentRecipeIndex + 1) % recipesOfCategory.length];
                             }
+                            dayDiv.querySelector('.recipeDropdown').value = randomRecipe.name;
                         }
                         if (randomRecipe === undefined) {
                             randomRecipe = {
@@ -540,8 +581,10 @@
 
                     buttonsDiv.appendChild(button);
                     dayDiv.appendChild(innerDiv);
+                    wrapper.appendChild(upperRightDiv);
                     
-                    dayDiv.appendChild(recipe);
+                    wrapper.appendChild(recipe);
+                    dayDiv.appendChild(wrapper);
                     const showRecipe = document.createElement('button');
                     showRecipe.innerHTML = '<img src="show-14-32.png">';
                     showRecipe.classList.add('button');
