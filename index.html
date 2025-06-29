@@ -27,7 +27,7 @@
     </label>
     <div class="main"></div>
     <div id="scrollTo" style="display: none;">
-        <button id="keepScreenOn">Hold skjermen på</button>
+        <div id="keepScreenOn"></div>
         <div id="recipesDiv"></div>
     </div>
     <div>
@@ -196,22 +196,7 @@
         border-radius: 28px;
         box-shadow: 0 1px 2px 0 rgba(60,64,67,0.10);
     }
-    #keepScreenOn {
-        background: #4285f4;
-        border: none;
-        border-radius: 10px;
-        color: #fff;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 20px;
-        margin: 4px 2px;
-        padding: 10px 18px;
-        cursor: pointer;
-        box-shadow: 0 2px 8px 0 rgba(60,64,67,0.10);
-        transition: background 0.2s, box-shadow 0.2s;
-        font-weight: 500;
-    }
+
     .slider:before {
         position: absolute;
         content: "";
@@ -275,6 +260,84 @@
     .main {
         padding: 2px 0;
     }
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 16px 0;
+        background: #f8f9fa;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px 0 rgba(60,64,67,0.06);
+        max-width: 420px;
+    }
+    ul > li {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 8px 0;
+        padding: 12px 16px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.04);
+        font-size: 1.08rem;
+        font-weight: 500;
+        color: #222;
+    }
+    ul > li .ammountList {
+        min-width: 70px;
+        font-weight: 600;
+        color: #4285f4;
+        font-size: 1.05em;
+        text-align: right;
+        margin-right: 8px;
+    }
+    ul > li .ingredientsNameList {
+        flex: 1;
+        font-weight: 500;
+        color: #222;
+        font-size: 1.08em;
+    }
+    ol {
+        counter-reset: step;
+        padding-left: 0;
+        margin: 0 0 16px 0;
+    }
+    ol > li {
+        list-style: none;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin: 12px 0;
+        padding: 14px 16px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.04);
+        font-size: 1.08rem;
+        font-weight: 500;
+        color: #222;
+        position: relative;
+    }
+    ol > li::before {
+        counter-increment: step;
+        content: counter(step);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2em;
+        height: 2em;
+        min-width: 2em;
+        min-height: 2em;
+        margin-right: 16px;
+        background: #fff;
+        border: 2.5px solid #4285f4;
+        color: #4285f4;
+        border-radius: 50%;
+        font-weight: 700;
+        font-size: 1.1em;
+        box-shadow: 0 1px 4px 0 rgba(66,133,244,0.10);
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    
 </style>
 <script>
     // the main class should be a grid of the days as the rows, one column for category, one for button "Generate" and one column for the recipe
@@ -350,7 +413,6 @@
             // const categories = ['Enkel', 'Rød fisk', 'Vegetar', 'Hvis fisk', 'Kjøtt', 'Lørdagsmat', 'Søndagsmat'];
             const categories = recipes.map(recipe => recipe.categories).flat().filter((category, index, self) => self.indexOf(category) === index);
             categories.push("Ingen")
-            categories.push("Alle")
             // Default option for the differetn days
             const defaultCategories = ['Enkel', 'Rød fisk', 'Kylling', 'Hvit fisk', 'Kjøtt', 'Lørdagsmat', 'Suppe']
 
@@ -362,26 +424,34 @@
             else if (recipeNames.length < numberOfDays.value) {
                 recipeNames = recipeNames.concat(Array.from({length: numberOfDays.value - recipeNames.length}, () => ""));
             }
-            const keepScreenOn = document.getElementById('keepScreenOn');
-            keepScreenOn.addEventListener('click', async () => {
-                keepScreenOn.style.display = "block";
-                if (screenOn) {
+            // Replace button with a switch for "Hold skjermen på"
+            const keepScreenOnDiv = document.getElementById('keepScreenOn');
+            keepScreenOnDiv.innerHTML = `
+                <label for="keepScreenOnSwitch" class="switchLabel">Hold skjermen på</label>
+                <label class="switch">
+                    <input type="checkbox" id="keepScreenOnSwitch">
+                    <span class="slider round"></span>
+                </label>
+            `;
+            const keepScreenOnSwitch = document.getElementById('keepScreenOnSwitch');
+            keepScreenOnSwitch.checked = screenOn;
+            keepScreenOnSwitch.addEventListener('change', async () => {
+                if (keepScreenOnSwitch.checked) {
+                    try {
+                        wakeLock = await navigator.wakeLock.request('screen');
+                        screenOn = true;
+                    } catch (e) {
+                        keepScreenOnSwitch.checked = false;
+                        screenOn = false;
+                    }
+                } else {
                     if (wakeLock !== null) {
                         wakeLock.release().then(() => {
-                        wakeLock = null;
+                            wakeLock = null;
                         });
                     }
-                    keepScreenOn.innerHTML = 'Hold skjermen på';
-
                     screenOn = false;
-                    return;
                 }
-                screenOn = true;
-                keepScreenOn.innerHTML = 'Ikke hold skjermen på';
-                wakeLock = await navigator.wakeLock.request('screen');
-                // wakeLockOnButton.addEventListener("click", () => {
-                //     requestWakeLock();
-                // });
             });
             console.log(screenOn)
             // recipeDiv.appendChild(keepScreenOn);
@@ -426,7 +496,7 @@
                         if (i < defaultCategories.length) {
                             dropdown.value = defaultCategories[i];
                         } else {
-                            dropdown.value = "Alle";
+                            dropdown.value = "Middag";
                         }
                     }
                     innerDiv.appendChild(dropdown);
@@ -449,7 +519,7 @@
                         }
                         else {
                             const category = dropdown.value;
-                            const recipesOfCategory = recipes.filter(recipe => category === "Alle" || recipe.categories.includes(category));
+                            const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category));
                             randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
                             if (currentRecipe !== '') {
                                 const currentRecipeIndex = recipesOfCategory.findIndex(recipe => recipe.name === currentRecipe);
@@ -500,7 +570,7 @@
                         for (let i = 0; i < ingredients.length; i++) {
                             const ingredient = ingredients[i];
                             const ingredientListItem = document.createElement('li');
-                            ingredientListItem.innerHTML = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit}`;
+                            ingredientListItem.innerHTML = `<div class='ammountList'>${ingredient.amount} ${ingredient.unit}</div><div class='ingredientsNameList'>${ingredient.name}</div>`;
                             ingredientsList.appendChild(ingredientListItem);
                         }
                         for (let i = 0; i < approach.length; i++) {
@@ -511,11 +581,14 @@
                         }
                         const recipeTitle = document.createElement('h2');
                         recipeTitle.innerHTML = recipeName;
+                        const recipeIngredientsTitle = document.createElement('h3');
+                        recipeIngredientsTitle.innerHTML = 'Ingredienser';
                         recipeDiv.appendChild(recipeTitle);
+                        recipeDiv.appendChild(recipeIngredientsTitle);
                         recipeDiv.appendChild(ingredientsList);
-                        const apporachTitle = document.createElement('h3');
-                        apporachTitle.innerHTML = 'Fremgangsmåte';
-                        approachDiv.appendChild(apporachTitle);
+                        const approachTitle = document.createElement('h3');
+                        approachTitle.innerHTML = 'Fremgangsmåte';
+                        approachDiv.appendChild(approachTitle);
                         approachDiv.appendChild(approachList);
                         recipeDiv.appendChild(approachDiv);
                         // document.querySelector("#recipeDiv").innerHTML = recipeDiv.outerHTML;
@@ -546,7 +619,7 @@
                         const dropdown = dayDiv.querySelector('.dropdown');
                     
                         const category = dropdown.value;
-                        const recipesOfCategory = recipes.filter(recipe => (category === "Alle" || recipe.categories.includes(category)) && !currentRecipes.includes(recipe.name));
+                        const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category) && !currentRecipes.includes(recipe.name));
                         randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
                         if (randomRecipe === undefined) {
                             continue;
