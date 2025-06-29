@@ -9,9 +9,16 @@
     <h1>Oppskriftgenerator</h1>
 </head>
 <body>
-    <button id="generate">Generer oppskrifter</button>
-    <button id="clear">Tøm oppskrifter</button>
+    <button class="btn" id="generate">Generer oppskrifter</button>
+    <button class="btn" id="clear">Tøm oppskrifter</button>
+    <button id="save" class="btn">Lagre</button>
     <!-- add toggle button  -->
+    <br>
+    <label for="load" class="switchLabel">Last oppskrifter:</label>
+    <select id="load" class="dropdown"></select>
+    <br>
+    <label for="numberOfDays" class="switchLabel">Antall dager:</label>
+    <input type="number" id="numberOfDays" value="1" min="1">
     <br>
     <label for="choseYourself" class="switchLabel">Velg oppskrifter selv</label>
     <label class="switch">  
@@ -21,7 +28,7 @@
     <div class="main"></div>
     <div id="scrollTo" style="display: none;">
         <button id="keepScreenOn">Hold skjermen på</button>
-        <div id="recipiesDiv"></div>
+        <div id="recipesDiv"></div>
     </div>
     <div>
         <h2 id="ingredients-header">Ingredienser alle oppskrifter</h2>
@@ -36,162 +43,238 @@
 
 </html>
 <style>
-    /* the main class should be a grid of the days as the rows, one column for category, one for button "Generate" and one column for the recipe*/
+    /* Google Material-inspired, mobile-first, clean and modern */
     .main {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-        grid-gap: 10px;
-        /* padding: 10px; */
-        border: 1px solid black;
+        gap: 20px;
+        border: none;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow: 0 6px 32px 0 rgba(60,64,67,0.13), 0 1.5px 4px 0 rgba(60,64,67,0.08);
+        padding: 20px 8px;
+        margin: 22px 0;
     }
     .day {
         display: grid;
-        grid-template-columns: 0.1fr 0.1fr 1fr;
-        grid-gap: 10px;
-        padding: 10px;
-        height: 80px;
-        border-bottom: 1px solid black;
-        
+        grid-template-columns: 0.15fr 0.15fr 1fr;
+        gap: 12px;
+        align-items: center;
+        padding: 18px 14px;
+        min-height: 72px;
+        border-bottom: 1px solid #ececec;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 18px 0 rgba(60,64,67,0.13), 0 1.5px 4px 0 rgba(60,64,67,0.08);
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .day:last-child {
+        border-bottom: none;
     }
     .button {
-        background-color: lightblue;
+        background: #4285f4;
+        border-radius: 8px;
         border: none;
-        color: white;
+        color: #fff;
         text-align: center;
         text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
         margin: 4px 2px;
         cursor: pointer;
+        box-shadow: 0 1.5px 4px 0 rgba(60,64,67,0.10);
+        transition: background 0.2s, box-shadow 0.2s;
+        min-width: 40px;
+        min-height: 40px;
+    }
+    .button:hover, .btn:hover {
+        background: #3367d6;
+        box-shadow: 0 4px 16px 0 rgba(60,64,67,0.18);
     }
     .dropdown {
-        /* fancy dropdown */
-        background-color: #f1f1f1;
-        color: black;
-        padding: 2px;
+        background: #f8f9fa;
+        color: #222;
+        border-radius: 8px;
+        padding: 7px 14px;
+        border: 1.5px solid #dadce0;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.04);
+        transition: border-color 0.2s, box-shadow 0.2s;
+        max-width: 220px;
+        width: 100%;
+        min-width: 120px;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+    }
+    /* For long option text, show ellipsis and allow tooltip on hover */
+    .dropdown option {
+        white-space: normal;
+        max-width: 220px;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        text-overflow: ellipsis;
+        padding: 4px 8px;
+        display: block;
+    }
+    /* Alternate option background colors (not supported in all browsers) */
+    .dropdown option:nth-child(even) {
+        background: #f1f3f4;
+    }
+    .dropdown option:nth-child(odd) {
+        background: #fff;
+    }
+    .btn {
+        background: #4285f4;
         border: none;
-        cursor: pointer;
-        height: 40%
-    }
-    #generate {
-        background-color: lightblue;
-        border: 1px solid black;
-        border-radius: 2px;
-        color: black;
+        color: #fff;
         text-align: center;
         text-decoration: none;
+        border-radius: 10px;
         display: inline-block;
-        font-size: 26px;
+        font-size: 22px;
         margin: 4px 2px;
-        padding: 10px;
+        padding: 10px 18px;
         cursor: pointer;
+        box-shadow: 0 2px 8px 0 rgba(60,64,67,0.10);
+        transition: background 0.2s, box-shadow 0.2s;
+        font-weight: 500;
+        letter-spacing: 0.01em;
     }
-    #clear {
-        background-color: lightblue;
-        border: 1px solid black;
-        border-radius: 2px;
-        color: black;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 26px;
+    #numberOfDays {
+        width: 54px;
+        height: 32px;
+        font-size: 17px;
         margin: 4px 2px;
-        padding: 10px;
-        cursor: pointer;
+        padding: 5px 8px;
+        border: 1.5px solid #dadce0;
+        border-radius: 8px;
+        color: #222;
+        background: #f8f9fa;
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.06);
+        transition: border-color 0.2s, box-shadow 0.2s;
     }
-    /* The switch - the box around the slider */
+    #numberOfDays:focus {
+        border-color: #4285f4;
+        outline: none;
+        box-shadow: 0 2px 8px 0 rgba(66,133,244,0.10);
+    }
+    /* Switch Material style */
     .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    top: -7px;
-
+        position: relative;
+        display: inline-block;
+        width: 48px;
+        height: 28px;
+        top: -7px;
+        vertical-align: middle;
     }
     .switchLabel {
         display: inline-block;
         margin-right: 10px;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
+        color: #5f6368;
+        font-weight: 500;
+        letter-spacing: 0.01em;
     }
-
-    /* Hide default HTML checkbox */
     .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+        opacity: 0;
+        width: 0;
+        height: 0;
     }
-
-    /* The slider */
     .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #dadce0;
+        transition: .4s;
+        border-radius: 28px;
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.10);
     }
     #keepScreenOn {
-        background-color: lightblue;
-        border: 1px solid black;
-        border-radius: 2px;
-        color: black;
+        background: #4285f4;
+        border: none;
+        border-radius: 10px;
+        color: #fff;
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 26px;
+        font-size: 20px;
         margin: 4px 2px;
-        padding: 10px;
+        padding: 10px 18px;
         cursor: pointer;
+        box-shadow: 0 2px 8px 0 rgba(60,64,67,0.10);
+        transition: background 0.2s, box-shadow 0.2s;
+        font-weight: 500;
     }
     .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 4px;
+        background-color: #fff;
+        transition: .4s;
+        border-radius: 50%;
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.10);
     }
-
     input:checked + .slider {
-    background-color: #2196F3;
+        background: #4285f4;
     }
-
     input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+        box-shadow: 0 0 2px #4285f4;
     }
-
     input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-    }
-
-    /* Rounded sliders */
-    .slider.round {
-    border-radius: 34px;
-    }
-
-    .slider.round:before {
-    border-radius: 50%;
+        transform: translateX(20px);
     }
     html, body {
         height: 100%;
         scroll-behavior: smooth;
+        background: #f8f9fa;
+        color: #222;
+        font-family: 'Roboto', 'Inter', 'Segoe UI', Arial, sans-serif;
+        font-size: 17px;
+        line-height: 1.6;
     }
     #ingredients-header, #ingredients-header+#copyDiv {
         display: inline-block;
+        vertical-align: middle;
+    }
+    #ingredients-header {
+        color: #4285f4;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-right: 8px;
     }
     #copyDiv {
         position: relative;
+        display: inline-block;
     }
-
+    #ingredients {
+        margin-top: 14px;
+        padding: 10px 0;
+        background: #f8f9fa; /* Match page background */
+        border-radius: 10px;
+        box-shadow: 0 2px 8px 0 rgba(60,64,67,0.06);
+        min-height: 36px;
+    }
+    /* Responsive improvements for mobile */
+    .btn, #keepScreenOn {
+        font-size: 15px;
+        padding: 7px 8px;
+    }
+    #ingredients-header {
+        font-size: 1rem;
+    }
+    .main {
+        padding: 2px 0;
+    }
 </style>
 <script>
     // the main class should be a grid of the days as the rows, one column for category, one for button "Generate" and one column for the recipe
@@ -237,391 +320,513 @@
             });
         return data;
     }
-
+    
     // Call the function on page load
     // window.onload = readRecipesFileOnLoad;
     async function main() {
         const recipes = await readRecipesFileOnLoad();
         // get the main div
         const main = document.querySelector('.main');
-
-        // for all the days of the week, create a div which contains the category, the button and the recipe
-        for (let i = 0; i < 7; i++) {
-            // create the div
-            const div = document.createElement('div');
-            // add the class
-            div.classList.add('day');
-            // add the div to the main div
-            main.appendChild(div);
-        }
-        // in the div, add the names of the days in norwegian
-        const days = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag'];
-        const dayDivs = document.querySelectorAll('.day');
-        // const categories = ['Enkel', 'Rød fisk', 'Vegetar', 'Hvis fisk', 'Kjøtt', 'Lørdagsmat', 'Søndagsmat'];
-        const categories = recipes.map(recipe => recipe.categories).flat().filter((category, index, self) => self.indexOf(category) === index);
-        categories.push("Ingen")
-        // Default option for the differetn days
-        const defaultCategories = ['Enkel', 'Rød fisk', 'Kylling', 'Hvit fisk', 'Kjøtt', 'Lørdagsmat', 'Suppe']
-
-        // load local storage name of recipies at a day if it exists
-        let recipeNames = JSON.parse(localStorage.getItem('recipeNames'));
-        if (recipeNames === null) {
-            recipeNames = ["", "", "", "", "", "", ""];
-        }
-        const keepScreenOn = document.getElementById('keepScreenOn');
-        keepScreenOn.addEventListener('click', async () => {
-            keepScreenOn.style.display = "block";
-            if (screenOn) {
-                if (wakeLock !== null) {
-                    wakeLock.release().then(() => {
-                    wakeLock = null;
-                    });
-                }
-                keepScreenOn.innerHTML = 'Hold skjermen på';
-
-                screenOn = false;
-                return;
+        const numberOfDays = document.querySelector("#numberOfDays");
+        function setNumberOfDays() {
+            // clear the main div
+            main.innerHTML = '';
+            // create the divs for the number of days
+            
+            localStorage.setItem('numDays', JSON.stringify(numberOfDays.value));
+            for (let i = 0; i < numberOfDays.value; i++) {
+                const div = document.createElement('div');
+                div.classList.add('day');
+                main.appendChild(div);
             }
-            screenOn = true;
-            keepScreenOn.innerHTML = 'Ikke hold skjermen på';
-            wakeLock = await navigator.wakeLock.request('screen');
-            // wakeLockOnButton.addEventListener("click", () => {
-            //     requestWakeLock();
-            // });
-        });
-        console.log(screenOn)
-        // recipeDiv.appendChild(keepScreenOn);
-        choseRecipiesYourself = document.getElementById('choseYourself');
-        choseRecipiesYourself.addEventListener('change', setDropdown);
-        function setDropdown() {
-            for (let i = 0; i < dayDivs.length; i++) {
-                const dayDiv = dayDivs[i];
-                const day = days[i];
-                dayDiv.innerHTML = day;
-                const recipe = document.createElement('div');
-                recipe.classList.add('recipe');
-                recipe.innerHTML = recipeNames[i];
-                const innerDiv = document.createElement('div');
-                const buttonsDiv = document.createElement('div');
-                const dropdown = document.createElement('select');
-                dropdown.classList.add('dropdown');
-                if (choseRecipiesYourself.checked) {
-                    dropdown.innerHTML = '';
-                    for (let i = 0; i < recipes.length; i++) {
-                        const recipeName = recipes[i].name;
-                        const option = document.createElement('option');
-                        option.value = recipeName;
-                        option.innerHTML = recipeName;
-                        dropdown.appendChild(option);
+        
+            // for all the days of the week, create a div which contains the category, the button and the recipe
+            const days = [];
+            for (let i = 1; i <= numberOfDays.value; i++) {
+                days.push(`Dag ${i}`);
+            }
+            // in the div, add the names of the days in norwegian
+            const dayDivs = document.querySelectorAll('.day');
+            // const categories = ['Enkel', 'Rød fisk', 'Vegetar', 'Hvis fisk', 'Kjøtt', 'Lørdagsmat', 'Søndagsmat'];
+            const categories = recipes.map(recipe => recipe.categories).flat().filter((category, index, self) => self.indexOf(category) === index);
+            categories.push("Ingen")
+            categories.push("Alle")
+            // Default option for the differetn days
+            const defaultCategories = ['Enkel', 'Rød fisk', 'Kylling', 'Hvit fisk', 'Kjøtt', 'Lørdagsmat', 'Suppe']
+
+            // load local storage name of recipes at a day if it exists
+            let recipeNames = JSON.parse(localStorage.getItem('recipeNames'));
+            if (recipeNames === null) {
+                recipeNames = Array.from({length: Number(numberOfDays.value)}, () => "");
+            }
+            else if (recipeNames.length < numberOfDays.value) {
+                recipeNames = recipeNames.concat(Array.from({length: numberOfDays.value - recipeNames.length}, () => ""));
+            }
+            const keepScreenOn = document.getElementById('keepScreenOn');
+            keepScreenOn.addEventListener('click', async () => {
+                keepScreenOn.style.display = "block";
+                if (screenOn) {
+                    if (wakeLock !== null) {
+                        wakeLock.release().then(() => {
+                        wakeLock = null;
+                        });
                     }
-                    dropdown.addEventListener('change', function() {
+                    keepScreenOn.innerHTML = 'Hold skjermen på';
+
+                    screenOn = false;
+                    return;
+                }
+                screenOn = true;
+                keepScreenOn.innerHTML = 'Ikke hold skjermen på';
+                wakeLock = await navigator.wakeLock.request('screen');
+                // wakeLockOnButton.addEventListener("click", () => {
+                //     requestWakeLock();
+                // });
+            });
+            console.log(screenOn)
+            // recipeDiv.appendChild(keepScreenOn);
+            choseRecipesYourself = document.getElementById('choseYourself');
+            choseRecipesYourself.addEventListener('change', setDropdown);
+            function setDropdown() {
+                for (let i = 0; i < dayDivs.length; i++) {
+                    const dayDiv = dayDivs[i];
+                    const day = days[i];
+                    dayDiv.innerHTML = day;
+                    const recipe = document.createElement('div');
+                    recipe.classList.add('recipe');
+                    recipe.innerHTML = recipeNames[i];
+                    const innerDiv = document.createElement('div');
+                    const buttonsDiv = document.createElement('div');
+                    const dropdown = document.createElement('select');
+                    dropdown.classList.add('dropdown');
+                    if (choseRecipesYourself.checked) {
+                        dropdown.innerHTML = '';
+                        for (let j = 0; j < recipes.length; j++) {
+                            const recipeName = recipes[j].name;
+                            const option = document.createElement('option');
+                            option.value = recipeName;
+                            option.innerHTML = recipeName;
+                            dropdown.appendChild(option);
+                        }
+                        dropdown.addEventListener('change', function() {
+                            const recipeDiv = dayDiv.querySelector('.recipe');
+                            recipeDiv.innerHTML = this.value;
+                            calculateIngredients();
+                        });
+                    } else {
+                        // add the dropdown to the main div
+                        // add the categories to the dropdown
+                        for (let j = 0; j < categories.length; j++) {
+                            const category = categories[j];
+                            const option = document.createElement('option');
+                            option.value = category;
+                            option.innerHTML = category;
+                            dropdown.appendChild(option);
+                        }
+                        if (i < defaultCategories.length) {
+                            dropdown.value = defaultCategories[i];
+                        } else {
+                            dropdown.value = "Alle";
+                        }
+                    }
+                    innerDiv.appendChild(dropdown);
+                    innerDiv.appendChild(buttonsDiv);
+                    const button = document.createElement('button');
+                    button.classList.add('button');
+                    button.innerHTML = '<img src="refresh-151-32.png">';
+                    // add event listener to the button to generate a recipe. It needs to know which day it is
+                    button.addEventListener('click', function() {
                         const recipeDiv = dayDiv.querySelector('.recipe');
-                        recipeDiv.innerHTML = this.value;
+                        const currentRecipe = recipeDiv.innerHTML;
+                        let randomRecipe;
+                        if (choseRecipesYourself.checked) {
+                            randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+                            if (currentRecipe !== '') {
+                                const currentRecipeIndex = recipes.findIndex(recipe => recipe.name === currentRecipe);
+                                randomRecipe = recipes[(currentRecipeIndex + 1) % recipes.length];
+                            }
+                            dropdown.value = randomRecipe.name;
+                        }
+                        else {
+                            const category = dropdown.value;
+                            const recipesOfCategory = recipes.filter(recipe => category === "Alle" || recipe.categories.includes(category));
+                            randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
+                            if (currentRecipe !== '') {
+                                const currentRecipeIndex = recipesOfCategory.findIndex(recipe => recipe.name === currentRecipe);
+                                randomRecipe = recipesOfCategory[(currentRecipeIndex + 1) % recipesOfCategory.length];
+                            }
+                        }
+                        if (randomRecipe === undefined) {
+                            randomRecipe = {
+                                'name': '',
+                            };
+                        }
+                        recipeDiv.innerHTML = randomRecipe.name;
                         calculateIngredients();
                     });
-                } else {
-                    // add the dropdown to the main div
-                    // add the categories to the dropdown
-                    for (let i = 0; i < categories.length; i++) {
-                        const category = categories[i];
-                        const option = document.createElement('option');
-                        option.value = category;
-                        option.innerHTML = category;
-                        dropdown.appendChild(option);
-                    }
-                    dropdown.value = defaultCategories[i];
-                }
-                innerDiv.appendChild(dropdown);
-                innerDiv.appendChild(buttonsDiv);
-                const button = document.createElement('button');
-                button.classList.add('button');
-                button.innerHTML = '<img src="refresh-151-32.png">';
-                // add event listener to the button to generate a recipe. It needs to know which day it is
-                button.addEventListener('click', function() {
-                    const recipeDiv = dayDiv.querySelector('.recipe');
-                    const currentRecipe = recipeDiv.innerHTML;
-                    let randomRecipe;
-                    if (choseRecipiesYourself.checked) {
-                        randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
-                        if (currentRecipe !== '') {
-                            const currentRecipeIndex = recipes.findIndex(recipe => recipe.name === currentRecipe);
-                            randomRecipe = recipes[(currentRecipeIndex + 1) % recipes.length];
+                    // make sure that the elements are displayed in a row
+                    buttonsDiv.style.display = "flex";
+                    buttonsDiv.style.flexDirection = "row";
+
+                    buttonsDiv.appendChild(button);
+                    dayDiv.appendChild(innerDiv);
+                    
+                    dayDiv.appendChild(recipe);
+                    const showRecipe = document.createElement('button');
+                    showRecipe.innerHTML = '<img src="show-14-32.png">';
+                    showRecipe.classList.add('button');
+                    showRecipe.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        console.log(e)
+                        const day = this.parentElement.parentElement.parentElement;
+                        const recipeName = day.querySelector('.recipe').innerHTML;
+                        const recipe = recipes.find(r => r.name === recipeName);
+                        if (recipe === undefined) {
+                            return;
                         }
-                        dropdown.value = randomRecipe.name;
+                        const ingredients = recipe.ingredients;
+                        const approach = recipe.approach;
+                        const recipeDiv = document.getElementById('recipesDiv');
+                        const scrollDiv = document.getElementById('scrollTo');
+                        scrollDiv.style.display = "block";
+                        recipeDiv.innerHTML = '';
+                        // add a button which keeps the screen on while the recipe is displayed
+
+                        
+
+                        const approachDiv = document.createElement('div');
+                        const approachList = document.createElement('ol');
+                        const ingredientsList = document.createElement('ul');
+                        for (let i = 0; i < ingredients.length; i++) {
+                            const ingredient = ingredients[i];
+                            const ingredientListItem = document.createElement('li');
+                            ingredientListItem.innerHTML = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit}`;
+                            ingredientsList.appendChild(ingredientListItem);
+                        }
+                        for (let i = 0; i < approach.length; i++) {
+                            const approachElement = approach[i];
+                            const approachListItem = document.createElement('li');
+                            approachListItem.innerHTML = approachElement;
+                            approachList.appendChild(approachListItem);
+                        }
+                        const recipeTitle = document.createElement('h2');
+                        recipeTitle.innerHTML = recipeName;
+                        recipeDiv.appendChild(recipeTitle);
+                        recipeDiv.appendChild(ingredientsList);
+                        const apporachTitle = document.createElement('h3');
+                        apporachTitle.innerHTML = 'Fremgangsmåte';
+                        approachDiv.appendChild(apporachTitle);
+                        approachDiv.appendChild(approachList);
+                        recipeDiv.appendChild(approachDiv);
+                        // document.querySelector("#recipeDiv").innerHTML = recipeDiv.outerHTML;
+                        document.querySelector("#scrollTo").scrollIntoView();
+                    });
+                    buttonsDiv.appendChild(showRecipe);
+
+                }  
+            }
+            setDropdown();
+
+            const generateButton = document.querySelector('#generate');
+            calculateIngredients();
+            generateButton.addEventListener("click", generate);
+            function generate() {
+                const currentRecipes = [];
+                for (let i = 0; i < dayDivs.length; i++) {
+                    const dayDiv = dayDivs[i];
+                    let randomRecipe;
+                    if (choseRecipesYourself.checked) {
+                        randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+                        if (currentRecipes.includes(randomRecipe.name)) {
+                            randomRecipe = recipes[(recipes.findIndex(recipe => recipe.name === randomRecipe.name) + 1) % recipes.length];
+                        }
+                        dayDiv.querySelector('.dropdown').value = randomRecipe.name;
                     }
                     else {
+                        const dropdown = dayDiv.querySelector('.dropdown');
+                    
                         const category = dropdown.value;
-                        const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category));
+                        const recipesOfCategory = recipes.filter(recipe => (category === "Alle" || recipe.categories.includes(category)) && !currentRecipes.includes(recipe.name));
                         randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
-                        if (currentRecipe !== '') {
-                            const currentRecipeIndex = recipesOfCategory.findIndex(recipe => recipe.name === currentRecipe);
-                            randomRecipe = recipesOfCategory[(currentRecipeIndex + 1) % recipesOfCategory.length];
+                        if (randomRecipe === undefined) {
+                            continue;
                         }
                     }
-                    if (randomRecipe === undefined) {
-                        randomRecipe = {
-                            'name': '',
-                        };
-                    }
+                    currentRecipes.push(randomRecipe.name);
+                    const recipeDiv = dayDiv.querySelector('.recipe');
                     recipeDiv.innerHTML = randomRecipe.name;
-                    calculateIngredients();
-                });
-                // make sure that the elements are displayed in a row
-                buttonsDiv.style.display = "flex";
-                buttonsDiv.style.flexDirection = "row";
-
-                buttonsDiv.appendChild(button);
-                dayDiv.appendChild(innerDiv);
-                
-                dayDiv.appendChild(recipe);
-                const showRecipe = document.createElement('button');
-                showRecipe.innerHTML = '<img src="show-14-32.png">';
-                showRecipe.classList.add('button');
-                showRecipe.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    console.log(e)
-                    const day = this.parentElement.parentElement.parentElement;
-                    const recipeName = day.querySelector('.recipe').innerHTML;
-                    const recipe = recipes.find(r => r.name === recipeName);
-                    if (recipe === undefined) {
-                        return;
-                    }
-                    const ingredients = recipe.ingredients;
-                    const approach = recipe.approach;
-                    const recipeDiv = document.getElementById('recipiesDiv');
-                    const scrollDiv = document.getElementById('scrollTo');
-                    scrollDiv.style.display = "block";
-                    recipeDiv.innerHTML = '';
-                    // add a button which keeps the screen on while the recipe is displayed
-
-                    
-
-                    const approachDiv = document.createElement('div');
-                    const approachList = document.createElement('ol');
-                    const ingredientsList = document.createElement('ul');
-                    for (let i = 0; i < ingredients.length; i++) {
-                        const ingredient = ingredients[i];
-                        const ingredientListItem = document.createElement('li');
-                        ingredientListItem.innerHTML = `${ingredient.name}: ${ingredient.amount} ${ingredient.unit}`;
-                        ingredientsList.appendChild(ingredientListItem);
-                    }
-                    for (let i = 0; i < approach.length; i++) {
-                        const approachElement = approach[i];
-                        const approachListItem = document.createElement('li');
-                        approachListItem.innerHTML = approachElement;
-                        approachList.appendChild(approachListItem);
-                    }
-                    const recipeTitle = document.createElement('h2');
-                    recipeTitle.innerHTML = recipeName;
-                    recipeDiv.appendChild(recipeTitle);
-                    recipeDiv.appendChild(ingredientsList);
-                    const apporachTitle = document.createElement('h3');
-                    apporachTitle.innerHTML = 'Fremgangsmåte';
-                    approachDiv.appendChild(apporachTitle);
-                    approachDiv.appendChild(approachList);
-                    recipeDiv.appendChild(approachDiv);
-                    // document.querySelector("#recipeDiv").innerHTML = recipeDiv.outerHTML;
-                    document.querySelector("#scrollTo").scrollIntoView();
-                });
-                buttonsDiv.appendChild(showRecipe);
-
-            }  
-        }
-        setDropdown();
-
-        const generateButton = document.querySelector('#generate');
-        calculateIngredients();
-        generateButton.addEventListener("click", generate);
-        function generate() {
-            const currentRecipies = [];
-            for (let i = 0; i < dayDivs.length; i++) {
-                const dayDiv = dayDivs[i];
-                let randomRecipe;
-                if (choseRecipiesYourself.checked) {
-                    randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
-                    if (currentRecipies.includes(randomRecipe.name)) {
-                        randomRecipe = recipes[(recipes.findIndex(recipe => recipe.name === randomRecipe.name) + 1) % recipes.length];
-                    }
-                    dayDiv.querySelector('.dropdown').value = randomRecipe.name;
                 }
-                else {
-                    const dropdown = dayDiv.querySelector('.dropdown');
-                
-                    const category = dropdown.value;
-                    const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(category) && !currentRecipies.includes(recipe.name));
-                    randomRecipe = recipesOfCategory[Math.floor(Math.random() * recipesOfCategory.length)];
-                    if (randomRecipe === undefined) {
+                calculateIngredients();
+            }
+            const clearButton = document.querySelector("#clear");
+            clearButton.addEventListener("click", clear);
+            function clear() {
+                for (let i = 0; i < dayDivs.length; i++) {
+                    const dayDiv = dayDivs[i];
+                    const recipeDiv = dayDiv.querySelector('.recipe');
+                    recipeDiv.innerHTML = '';
+                    if (choseRecipesYourself.checked) {
+                        const dropdown = dayDiv.querySelector('.dropdown');
+                        dropdown.value = 'Ingen';
+                    }
+                }
+                calculateIngredients();
+            }
+            
+            function calculateIngredients() {
+                const ingredientsDiv = document.querySelector('#ingredients');
+                const allIngredients = [];
+                for (let i = 0; i < dayDivs.length; i++) {
+                    const dayDiv = dayDivs[i];
+                    const recipeDiv = dayDiv.querySelector('.recipe');
+                    const recipeName = recipeDiv.innerHTML;
+                    const recipe = recipes.find(recipe => recipe.name === recipeName);
+                    if (recipe === undefined) {
                         continue;
                     }
-                }
-                currentRecipies.push(randomRecipe.name);
-                const recipeDiv = dayDiv.querySelector('.recipe');
-                recipeDiv.innerHTML = randomRecipe.name;
-            }
-            calculateIngredients();
-        }
-        const clearButton = document.querySelector("#clear");
-        clearButton.addEventListener("click", clear);
-        function clear() {
-            for (let i = 0; i < dayDivs.length; i++) {
-                const dayDiv = dayDivs[i];
-                const recipeDiv = dayDiv.querySelector('.recipe');
-                recipeDiv.innerHTML = '';
-                if (choseRecipiesYourself.checked) {
-                    const dropdown = dayDiv.querySelector('.dropdown');
-                    dropdown.value = 'Ingen';
-                }
-            }
-            calculateIngredients();
-        }
-        
-        function calculateIngredients() {
-            const ingredientsDiv = document.querySelector('#ingredients');
-            const allIngredients = [];
-            for (let i = 0; i < dayDivs.length; i++) {
-                const dayDiv = dayDivs[i];
-                const recipeDiv = dayDiv.querySelector('.recipe');
-                const recipeName = recipeDiv.innerHTML;
-                const recipe = recipes.find(recipe => recipe.name === recipeName);
-                if (recipe === undefined) {
-                    continue;
-                }
-                const ingredients = recipe.ingredients;
-                for (let i = 0; i < ingredients.length; i++) {
-                    allIngredients.push(ingredients[i]);
-                }
-            }
-            // add all ingredients with the same name together. If the unit is different, convert to the same unit. If the units are not compatible, add them as a list of units
-            const ingredientsByName = {};
-            for (let i = 0; i < allIngredients.length; i++) {
-                const ingredient = allIngredients[i];
-                const name = ingredient.name;
-                const amount = ingredient.amount;
-                const unit = ingredient.unit;
-                const category = ingredient.category;
-                if (ingredientsByName[name] === undefined) {
-                    ingredientsByName[name] = {
-                        'amount': amount,
-                        'unit': unit,
-                        'category': category,
+                    const ingredients = recipe.ingredients;
+                    for (let i = 0; i < ingredients.length; i++) {
+                        allIngredients.push(ingredients[i]);
                     }
-                } else {
-                    const oldAmount = ingredientsByName[name].amount;
-                    const oldUnit = ingredientsByName[name].unit;
-                    const oldCategory = ingredientsByName[name].category;
-                    if (oldUnit === unit) {
-                        ingredientsByName[name].amount = oldAmount + amount;
+                }
+                // add all ingredients with the same name together. If the unit is different, convert to the same unit. If the units are not compatible, add them as a list of units
+                const ingredientsByName = {};
+                for (let i = 0; i < allIngredients.length; i++) {
+                    const ingredient = allIngredients[i];
+                    const name = ingredient.name;
+                    const amount = ingredient.amount;
+                    const unit = ingredient.unit;
+                    const category = ingredient.category;
+                    if (ingredientsByName[name] === undefined) {
+                        ingredientsByName[name] = {
+                            'amount': amount,
+                            'unit': unit,
+                            'category': category,
+                        }
                     } else {
-                        // convert to the same unit
-                        // check if old unit as a list. If it is a list, do the conversion for each element in the list
-                        if (Array.isArray(oldUnit)) {
-                            let converted = false;
-                            for (let i = 0; i < oldUnit.length; i++) {
-                                const oldUnitElement = oldUnit[i];
-                                const oldAmountElement = oldAmount[i];
-                                if (conversionKg[oldUnitElement] !== undefined && conversionKg[unit] !== undefined) {
-                                    ingredientsByName[name].amount[i] = oldAmountElement * conversionKg[oldUnitElement] + amount * conversionKg[unit];
-                                    ingredientsByName[name].unit[i] = 'g';
-                                    converted = true;
-                                    break;
-                                } else if (conversionL[oldUnitElement] !== undefined && conversionL[unit] !== undefined) {
-                                    ingredientsByName[name].amount[i] = oldAmountElement * conversionL[oldUnitElement] + amount * conversionL[unit];
-                                    ingredientsByName[name].unit[i] = 'ml';
-                                    converted = true;
-                                    break;
-                                } else if (oldUnitElement === unit) {
-                                    ingredientsByName[name].amount[i] = oldAmountElement + amount;
-                                    converted = true;
-                                    break;
-                                }
-                            }
-                            if (!converted) {
-                                    // add the units as a list
-                                    ingredientsByName[name].amount.push(amount);
-                                    ingredientsByName[name].unit.push(unit);
-                                }
+                        const oldAmount = ingredientsByName[name].amount;
+                        const oldUnit = ingredientsByName[name].unit;
+                        const oldCategory = ingredientsByName[name].category;
+                        if (oldUnit === unit) {
+                            ingredientsByName[name].amount = oldAmount + amount;
                         } else {
-                            if (conversionKg[oldUnit] !== undefined && conversionKg[unit] !== undefined) {
-                                ingredientsByName[name].amount = oldAmount * conversionKg[oldUnit] + amount * conversionKg[unit];
-                                ingredientsByName[name].unit = 'g';
-                            } else if (conversionL[oldUnit] !== undefined && conversionL[unit] !== undefined) {
-                                ingredientsByName[name].amount = oldAmount * conversionL[oldUnit] + amount * conversionL[unit];
-                                ingredientsByName[name].unit = 'ml';
+                            // convert to the same unit
+                            // check if old unit as a list. If it is a list, do the conversion for each element in the list
+                            if (Array.isArray(oldUnit)) {
+                                let converted = false;
+                                for (let i = 0; i < oldUnit.length; i++) {
+                                    const oldUnitElement = oldUnit[i];
+                                    const oldAmountElement = oldAmount[i];
+                                    if (conversionKg[oldUnitElement] !== undefined && conversionKg[unit] !== undefined) {
+                                        ingredientsByName[name].amount[i] = oldAmountElement * conversionKg[oldUnitElement] + amount * conversionKg[unit];
+                                        ingredientsByName[name].unit[i] = 'g';
+                                        converted = true;
+                                        break;
+                                    } else if (conversionL[oldUnitElement] !== undefined && conversionL[unit] !== undefined) {
+                                        ingredientsByName[name].amount[i] = oldAmountElement * conversionL[oldUnitElement] + amount * conversionL[unit];
+                                        ingredientsByName[name].unit[i] = 'ml';
+                                        converted = true;
+                                        break;
+                                    } else if (oldUnitElement === unit) {
+                                        ingredientsByName[name].amount[i] = oldAmountElement + amount;
+                                        converted = true;
+                                        break;
+                                    }
+                                }
+                                if (!converted) {
+                                        // add the units as a list
+                                        ingredientsByName[name].amount.push(amount);
+                                        ingredientsByName[name].unit.push(unit);
+                                    }
                             } else {
-                                // add the units as a list
-                                ingredientsByName[name].amount = [oldAmount, amount];
-                                ingredientsByName[name].unit = [oldUnit, unit];
+                                if (conversionKg[oldUnit] !== undefined && conversionKg[unit] !== undefined) {
+                                    ingredientsByName[name].amount = oldAmount * conversionKg[oldUnit] + amount * conversionKg[unit];
+                                    ingredientsByName[name].unit = 'g';
+                                } else if (conversionL[oldUnit] !== undefined && conversionL[unit] !== undefined) {
+                                    ingredientsByName[name].amount = oldAmount * conversionL[oldUnit] + amount * conversionL[unit];
+                                    ingredientsByName[name].unit = 'ml';
+                                } else {
+                                    // add the units as a list
+                                    ingredientsByName[name].amount = [oldAmount, amount];
+                                    ingredientsByName[name].unit = [oldUnit, unit];
+                                }
                             }
                         }
                     }
                 }
-            }
-            // sort the ingredients by category, 
-            const sortOrder = ["grønnsaker", "kjøtt", "fisk", "meieri", "annet"]
-            const sortedIngredients = Object.entries(ingredientsByName).sort((a, b) => sortOrder.indexOf(a[1].category) - sortOrder.indexOf(b[1].category));
-            // add the ingredients to the ingredients div
-            ingredientsDiv.innerHTML = '';
-            for (let i = 0; i < sortedIngredients.length; i++) {
-                const ingredient = sortedIngredients[i];
-                const name = ingredient[0];
-                const amount = ingredient[1].amount;
-                const unit = ingredient[1].unit;
-                const category = ingredient[1].category;
-                const ingredientDiv = document.createElement('div');
-                if (Array.isArray(amount)) {
-                    let amountString = '';
-                    for (let i = 0; i < amount.length; i++) {
-                        const amountElement = amount[i];
-                        const unitElement = unit[i];
-                        if (amountElement === 0) {
-                            amountString += ', ';
+                // sort the ingredients by category, 
+                const sortOrder = ["grønnsaker", "kjøtt", "fisk", "meieri", "annet"]
+                const sortedIngredients = Object.entries(ingredientsByName).sort((a, b) => sortOrder.indexOf(a[1].category) - sortOrder.indexOf(b[1].category));
+                // add the ingredients to the ingredients div
+                ingredientsDiv.innerHTML = '';
+                for (let i = 0; i < sortedIngredients.length; i++) {
+                    const ingredient = sortedIngredients[i];
+                    const name = ingredient[0];
+                    const amount = ingredient[1].amount;
+                    const unit = ingredient[1].unit;
+                    const category = ingredient[1].category;
+                    const ingredientDiv = document.createElement('div');
+                    if (Array.isArray(amount)) {
+                        let amountString = '';
+                        for (let i = 0; i < amount.length; i++) {
+                            const amountElement = amount[i];
+                            const unitElement = unit[i];
+                            if (amountElement === 0) {
+                                amountString += 'uvisst + ';
+                            }
+                            else {
+                                amountString += `${amountElement} ${unitElement} + `;
+                            }
                         }
-                        amountString += `${amountElement} ${unitElement}, `;
+                        amountString = amountString.slice(0, -2);
+                        ingredientDiv.innerHTML = `${name}: ${amountString}`;
+                    } else {
+                        if (amount === 0) {
+                            ingredientDiv.innerHTML = `${name}`;
+                        }
+                        else {
+                            ingredientDiv.innerHTML = `${name}: ${amount} ${unit}`;
+                        }
                     }
-                    amountString = amountString.slice(0, -2);
-                    ingredientDiv.innerHTML = `${name}: ${amountString}`;
-                } else {
-                    if (amount === 0) {
-                        ingredientDiv.innerHTML = `${name}`;
-                    }
-                    else {
-                        ingredientDiv.innerHTML = `${name}: ${amount} ${unit}`;
-                    }
+                    ingredientsDiv.appendChild(ingredientDiv);
                 }
-                ingredientsDiv.appendChild(ingredientDiv);
-            }
-            // add a copy button
-            const copyButton = document.querySelector('#copy');
-            copyButton.addEventListener('click', function() {
-                const text = ingredientsDiv.innerText;
-                navigator.clipboard.writeText(text);
-                const popup = document.createElement('div');
-                popup.innerHTML = 'Kopiert';
-                popup.style.position = 'absolute';
-                popup.style.marginTop = '-80px';
-                popup.style.left = '40px';
-                popup.style.zIndex = '1';
+                // add a copy button
+                const copyButton = document.querySelector('#copy');
+                copyButton.addEventListener('click', function() {
+                    const text = ingredientsDiv.innerText;
+                    navigator.clipboard.writeText(text);
+                    const popup = document.createElement('div');
+                    popup.innerHTML = 'Kopiert';
+                    popup.style.position = 'absolute';
+                    popup.style.marginTop = '-80px';
+                    popup.style.left = '40px';
+                    popup.style.zIndex = '1';
 
-                popup.style.backgroundColor = 'lightblue';
-                popup.style.padding = '10px';
-                popup.style.border = '1px solid black';
-                // add shading
-                popup.style.boxShadow = '0 0 10px 0 rgba(0, 0, 0, 0.8)';
-                document.getElementById("copyDiv").appendChild(popup);
-                setTimeout(() => {
-                    popup.remove();
-                }, 2000);
-            });
-            // save the recipy-names for each day to local storage
+                    popup.style.backgroundColor = '#2196F3';
+                    popup.style.borderRadius = '8px';
+                    popup.style.padding = '10px';
+                    popup.style.border = '1px solid black';
+                    // add shading
+                    popup.style.boxShadow = '0 0 10px 0 rgba(0, 0, 0, 0.8)';
+                    document.getElementById("copyDiv").appendChild(popup);
+                    setTimeout(() => {
+                        popup.remove();
+                    }, 2000);
+                });
+                // save the recipy-names for each day to local storage
+                const recipeNames = [];
+                for (let i = 0; i < dayDivs.length; i++) {
+                    const dayDiv = dayDivs[i];
+                    const recipeDiv = dayDiv.querySelector('.recipe');
+                    const recipeName = recipeDiv.innerHTML;
+                    recipeNames.push(recipeName);
+                }
+                localStorage.setItem('recipeNames', JSON.stringify(recipeNames));
+            }
+            
+        }
+
+
+        function saveRecipes(e) {
+            e.stopPropagation();
+
             const recipeNames = [];
+            const dayDivs = document.querySelectorAll('.day');
             for (let i = 0; i < dayDivs.length; i++) {
                 const dayDiv = dayDivs[i];
                 const recipeDiv = dayDiv.querySelector('.recipe');
                 const recipeName = recipeDiv.innerHTML;
                 recipeNames.push(recipeName);
             }
-            localStorage.setItem('recipeNames', JSON.stringify(recipeNames));
+            let loadRecipes = JSON.parse(localStorage.getItem('loadRecipes'));
+            if (loadRecipes === null || loadRecipes === undefined) {
+                loadRecipes = [];
+            }
+            // Get current time in Europe/Oslo timezone and format as YYYY-MM-DD HH:mm
+            const now = new Date();
+            const options = {
+                timeZone: 'Europe/Oslo',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            // Format: 2025-06-29 17:43
+            const parts = new Intl.DateTimeFormat('en-CA', options).formatToParts(now);
+            const year = parts.find(p => p.type === 'year').value;
+            const month = parts.find(p => p.type === 'month').value;
+            const day = parts.find(p => p.type === 'day').value;
+            const hour = parts.find(p => p.type === 'hour').value;
+            const minute = parts.find(p => p.type === 'minute').value;
+            const seconds = parts.find(p => p.type === 'second').value;
+            const localDate = `${year}-${month}-${day} ${hour}:${minute}:${seconds}`;
+            console.log(loadRecipes);
+            loadRecipes.push({'date': localDate, 'recipes': recipeNames});
+            localStorage.setItem('loadRecipes', JSON.stringify(loadRecipes));
+            localStorage.setItem('lastLoad', JSON.stringify(localDate));
+
+            addSavedToDropdown({'date': localDate, 'recipes': recipeNames}, true);
         }
+
+
+        let numDays = JSON.parse(localStorage.getItem('numDays'));
+        if (numDays === null || numDays === undefined) {
+            numDays = 1;
+        }
+        else {
+            numberOfDays.value = numDays;
+        }
+        
+        let previousRecipeNames = JSON.parse(localStorage.getItem('loadRecipes'));
+        if (previousRecipeNames === null || previousRecipeNames === undefined) {
+            previousRecipeNames = [];
+        }
+        previousRecipeNames = previousRecipeNames.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const loadDiv = document.querySelector('#load')
+        function addSavedToDropdown(recipeName, first=false) {
+            const option = document.createElement('option');
+            option.value = recipeName.date;
+            option.innerHTML = recipeName.date;
+            let last = JSON.parse(localStorage.getItem('lastLoad'));
+            if (last === recipeName.date) {
+                option.selected = true;
+                loadRecipe(recipeName.date);
+            }
+
+            if (first) {
+                loadDiv.prepend(option);
+            }
+            else {
+                loadDiv.appendChild(option);
+            }
+        }
+        for (let i = 0; i < previousRecipeNames.length; i++) {
+            const recipeName = previousRecipeNames[i];
+            addSavedToDropdown(recipeName);
+        }
+        loadDiv.addEventListener('change', function() {
+            loadRecipe(this.value)
+
+        });
+        function loadRecipe(date) {
+            let loadRecipes = JSON.parse(localStorage.getItem('loadRecipes'));
+            if (loadRecipes === null || loadRecipes === undefined) {
+                return;
+            }
+            const recipeNames = loadRecipes.find(r => r.date === date).recipes;
+            localStorage.setItem('recipeNames', JSON.stringify(recipeNames));
+            localStorage.setItem('numDays', JSON.stringify(recipeNames.length));
+            document.querySelector("#numberOfDays").value = recipeNames.length;
+            localStorage.setItem('lastLoad', JSON.stringify(date));
+            setNumberOfDays();
+        }
+        document.querySelector("#save").addEventListener('click', saveRecipes);
+
+        numberOfDays.addEventListener('change', setNumberOfDays);
+        setNumberOfDays();
     }
     window.onload = main();
     // create the dropdown menu
