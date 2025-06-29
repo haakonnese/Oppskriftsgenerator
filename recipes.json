@@ -7,7 +7,7 @@
     },
     {
         "name": "Torsk med chorizosalsa, brokkoli og søtpotetmos",
-        "categories": ["Hvit fisk"],
+        "categories": ["Middag", "Hvit fisk"],
         "approach": [
             "Kok søtpotet. Hell av mesteparten av vannet. Mos så med stavmikser. Varm opp mosen sammen med litt melk/fløte og smak til med krydder.",
             "Rist pinjekjernene i en tørr stekepanne og legg til side. Stek deretter Chorizo, 1 sjalottløk og 1 fedd hvitløk. Tilsett pinjekjernene og litt sitronsaft før servering.",
@@ -67,12 +67,469 @@
         ]
     },
     {
+        "name": "Kjøttkaker med brunsaus",
+        "categories": ["Middag", "Kjøtt", "Søndagsmiddag"],
+        "approach": [
+            "Lag kjøttkaker av kjøttdeig, løk, salt, pepper og potetmel. Form til kaker og stek i panne.",
+            "Lag brunsaus av kraft, mel og smør. Smak til med salt og pepper.",
+            "Server kjøttkakene med poteter, grønnsaker og brunsaus."
+        ],
+        "ingredients": [
+            {    
+                "name": "Kjøttdeig",
+                "amount": 400,
+                "unit": "g",
+                "category": "kjøtt"
+            },
+            {    
+                "name": "Løk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Potetmel",
+                "amount": 2,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {    
+                "name": "Buljong",
+                "amount": 1,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {    
+                "name": "Mel",
+                "amount": 2,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {    
+                "name": "Smør",
+                "amount": 50,
+                "unit": "g",
+                "category": "meieri"
+            },
+            {    
+                "name": "Potet",
+                "amount": 600,
+                "unit": "g",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
+        "name": "Løvbiff",
+        "categories": ["Middag", "Kjøtt", "Søndagsmiddag"],
+        "approach": [
+            "Stek løvbiff i panne med litt olje. Krydre med salt og pepper.",
+            "Server med poteter, grønnsaker og saus etter ønske."
+        ],
+        "ingredients": [
+            {    
+                "name": "Løvbiff",
+                "amount": 2,
+                "unit": "stk",
+                "category": "kjøtt"
+            },
+            {    
+                "name": "Potet",
+                "amount": 600,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Gulrot",
+                "amount": 300,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Brokkoli",
+                "amount": 0.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {    
+                "name": "Saus",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            }
+        ]
+    },
+    {
+        "name": "Ovnsbakt squash",
+        "categories": ["Middag", "Kjøtt"],
+        "approach": [
+            "Sett stekeovnen på 225 °C.",
+            "Skyll og del squash i to på langs. Skrap ut innmaten med en skje og finhakk den. Legg de uthulte squash-halvdelene på et stekebrett med bakepapir. Pensle med smeltet smør og dryss over litt salt. Stek midt i ovnen i 6–7 minutter.",
+            "Kok ris som anvist på pakken.",
+            "Surr løk og hvitløk i smør i 2 minutter. Tilsett kjøttdeig eller karbonadedeig og smuldre opp. Stek i 3 minutter til kjøttet er brunet. Tilsett den hakkede innmaten fra squashene og stek videre i 3–4 minutter.",
+            "Tilsett hermetisk tomat, buljong, salt, pepper og basilikum. Kok opp og la det trekke uten lokk i minst 5 minutter.",
+            "Legg stuingen i squash-halvdelene og dryss over ost. Gratiner under grillen eller høyt i ovnen i ca. 5 minutter til osten er gyllen."
+        ],
+        "ingredients": [
+            {
+            "name": "Squash",
+            "amount": 2,
+            "unit": "stk",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Meierismør",
+            "amount": 2,
+            "unit": "ss",
+            "category": "meieri"
+            },
+            {
+            "name": "Salt",
+            "amount": 0.5,
+            "unit": "ts",
+            "category": "annet"
+            },
+            {
+            "name": "Ris",
+            "amount": 300,
+            "unit": "g",
+            "category": "annet"
+            },
+            {
+            "name": "Løk",
+            "amount": 1,
+            "unit": "stk",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Hvitløk",
+            "amount": 2,
+            "unit": "fedd",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Meierismør",
+            "amount": 1,
+            "unit": "ss",
+            "category": "meieri"
+            },
+            {
+            "name": "Kjøttdeig",
+            "amount": 400,
+            "unit": "g",
+            "category": "kjøtt"
+            },
+            {
+            "name": "Hermetiske tomater",
+            "amount": 1,
+            "unit": "boks",
+            "category": "annet"
+            },
+            {
+            "name": "Oksebuljong",
+            "amount": 2,
+            "unit": "ss",
+            "category": "annet"
+            },
+            {
+            "name": "Salt",
+            "amount": 0.5,
+            "unit": "ts",
+            "category": "annet"
+            },
+            {
+            "name": "Pepper",
+            "amount": 0.25,
+            "unit": "ts",
+            "category": "annet"
+            },
+            {
+            "name": "Basilikum",
+            "amount": 1,
+            "unit": "ss",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Ost",
+            "amount": 4,
+            "unit": "dl",
+            "category": "meieri"
+            }
+        ]
+    },
+    {
+        "name": "Gresk kylling",
+        "categories": ["Middag", "Kylling"],
+        "approach": [
+            "Brun kyllingfilet lett i smør i en stekepanne. Tilsett salt og pepper. Hold filetene varme.",
+            "Rens og finhakk hvitløk og fres den i en panne med smør. Tilsett buljong, crème fraîche, most fetaost, oregano og soyasaus.",
+            "Legg kyllingen i sausen og la den koke i ca. 10 minutter.",
+            "Legg litt salat og cherrytomater på hver tallerken og legg over kyllingen. Dryss over litt most fetaost, fersk oregano og noen oliven ved servering."
+        ],
+        "ingredients": [
+            {
+            "name": "Kyllingfilet",
+            "amount": 2,
+            "unit": "stk",
+            "category": "kjøtt"
+            },
+            {
+            "name": "Meierismør",
+            "amount": 0.5,
+            "unit": "ss",
+            "category": "meieri"
+            },
+            {
+            "name": "Salt",
+            "amount": 0.5,
+            "unit": "ts",
+            "category": "annet"
+            },
+            {
+            "name": "Pepper",
+            "amount": 0.25,
+            "unit": "ts",
+            "category": "annet"
+            },
+            {
+            "name": "Hvitløk",
+            "amount": 1,
+            "unit": "fedd",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Meierismør",
+            "amount": 0.5,
+            "unit": "ss",
+            "category": "meieri"
+            },
+            {
+            "name": "Hønsebuljong",
+            "amount": 1,
+            "unit": "stk",
+            "category": "annet"
+            },
+            {
+            "name": "Creme fraîche",
+            "amount": 1.5,
+            "unit": "dl",
+            "category": "meieri"
+            },
+            {
+            "name": "Fetaost",
+            "amount": 25,
+            "unit": "g",
+            "category": "meieri"
+            },
+            {
+            "name": "Oregano",
+            "amount": 1,
+            "unit": "ts",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Soyasaus",
+            "amount": 1,
+            "unit": "ts",
+            "category": "annet"
+            },
+            {
+            "name": "Blandet salat",
+            "amount": 0.25,
+            "unit": "l",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Cherrytomat",
+            "amount": 6,
+            "unit": "stk",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Frisk oregano/mynte",
+            "amount": 0.5,
+            "unit": "dl",
+            "category": "grønnsaker"
+            },
+            {
+            "name": "Sorte oliven",
+            "amount": 8,
+            "unit": "stk",
+            "category": "annet"
+            }
+        ]
+    },
+    {
+        "name": "Stekt fisk med gul paprikasaus",
+        "categories": ["Middag", "Hvit fisk"],
+        "approach": [
+            "Skjær paprika og sjalottløk i biter. Varm en liten kjele med litt olje og fres løk og paprika på middels varme til det er helt mykt. Tilsett hakket hvitløk etter noen minutter.",
+            "Hell i fløte og kok opp. La det hele koke noen minutter.",
+            "Bruk stavmikser eller hurtigmikser og kjør sausen helt glatt. Sil den gjennom en fin sil om du vil ha vekk rester av skallet. Smak til med salt og pepper og hold sausen varm.",
+            "Varm olje i en stekepanne og stek fisken til den er gyllen på begge sider. Krydre med salt og pepper og la fisken hvile litt, så du er sikker på at den er gjennomstekt.",
+            "Varm grønnsakene raskt, så de beholder spensten.",
+            "Server fisken med sukkererter, kokte poteter og paprikasaus."
+        ],
+        "ingredients": [
+            {
+                "name": "Seifilet",
+                "amount": 400,
+                "unit": "g",
+                "category": "fisk"
+            },
+            {
+                "name": "Gul paprika",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Sjalottløk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Olivenolje",
+                "amount": 1,
+                "unit": "ss",
+                "category": "annet"
+            },
+            {
+                "name": "Hvitløk",
+                "amount": 2,
+                "unit": "fedd",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Kremfløte",
+                "amount": 1,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Sukkererter",
+                "amount": 50,
+                "unit": "g",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Potet",
+                "amount": 400,
+                "unit": "g",
+                "category": "grønnsaker"
+            }
+        ]
+    },
+    {
+        "name": "Trefjords kyllingsuppe",
+        "categories": ["Middag", "Kylling", "Suppe"],
+        "approach": [
+            "Kutt og stek kylling, løk, purre og vårløk i en panne.",
+            "Bland resten av ingrediensene i en gryte og kok opp.",
+            "La suppen småkoke i 5-10 minutter.",
+            "Varm hvitløksbagetter."
+        ],
+        "ingredients": [
+            {
+                "name": "Kyllingfilet",
+                "amount": 4,
+                "unit": "stk",
+                "category": "kjøtt"
+            },
+            {
+                "name": "Løk",
+                "amount": 1,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Purre",
+                "amount": 0.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Vårløk",
+                "amount": 4,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Paprika",
+                "amount": 0.5,
+                "unit": "stk",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Mais",
+                "amount": 1,
+                "unit": "boks",
+                "category": "grønnsaker"
+            },
+            {
+                "name": "Sambal oelek",
+                "amount": 0.5,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Karri",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Sukker",
+                "amount": 2,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Salt",
+                "amount": 1,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Matfløte",
+                "amount": 3,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Melk",
+                "amount": 4,
+                "unit": "dl",
+                "category": "meieri"
+            },
+            {
+                "name": "Hønsebuljong",
+                "amount": 1,
+                "unit": "stk",
+                "category": "annet"
+            },
+            {
+                "name": "Mango chutney",
+                "amount": 2,
+                "unit": "ts",
+                "category": "annet"
+            },
+            {
+                "name": "Hvitløksbagetter",
+                "amount": 0,
+                "unit": "",
+                "category": "annet"
+            }
+        ]
+    },
+    {
         "name": "Sei med soppstuing",
-        "categories": ["Hvit fisk"],
+        "categories": ["Middag", "Hvit fisk"],
         "approach": [
             "Sett poteter på kok, og kutt opp og kok gullrøtter og blomkål.", 
             "Kutt og stek sopp og bacon. Krydre med salt og pepper.",
-            "Bland 2 dl creme fraich inn i soppen og baconet.", 
+            "Bland 2 dl creme fraîche inn i soppen og baconet.", 
             "Stek seien."
         ],
         "ingredients": [
@@ -95,7 +552,7 @@
                 "category": "kjøtt"
             },
             {    
-                "name": "Creme fraiche",
+                "name": "Creme fraîche",
                 "amount": 2,
                 "unit": "dl",
                 "category": "meieri"
@@ -122,7 +579,7 @@
     },
     {
         "name": "Sei med sopp og ris",
-        "categories": ["Hvit fisk"],
+        "categories": ["Middag", "Hvit fisk"],
         "approach": [
             "Kok ris.",
             "Kutt og stek soppen.",
@@ -160,7 +617,7 @@
     
     {
         "name": "Ingefærsei med eple og karrisaus",
-        "categories": ["Hvit fisk"],
+        "categories": ["Middag", "Hvit fisk"],
         "approach": [
             "Sett stekeovnen på 200 grader, sett over poteter og vann til asparges.",
             "Bland sammen ingrediensene til sausen (rømme, eple, karri, salt og pepper).",
@@ -215,7 +672,7 @@
     },
     {
         "name": "Hvit fisk med eplesmørsaus",
-        "categories": ["Hvit fisk"],
+        "categories": ["Middag", "Hvit fisk"],
         "approach": [
             "Tilbered potet etter ønske",
             "Tørk av fisken og krydre den med salt og pepper",
@@ -293,7 +750,7 @@
     
     {
         "name": "Soyamarinert laks",
-        "categories": ["Enkel", "Rød fisk"],
+        "categories": ["Middag", "Enkel", "Rød fisk"],
         "approach": [
             "Kok ris til 3 porsjoner.",
             "Lag soyamarinade av soyasaus, sitronsaft, honning, hvitløk og chili.",
@@ -359,7 +816,7 @@
     },
     {
         "name": "Ovnsbakt laks med rød pesto",
-        "categories": ["Rød fisk"],
+        "categories": ["Middag", "Rød fisk"],
         "approach": [
             "Sett stekeovnen på 200 grader over- og undervarme. Skjær opp grønnsakene og kok ris, poteter eller annet tilbehør etter anvisningen. ",
             "Stek løken i litt nøytral olje til den er blank og myk. La paprika og hvitløk steke med de siste minuttene. Tilsett deretter spinat og tomater og la de surre med til spinaten begynner å falle sammen. Krydre med litt salt og sort pepper. Fordel grønnsakene i en form. ",
@@ -445,7 +902,7 @@
     },
     {
         "name": "Laks med vårløk og sukkererter",
-        "categories": ["Rød fisk", "Enkel"],
+        "categories": ["Middag", "Rød fisk", "Enkel"],
         "approach": [
             "Start med å finne frem en stekepanne og sett på høy varme. Legg i smøret. ",
             "Skyll og kut vårløken. Stek i noen minutter til vårløken blir myk. ",
@@ -508,7 +965,7 @@
     },
     {
         "name": "Prinsessegryte",
-        "categories": ["Rød fisk", "Enkel"],
+        "categories": ["Middag", "Rød fisk", "Enkel"],
         "approach": [
             "Fres finhakket sjalottløk, hvitløk og chili i litt olje. Tilsett 2 dl vann og hønsebuljong og la småkoke i noen minutter. ",
             "Tilsett melk, creme fraiche og revet parmesan. La det småkoke litt før du tilsetter den rå fisken, skåret i terninger.",
@@ -556,7 +1013,7 @@
     },
     {
         "name": "Hot kyllingsuppe",
-        "categories": ["Kylling", "Suppe"],
+        "categories": ["Middag", "Kylling", "Suppe"],
         "approach": [
             "Del kyllingfilet i biter, skrell og del eple i mindre biter og finhakk løk.",
             "Smelt smør med karri i en kjele.",
@@ -617,7 +1074,7 @@
     },
     {
         "name": "Pastapanne med kylling og bacon",
-        "categories": ["Kylling", "Pasta"],
+        "categories": ["Middag", "Kylling", "Pasta"],
         "approach": [
             "Kok pasta etter anvisning på pakken i lettsaltet vann. Vask og kutt tomat i terninger og finhakk hvitløk.",
             "Sprøstek bacon på middels høy varme i en stekepanne. Del i terninger og legg til side. ",
@@ -680,7 +1137,7 @@
     },
     {
         "name": "Pasta carbonara",
-        "categories": ["Pasta"],
+        "categories": ["Middag", "Pasta"],
         "approach": [
             "Skjær brokkoli og bacon i små biter og stek i en romslig stekepanne med litt olivenolje.  Sett pannen til side så lenge.",
             "Visp egg og ost godt sammen i en bolle, til blandingen blir litt luftig.",
@@ -724,7 +1181,7 @@
     },
     {
         "name": "Pasta med kylling og pesto",
-        "categories": ["Kylling", "Pasta"],
+        "categories": ["Middag", "Kylling", "Pasta"],
         "approach": [
             "Kok pasta etter anvisning på pakken. ",
             "Stek kyllingfilet i en panne med olje, salt og pepper. ",
@@ -760,7 +1217,7 @@
     },
     {
         "name": "Green Coc-Chick-Thai",
-        "categories": ["Vegetar", "Kylling"],
+        "categories": ["Middag", "Vegetar", "Kylling"],
         "approach": [
             "Stek grønnsaker og ev. kjøtt.",
             "Tilsett spinat og kokosmelk.",
@@ -782,8 +1239,8 @@
             },
             {
                 "name": "Kylling",
-                "amount": 1,
-                "unit": "filet per person",
+                "amount": 2,
+                "unit": "filet",
                 "category": "kjøtt"
             },
             {
@@ -832,7 +1289,7 @@
     },
     {
         "name": "Kyllinggryte med soltørkede tomater",
-        "categories": ["Kylling", "Rester"],
+        "categories": ["Middag", "Kylling", "Rester"],
         "approach": [
             "Hell av det øverste laget av olje fra glasset med tomatene. Legg resten av innholdet sammen med hakket hvitløk i en gryte. La dette frese noen minutter før du tilsetter fløte, soyasaus og hønsebuljong. La dette småkoke en stund.",
             "Klipp kyllingfiletene opp i små biter som du har oppi gryta helt rå. Nå må retten småkoke i minst 30 minutter før du smaker til med pepper og fersk basilikum like før servering.",
@@ -910,7 +1367,7 @@
     },
     {
         "name": "Enkel kyllingwok",
-        "categories": ["Kylling", "Enkel", "Asiatisk"],
+        "categories": ["Middag", "Kylling", "Enkel", "Asiatisk"],
         "approach": [
             "Kutt opp kyllingen og stek i en stor panne (for å få plass til resten i samme panne til slutt)",
             "Kok nudlene",
@@ -946,7 +1403,7 @@
     }, 
     {
         "name": "Tortilla med kylling, grønnsaker og youghurtdressing",
-        "categories": ["Kylling", "Enkel"],
+        "categories": ["Middag", "Kylling", "Enkel"],
         "approach": [
             "Kutt kyllingfileter i biter. Stek og krydre med salt og pepper.",
             "Kutt og stek grønnsakene. (evt. bruk frossen wok-mix.)",
@@ -988,7 +1445,7 @@
     },
     {
         "name": "Curry-mango, kylling i lefse",
-        "categories": ["Kylling", "Enkel"],
+        "categories": ["Middag", "Kylling", "Enkel"],
         "approach": [
             "Kutt kylling i strimler/biter og stek med salt og pepper.",
             "Kutt opp grønnsakene.",
@@ -1048,7 +1505,7 @@
     },
     {
         "name": "Wraps med marinert kylling",
-        "categories": ["Kylling"],
+        "categories": ["Middag", "Kylling"],
         "ingredients": [
             {
                 "name": "Kyllingfilet",
@@ -1112,7 +1569,7 @@
     },
     {
         "name": "Kylling BLT",
-        "categories": ["Kylling"],
+        "categories": ["Middag", "Kylling"],
         "ingredients": [
             {
             "name": "Kyllingfilet",
@@ -1168,7 +1625,7 @@
     },
     {
         "name": "Wok med potet, kylling og ris",
-        "categories": ["Kylling", "Enkel"],
+        "categories": ["Middag", "Kylling", "Enkel"],
         "approach": [
             "Kutt grønsakene i terninger og stek i panne. Begynn med potetene.",
             "Stek kylling i en liten panne ved siden av.",
@@ -1222,7 +1679,7 @@
     },
     {
         "name": "Kylling i mangochutney",
-        "categories": ["Lørdagsmat", "Rester"],
+        "categories": ["Middag", "Lørdagsmat", "Rester"],
         "approach": [
             "Gjennomstek kyllingfiletene med litt salt og pepper.",
             "Saus: Visp fløten til krem. Bland inn hakket hvitløk, sambal oelek/chilipasta og karri under vispingen. Bland til slutt inn mangochutneyen med en slikkepott.",
@@ -1296,7 +1753,7 @@
     },
     {
         "name": "Kylling med bacon og kremost", 
-        "categories": ["Kylling"],
+        "categories": ["Middag", "Kylling"],
         "approach": [
             "Kutt og krydre potetene med salt og pepper. Stek i ovnen.",
             "Forstek kyllingen noe i pannen.",
@@ -1346,7 +1803,7 @@
     },
     {
         "name": "Kremet baconpasta",
-        "categories": ["Pasta"],
+        "categories": ["Middag", "Pasta"],
         "approach": [
             "Stek baconet sakte på lav varme til det er sprøtt på begge sider. Ta ut og sett til side på en tallerken med tørkepapir. Reserver 1 ss baconfett. Fjern eventuelle svarte flekker fra pannen, men la de brune restene ligge på bunnen, da dette vil gi god smak til sausen.",
             "Tilsett reserverte baconfettet i pannen sammen med hvitløken på middels varme.",
@@ -1417,7 +1874,7 @@
     },
     {
         "name": "Kremet pasta i panne med skine og tomat",
-        "categories": ["Enkel", "Pasta"],
+        "categories": ["Middag", "Enkel", "Pasta"],
         "approach": [
             "Kok pasta etter anvisningen på pakken. ",
             "Kutt 1 paprika, 6-7 sopp og 2 rødløk i passe store biter. Stek noen minutter på middels varme i en stekepanne.",
@@ -1491,7 +1948,7 @@
     },
     {
         "name": "Enchiladas",
-        "categories": ["Enkel", "Lørdagsmat", "Kylling"],
+        "categories": ["Middag", "Enkel", "Lørdagsmat", "Kylling"],
         "approach": [
             "Sett ovnen på 200 °C. Skjær kylling, paprika og løk i strimler. Varm en panne med smør og stek alt sammen med taco- eller enchiladas-krydder.",
             "Fyll hver tortilla med kyllingblandingen og rull den forsiktig sammen.",
@@ -1569,7 +2026,7 @@
     },
     {
         "name": "Makaronigryte",
-        "categories": ["Pølse"],
+        "categories": ["Middag", "Pølse"],
         "approach": [
             "Hakk løken og fres den i en kjele med margarin til den er gyllen.",
             "Rør inn gulerøtter og karri, og tilsett vann, buljongpulver, tomatpuré og sukker.",
@@ -1592,7 +2049,7 @@
                 "category": "meieri"
             },
             {
-                "name": "Gulerøtter",
+                "name": "Gulrot",
                 "amount": 2.5,
                 "unit": "stk",
                 "category": "grønnsaker"
@@ -1667,7 +2124,7 @@
     },
     {
         "name": "Stekt ris",
-        "categories": ["Enkel", "Rester", "Pølse"],
+        "categories": ["Middag", "Enkel", "Rester", "Pølse"],
         "approach": [
 "Mangler."
         ],
@@ -1712,7 +2169,7 @@
     },
     {
         "name": "Alt i ett, pølsegryte med pasta",
-        "categories": ["Enkel", "Rester", "Pølse"],
+        "categories": ["Middag", "Enkel", "Rester", "Pølse"],
         "approach": [
 "Mangler."
         ],
@@ -1781,7 +2238,7 @@
     },
     {
         "name": "Pølse stroganoff",
-        "categories": ["Enkel", "Pølse"],
+        "categories": ["Middag", "Enkel", "Pølse"],
         "approach": [
 "Mangler."
         ],
@@ -1856,7 +2313,7 @@
     },
     {
         "name": "Søtpotetsuppe med bacon",
-        "categories": ["Suppe"],
+        "categories": ["Middag", "Suppe"],
         "approach": [
             "Skrell søtpotetene og kutt opp i biter. Legg dem i gryta og dekk til med vann. Kok til de blir myke.",
             "Hell av litt av vannet til potetene over i et litermål (typ 5 dl) og la litt vann være igjen i gryta, resten hives i vasken. Bruk en stavmikser til å mose potetene til du får en smud purre.",
@@ -1917,7 +2374,7 @@
     },
     {
         "name": "Meksikansk gatemat",
-        "categories": ["Lørdagsmat"],
+        "categories": ["Middag", "Lørdagsmat"],
         "approach": [
 "Mangler."
         ],
@@ -2022,7 +2479,7 @@
     },    
     {
         "name": "Vårruller",
-        "categories": ["Rester", "Kjøtt", "Asiatisk"],
+        "categories": ["Middag", "Rester", "Kjøtt", "Asiatisk"],
         "approach": [
 "Mangler."
         ],
@@ -2079,7 +2536,7 @@
     },
     {
         "name": "Lasagne",
-        "categories": ["Kjøtt", "Lørdagsmat"],
+        "categories": ["Middag", "Kjøtt", "Lørdagsmat"],
         "approach": [
 "Mangler."
         ],
@@ -2172,7 +2629,7 @@
     },  
     {
         "name": "Lasagne med squash",
-        "categories": ["Kjøtt", "Lørdagsmat"],
+        "categories": ["Middag", "Kjøtt", "Lørdagsmat"],
         "approach": [
             "Start med å skjære skiver av squashen med en ostehøvel. Dryss salt over hver og en skive slik at fuktigheten blir dratt ut. La disse ligge mens du tilbereder resten. Når alt er klar tørkes skivene tørre med et kjøkkenpapir.",
             "Hakk opp løk, hvitløk, chili, stangselleri, gulrot, vårløk i passelige biter. Jeg skjærer de i forholdsvis små biter. Dette stekes mykt i litt olje og has over i en kasserolle.",
@@ -2301,7 +2758,7 @@
     },
     {
         "name": "Koteletter med bakt søtpotet",
-        "categories": ["Kjøtt"],
+        "categories": ["Middag", "Kjøtt"],
         "approach": [
 "Mangler."
         ],
@@ -2352,7 +2809,7 @@
     },
     {
         "name": "Lammefrikassé",
-        "categories": ["Kjøtt"],
+        "categories": ["Middag", "Kjøtt"],
         "ingredients": [
             {
                 "name": "Grytekjøtt av lam med bein",
@@ -2455,7 +2912,7 @@
     
     {
         "name": "Ostesuppe",
-        "categories": ["Kjøtt", "Suppe"],
+        "categories": ["Middag", "Kjøtt", "Suppe"],
         "approach": [
 "Mangler."
         ],
@@ -2518,7 +2975,7 @@
     },
     {
         "name": "Burger med søtpotet fries",
-        "categories": ["Kjøtt", "Lørdagsmat"],
+        "categories": ["Middag", "Kjøtt", "Lørdagsmat"],
         "approach": [
 "Mangler."
         ],
@@ -2635,7 +3092,7 @@
     },
     {
         "name": "Gulrot- og ingefærsuppe",
-        "categories": ["Vegetar", "Suppe"],
+        "categories": ["Middag", "Vegetar", "Suppe"],
         "approach": [
 "Mangler."
         ],
@@ -2686,7 +3143,7 @@
     },
     {
         "name": "Mangogryte",
-        "categories": ["Enkel", "Vegetar"],
+        "categories": ["Middag", "Enkel", "Vegetar"],
         "approach": [
 "Mangler."
         ],
@@ -2755,7 +3212,7 @@
     },
     {
         "name": "Torleivs chiligryte",
-        "categories": ["Enkel", "Suppe"],
+        "categories": ["Middag", "Enkel", "Suppe"],
         "approach": [
 "Mangler."
         ],
@@ -2830,7 +3287,7 @@
     },
     {
         "name": "Sprø pitadrøm",
-        "categories": ["Vegetar", "Lørdagsmat"],
+        "categories": ["Middag", "Vegetar", "Lørdagsmat"],
         "approach": [
             "Tips: Skal du ha syltet rødløk til? Start i så fall med det.",
             "Sett ovnen på 250 °C varmluft.",
@@ -2970,7 +3427,7 @@
     },
     {
         "name": "Potetsuppe",
-        "categories": ["Suppe", "Vegetar"],
+        "categories": ["Middag", "Suppe", "Vegetar"],
         "approach": [
 "Mangler."
         ],
@@ -3033,7 +3490,7 @@
     },
     {
         "name": "Linsemoussaka",
-        "categories": ["Vegetar"],
+        "categories": ["Middag", "Vegetar"],
         "approach": [
 "Mangler."
         ],
@@ -3120,7 +3577,7 @@
     },
     {
         "name": "Sopp- og baconstuing",
-        "categories": ["Tilbehør"],
+        "categories": ["Middag", "Tilbehør"],
         "approach": [
 "Mangler."
         ],
@@ -3159,7 +3616,7 @@
     },
     {
         "name": "Fiskeboller i hvit saus",
-        "categories": ["Fisk", "Enkel"],
+        "categories": ["Middag", "Fisk", "Enkel"],
         "approach": [
 "Mangler."
         ],
@@ -3204,7 +3661,7 @@
     },
     {
         "name": "Taco",
-        "categories": ["Lørdagsmat", "Kjøtt"],
+        "categories": ["Middag", "Lørdagsmat", "Kjøtt"],
         "approach": [
 "Mangler."
         ],
