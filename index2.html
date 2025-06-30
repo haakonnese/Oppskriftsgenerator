@@ -420,7 +420,7 @@
             const pageWidth = pdf.internal.pageSize.getWidth();
             const pageHeight = pdf.internal.pageSize.getHeight();
             pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
-            pdf.save('kalender.pdf');
+            pdf.save('kalender_' + monthLabel.replace(/\s+/g, '_').toLowerCase() + '.pdf');
         };
         document.getElementById('removeIcal').onclick = function() {
             localStorage.removeItem("icalFetched");
