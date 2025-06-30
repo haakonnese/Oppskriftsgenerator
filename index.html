@@ -20,12 +20,11 @@
     <label for="numberOfDays" class="switchLabel">Antall dager:</label>
     <input type="number" class="numberOfDays" id="numberOfDays" value="1" min="1">
     <br>
-    <label for="numberOfDaysVeggies" class="switchLabel">Velg grønnsaksdager:</label>
+    <label for="numberOfDaysVeggiesSwitch" class="switchLabel">Grønnsaker per uke</label>
     <label class="switch">  
         <input type="checkbox" id="numberOfDaysVeggiesSwitch">
         <span class="slider round"></span>
     </label>
-    <input type="number" class="numberOfDays" id="numberOfDaysVeggies" value="1" min="1">
     <br>
     <label for="choseYourself" class="switchLabel">Velg oppskrifter selv</label>
     <label class="switch">  
@@ -381,7 +380,6 @@
             //     window.recipes = recipes;
 
             //     // Log the recipes object to the console
-            //     console.log(window.recipes);
             // })
             .catch(error => {
                 console.error('Error fetching and parsing JSON:', error);
@@ -395,28 +393,13 @@
         const recipes = await readRecipesFileOnLoad();
         // get the main div
         const main = document.querySelector('.main');
-        const numberOfDays = document.querySelector("#numberOfDays");
-        const numberOfDaysVeggies = document.querySelector("#numberOfDaysVeggies");
+        const numberOfDaysEl = document.querySelector("#numberOfDays");
         function setNumberOfDays() {
             // clear the main div
             main.innerHTML = '';
             // create the divs for the number of days
-            let numDaysVeggies = JSON.parse(localStorage.getItem('numDaysVeggies'));
-            if (numDaysVeggies === null || numDaysVeggies === undefined) {
-                numDaysVeggies = numberOfDays.value;
-            }
-            else if (Number(numDaysVeggies) >= Number(numberOfDays.value)) {
-                numDaysVeggies = numberOfDays.value;
-            }
-            if (!document.querySelector("#numberOfDaysVeggiesSwitch").checked) {
-                numDaysVeggies = Number(numberOfDays.value);
-            }
-
-            numberOfDaysVeggies.value = numDaysVeggies;
-            localStorage.setItem('numDaysVeggies', JSON.stringify(numDaysVeggies));
-
-            localStorage.setItem('numDays', JSON.stringify(numberOfDays.value));
-            for (let i = 0; i < numberOfDays.value; i++) {
+            localStorage.setItem('numDays', JSON.stringify(parseInt(numberOfDaysEl.value)));
+            for (let i = 0; i < numberOfDaysEl.value; i++) {
                 const div = document.createElement('div');
                 div.classList.add('day');
                 main.appendChild(div);
@@ -424,7 +407,7 @@
         
             // for all the days of the week, create a div which contains the category, the button and the recipe
             const days = [];
-            for (let i = 1; i <= numberOfDays.value; i++) {
+            for (let i = 1; i <= numberOfDaysEl.value; i++) {
                 days.push(`Dag ${i}`);
             }
             // in the div, add the names of the days in norwegian
@@ -438,10 +421,10 @@
             // load local storage name of recipes at a day if it exists
             let recipeNames = JSON.parse(localStorage.getItem('recipeNames'));
             if (recipeNames === null) {
-                recipeNames = Array.from({length: Number(numberOfDays.value)}, () => "");
+                recipeNames = Array.from({length: Number(numberOfDaysEl.value)}, () => "");
             }
-            else if (recipeNames.length < numberOfDays.value) {
-                recipeNames = recipeNames.concat(Array.from({length: numberOfDays.value - recipeNames.length}, () => ""));
+            else if (recipeNames.length < numberOfDaysEl.value) {
+                recipeNames = recipeNames.concat(Array.from({length: numberOfDaysEl.value - recipeNames.length}, () => ""));
             }
             // Replace button with a switch for "Hold skjermen på"
             const keepScreenOnDiv = document.getElementById('keepScreenOn');
@@ -472,7 +455,6 @@
                     screenOn = false;
                 }
             });
-            console.log(screenOn)
             // recipeDiv.appendChild(keepScreenOn);
             choseRecipesYourself = document.getElementById('choseYourself');
             choseRecipesYourself.addEventListener('change', setDropdown);
@@ -527,7 +509,7 @@
                             const selectedCategory = dropdown.value;
                             const recipesOfCategory = recipes.filter(recipe => recipe.categories.includes(selectedCategory));
                             const emptyOption = document.createElement('option');
-                            emptyOption.value = '';
+                            emptyOption.value = 'Ingen';
                             emptyOption.innerHTML = 'Ingen';
                             recipeDropdown.appendChild(emptyOption);
                             recipesOfCategory.forEach(recipeObj => {
@@ -611,7 +593,6 @@
                     showRecipe.classList.add('button');
                     showRecipe.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        console.log(e)
                         const day = this.parentElement.parentElement.parentElement;
                         const recipeName = day.querySelector('.recipe').innerHTML;
                         const recipe = recipes.find(r => r.name === recipeName);
@@ -688,6 +669,8 @@
                         if (randomRecipe === undefined) {
                             continue;
                         }
+                        dayDiv.querySelector('.recipeDropdown').value = randomRecipe.name;
+
                     }
                     currentRecipes.push(randomRecipe.name);
                     const recipeDiv = dayDiv.querySelector('.recipe');
@@ -706,15 +689,25 @@
                         const dropdown = dayDiv.querySelector('.dropdown');
                         dropdown.value = 'Ingen';
                     }
+                    else {
+                        dayDiv.querySelector('.recipeDropdown').value = 'Ingen';
+                    }
                 }
                 calculateIngredients();
             }
             
             function calculateIngredients() {
                 const ingredientsDiv = document.querySelector('#ingredients');
-                const allIngredients = [];
-                let numDaysVeggies = parseInt(JSON.parse(localStorage.getItem('numDaysVeggies')));
+                const allIngredients = [[]];
+                let veggiesSplit = JSON.parse(localStorage.getItem('veggiesSplit'));
+                if (veggiesSplit === null || veggiesSplit === undefined) {
+                    veggiesSplit = false;
+                }
                 for (let i = 0; i < dayDivs.length; i++) {
+                    if (veggiesSplit && i % 7 === 0 && i > 0) {
+                        allIngredients.push([]);
+                    }
+
                     const dayDiv = dayDivs[i];
                     const recipeDiv = dayDiv.querySelector('.recipe');
                     const recipeName = recipeDiv.innerHTML;
@@ -724,72 +717,77 @@
                     }
                     const ingredients = recipe.ingredients;
                     for (let j = 0; j < ingredients.length; j++) {
-                        if (i >= numDaysVeggies && ingredients[j].category === 'grønnsaker') {
-                            continue; // skip
+                        if (veggiesSplit && ingredients[j].category === 'grønnsaker' && i >= 7) {
+                            allIngredients[allIngredients.length - 1].push(ingredients[j]);
                         }
-                        allIngredients.push(ingredients[j]);
+                        else {
+                            allIngredients[0].push(ingredients[j]);
+                        }
                     }
                 }
                 // add all ingredients with the same name together. If the unit is different, convert to the same unit. If the units are not compatible, add them as a list of units
-                const ingredientsByName = {};
-                for (let i = 0; i < allIngredients.length; i++) {
-                    const ingredient = allIngredients[i];
-                    const name = ingredient.name;
-                    const amount = ingredient.amount;
-                    const unit = ingredient.unit;
-                    const category = ingredient.category;
-                    if (ingredientsByName[name] === undefined) {
-                        ingredientsByName[name] = {
-                            'amount': amount,
-                            'unit': unit,
-                            'category': category,
-                        }
-                    } else {
-                        const oldAmount = ingredientsByName[name].amount;
-                        const oldUnit = ingredientsByName[name].unit;
-                        const oldCategory = ingredientsByName[name].category;
-                        if (oldUnit === unit) {
-                            ingredientsByName[name].amount = oldAmount + amount;
+                const ingredientsByName = [];
+                for (let k = 0; k < allIngredients.length; k++) {
+                    ingredientsByName.push({});
+                    for (let i = 0; i < allIngredients[k].length; i++) {
+                        const ingredient = allIngredients[k][i];
+                        const name = ingredient.name;
+                        const amount = ingredient.amount;
+                        const unit = ingredient.unit;
+                        const category = ingredient.category;
+                        if (ingredientsByName[k][name] === undefined) {
+                            ingredientsByName[k][name] = {
+                                'amount': amount,
+                                'unit': unit,
+                                'category': category,
+                            }
                         } else {
-                            // convert to the same unit
-                            // check if old unit as a list. If it is a list, do the conversion for each element in the list
-                            if (Array.isArray(oldUnit)) {
-                                let converted = false;
-                                for (let i = 0; i < oldUnit.length; i++) {
-                                    const oldUnitElement = oldUnit[i];
-                                    const oldAmountElement = oldAmount[i];
-                                    if (conversionKg[oldUnitElement] !== undefined && conversionKg[unit] !== undefined) {
-                                        ingredientsByName[name].amount[i] = oldAmountElement * conversionKg[oldUnitElement] + amount * conversionKg[unit];
-                                        ingredientsByName[name].unit[i] = 'g';
-                                        converted = true;
-                                        break;
-                                    } else if (conversionL[oldUnitElement] !== undefined && conversionL[unit] !== undefined) {
-                                        ingredientsByName[name].amount[i] = oldAmountElement * conversionL[oldUnitElement] + amount * conversionL[unit];
-                                        ingredientsByName[name].unit[i] = 'ml';
-                                        converted = true;
-                                        break;
-                                    } else if (oldUnitElement === unit) {
-                                        ingredientsByName[name].amount[i] = oldAmountElement + amount;
-                                        converted = true;
-                                        break;
-                                    }
-                                }
-                                if (!converted) {
-                                        // add the units as a list
-                                        ingredientsByName[name].amount.push(amount);
-                                        ingredientsByName[name].unit.push(unit);
-                                    }
+                            const oldAmount = ingredientsByName[k][name].amount;
+                            const oldUnit = ingredientsByName[k][name].unit;
+                            const oldCategory = ingredientsByName[k][name].category;
+                            if (oldUnit === unit) {
+                                ingredientsByName[k][name].amount = oldAmount + amount;
                             } else {
-                                if (conversionKg[oldUnit] !== undefined && conversionKg[unit] !== undefined) {
-                                    ingredientsByName[name].amount = oldAmount * conversionKg[oldUnit] + amount * conversionKg[unit];
-                                    ingredientsByName[name].unit = 'g';
-                                } else if (conversionL[oldUnit] !== undefined && conversionL[unit] !== undefined) {
-                                    ingredientsByName[name].amount = oldAmount * conversionL[oldUnit] + amount * conversionL[unit];
-                                    ingredientsByName[name].unit = 'ml';
+                                // convert to the same unit
+                                // check if old unit as a list. If it is a list, do the conversion for each element in the list
+                                if (Array.isArray(oldUnit)) {
+                                    let converted = false;
+                                    for (let i = 0; i < oldUnit.length; i++) {
+                                        const oldUnitElement = oldUnit[i];
+                                        const oldAmountElement = oldAmount[i];
+                                        if (conversionKg[oldUnitElement] !== undefined && conversionKg[unit] !== undefined) {
+                                            ingredientsByName[k][name].amount[i] = oldAmountElement * conversionKg[oldUnitElement] + amount * conversionKg[unit];
+                                            ingredientsByName[k][name].unit[i] = 'g';
+                                            converted = true;
+                                            break;
+                                        } else if (conversionL[oldUnitElement] !== undefined && conversionL[unit] !== undefined) {
+                                            ingredientsByName[k][name].amount[i] = oldAmountElement * conversionL[oldUnitElement] + amount * conversionL[unit];
+                                            ingredientsByName[k][name].unit[i] = 'ml';
+                                            converted = true;
+                                            break;
+                                        } else if (oldUnitElement === unit) {
+                                            ingredientsByName[k][name].amount[i] = oldAmountElement + amount;
+                                            converted = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!converted) {
+                                            // add the units as a list
+                                            ingredientsByName[k][name].amount.push(amount);
+                                            ingredientsByName[k][name].unit.push(unit);
+                                        }
                                 } else {
-                                    // add the units as a list
-                                    ingredientsByName[name].amount = [oldAmount, amount];
-                                    ingredientsByName[name].unit = [oldUnit, unit];
+                                    if (conversionKg[oldUnit] !== undefined && conversionKg[unit] !== undefined) {
+                                        ingredientsByName[k][name].amount = oldAmount * conversionKg[oldUnit] + amount * conversionKg[unit];
+                                        ingredientsByName[k][name].unit = 'g';
+                                    } else if (conversionL[oldUnit] !== undefined && conversionL[unit] !== undefined) {
+                                        ingredientsByName[k][name].amount = oldAmount * conversionL[oldUnit] + amount * conversionL[unit];
+                                        ingredientsByName[k][name].unit = 'ml';
+                                    } else {
+                                        // add the units as a list
+                                        ingredientsByName[k][name].amount = [oldAmount, amount];
+                                        ingredientsByName[k][name].unit = [oldUnit, unit];
+                                    }
                                 }
                             }
                         }
@@ -797,39 +795,54 @@
                 }
                 // sort the ingredients by category, 
                 const sortOrder = ["grønnsaker", "kjøtt", "fisk", "meieri", "annet"]
-                const sortedIngredients = Object.entries(ingredientsByName).sort((a, b) => sortOrder.indexOf(a[1].category) - sortOrder.indexOf(b[1].category));
+                for (let k = 0; k < ingredientsByName.length; k++) {
+                    const ingredientsByNameK = ingredientsByName[k];
+                    const sortedIngredients = Object.entries(ingredientsByNameK).sort((a, b) => sortOrder.indexOf(a[1].category) - sortOrder.indexOf(b[1].category));
+                    ingredientsByName[k] = sortedIngredients;
+                }
                 // add the ingredients to the ingredients div
                 ingredientsDiv.innerHTML = '';
-                for (let i = 0; i < sortedIngredients.length; i++) {
-                    const ingredient = sortedIngredients[i];
-                    const name = ingredient[0];
-                    const amount = ingredient[1].amount;
-                    const unit = ingredient[1].unit;
-                    const category = ingredient[1].category;
-                    const ingredientDiv = document.createElement('div');
-                    if (Array.isArray(amount)) {
-                        let amountString = '';
-                        for (let i = 0; i < amount.length; i++) {
-                            const amountElement = amount[i];
-                            const unitElement = unit[i];
-                            if (amountElement === 0) {
-                                amountString += 'uvisst + ';
+                for (let k = 0; k < ingredientsByName.length; k++) {
+                    const sortedIngredients = ingredientsByName[k];
+                    if (k > 0) {
+                        const headerDiv = document.createElement('div');
+                        const emptyDiv = document.createElement('div');
+                        emptyDiv.innerHTML = '&nbsp;';
+                        headerDiv.innerHTML = `<strong>Grønnsaker for uke ${k + 1}</strong>`;
+                        ingredientsDiv.appendChild(emptyDiv);
+                        ingredientsDiv.appendChild(headerDiv);
+                    }
+                    for (let i = 0; i < sortedIngredients.length; i++) {
+                        const ingredient = sortedIngredients[i];
+                        const name = ingredient[0];
+                        const amount = ingredient[1].amount;
+                        const unit = ingredient[1].unit;
+                        const category = ingredient[1].category;
+                        const ingredientDiv = document.createElement('div');
+                        if (Array.isArray(amount)) {
+                            let amountString = '';
+                            for (let i = 0; i < amount.length; i++) {
+                                const amountElement = amount[i];
+                                const unitElement = unit[i];
+                                if (amountElement === 0) {
+                                    amountString += 'uvisst + ';
+                                }
+                                else {
+                                    amountString += `${amountElement} ${unitElement} + `;
+                                }
+                            }
+                            amountString = amountString.slice(0, -2);
+                            ingredientDiv.innerHTML = `${name}: ${amountString}`;
+                        } else {
+                            if (amount === 0) {
+                                ingredientDiv.innerHTML = `${name}`;
                             }
                             else {
-                                amountString += `${amountElement} ${unitElement} + `;
+                                ingredientDiv.innerHTML = `${name}: ${amount} ${unit}`;
                             }
                         }
-                        amountString = amountString.slice(0, -2);
-                        ingredientDiv.innerHTML = `${name}: ${amountString}`;
-                    } else {
-                        if (amount === 0) {
-                            ingredientDiv.innerHTML = `${name}`;
-                        }
-                        else {
-                            ingredientDiv.innerHTML = `${name}: ${amount} ${unit}`;
-                        }
+                        ingredientsDiv.appendChild(ingredientDiv);
                     }
-                    ingredientsDiv.appendChild(ingredientDiv);
                 }
                 // add a copy button
                 const copyButton = document.querySelector('#copy');
@@ -904,9 +917,8 @@
             const minute = parts.find(p => p.type === 'minute').value;
             const seconds = parts.find(p => p.type === 'second').value;
             const localDate = `${year}-${month}-${day} ${hour}:${minute}:${seconds}`;
-            console.log(loadRecipes);
-            let numDaysVeggies = JSON.parse(localStorage.getItem('numDaysVeggies'));
-            loadRecipes.push({'date': localDate, 'recipes': recipeNames, 'numDaysVeggies': numDaysVeggies});
+            let veggiesSplit = JSON.parse(localStorage.getItem('veggiesSplit'));
+            loadRecipes.push({'date': localDate, 'recipes': recipeNames, 'veggiesSplit': veggiesSplit});
             localStorage.setItem('loadRecipes', JSON.stringify(loadRecipes));
             localStorage.setItem('lastLoad', JSON.stringify(localDate));
 
@@ -919,22 +931,13 @@
             numDays = 1;
         }
         else {
-            numberOfDays.value = numDays;
+            numberOfDaysEl.value = numDays;
         }
-        document.querySelector("#numberOfDaysVeggiesSwitch").addEventListener('change', function() {
-            if (this.checked) {
-                numberOfDaysVeggies.value = numberOfDays.value;
-            } else {
-                numberOfDaysVeggies.value = numDays;
-            }
-            localStorage.setItem('numDaysVeggies', JSON.stringify(numberOfDaysVeggies.value));
+        const veggiesSplitEl = document.querySelector("#numberOfDaysVeggiesSwitch");
+        veggiesSplitEl.addEventListener('change', function() {
+            localStorage.setItem('veggiesSplit', JSON.stringify(this.checked));
+            setNumberOfDays();
         });
-        numberOfDaysVeggies.addEventListener('change', function() {
-            if (!document.querySelector("#numberOfDaysVeggiesSwitch").checked) {
-                this.value = numberOfDays.value;
-            }
-            localStorage.setItem('numDaysVeggies', JSON.stringify(this.value));
-        });        
         let previousRecipeNames = JSON.parse(localStorage.getItem('loadRecipes'));
         if (previousRecipeNames === null || previousRecipeNames === undefined) {
             previousRecipeNames = [];
@@ -972,18 +975,21 @@
                 return;
             }
             const element = loadRecipes.find(r => r.date === date);
+            if (element === undefined) {
+                return;
+            }
             const recipeNames = element.recipes;
             localStorage.setItem('recipeNames', JSON.stringify(recipeNames));
+            localStorage.setItem('veggiesSplit', JSON.stringify(element.veggiesSplit || false));
+            veggiesSplitEl.checked = element.veggiesSplit || false;
             localStorage.setItem('numDays', JSON.stringify(recipeNames.length));
-            document.querySelector("#numberOfDaysVeggies").value = element.numDaysVeggies || recipeNames.length;
-            localStorage.setItem('numDaysVeggies', JSON.stringify(element.numDaysVeggies || recipeNames.length));
-            document.querySelector("#numberOfDays").value = recipeNames.length;
+            numberOfDaysEl.value = recipeNames.length;
             localStorage.setItem('lastLoad', JSON.stringify(date));
             setNumberOfDays();
         }
         document.querySelector("#save").addEventListener('click', saveRecipes);
 
-        numberOfDays.addEventListener('change', setNumberOfDays);
+        numberOfDaysEl.addEventListener('change', setNumberOfDays);
         setNumberOfDays();
     }
     window.onload = main();
