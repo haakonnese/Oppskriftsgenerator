@@ -445,6 +445,7 @@
             pdf.save('kalender_' + monthLabel.replace(/\s+/g, '_').toLowerCase() + '.pdf');
         };
         document.getElementById('removeIcal').onclick = function() {
+            if (!confirm("Er du sikker på at du vil fjerne iCal-lenken?")) return;
             localStorage.removeItem("icalFetched");
             localStorage.removeItem("urlIcal");
             document.getElementById("activities").innerHTML = "<li>iCal fjernet.</li>";
