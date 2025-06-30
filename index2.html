@@ -337,24 +337,19 @@
                             // Check if any event on this day covers 02:00 and 23:00
                             // cell.style.background = '#ffa500'; // orange
                         }
-                        else if (isEventAt(dateKey, 2)) {
-                            cell.style.background = '#ffa500'; // orange
-                            colored = true;
-                        }
                         else if (isEventAt(dateKey, 2) || isEventAt(dateKey, 23)) {
                             cell.style.background = '#ffa500'; // orange
                             colored = true;
                         }
                         else if (activities.length === 0 || displayActivities.length === 0) {
-                            cell.style.background = '#c8f7c5'; // light green
                             colored = true;
                         }
                         else if (isEventAt(dateKey, 19)) {
-                            cell.style.background = '#ffb3b3'; // light red
+                            cell.style.background = '#8C9FAA'; // light red
                             colored = false;
                         }
                         else if (isEventAt(dateKey, 11)) {
-                            cell.style.background = '#b3d8ff'; // light blue
+                            cell.style.background = '#DAEFFD'; // light blue
                             colored = true;
                         }
                         // Add recipe if not red or gray (default)
