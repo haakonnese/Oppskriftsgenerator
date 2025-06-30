@@ -130,7 +130,14 @@
             datePicker.addEventListener("change", updateDate);
             updateDate();
             function parseAndDisplayICal(icsText) {
-                
+                const existingNav = document.getElementById("prevMonthBtn");
+                if (existingNav) {
+                    // Remove previous calendar and navigation before rendering new one
+                    const navDiv = existingNav.parentNode;
+                    if (navDiv) navDiv.parentNode.removeChild(navDiv);
+                }
+                const existingTable = document.querySelector("table");
+                if (existingTable) existingTable.parentNode.removeChild(existingTable);
                 const events = [];
                 const eventBlocks = icsText.split("BEGIN:VEVENT").slice(1);
                 eventBlocks.forEach(block => {
