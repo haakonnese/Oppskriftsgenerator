@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: #fff;
+            border: 2px solid #333;
+        }
+        thead, tbody, tr {
+            display: contents;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            min-width: 80px;
+            min-height: 60px;
+            text-align: center;
+            vertical-align: top;
+            background: #f9f9f9;
+        }
+        th {
+            background: #e0e0e0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kalenderaktiviteter</h1>
+    <label for="datePicker">Velg dato:</label>
+    <input type="date" id="datePicker" name="datePicker">
+    <button id="removeIcal">Fjern iCal</button>
+    <ul id="activities" ></ul>
+    <button id="pdfBtn" style="margin: 30px auto 10px auto; display: block; font-size: 1.1em; padding: 10px 30px; border-radius: 8px; background: #1976d2; color: #fff; border: none; box-shadow: 0 2px 8px #0002; cursor: pointer;">Lag PDF</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        async function readRecipesFileOnLoad() {
+            const recipesFile = 'recipes.json';
+            
+            // Fetch the JSON file
+            const data = fetch(recipesFile)
+                .then(response => response.json())
+                // .then(recipes => {
+                //     // Store the recipes object globally
+                //     window.recipes = recipes;
+
+                //     // Log the recipes object to the console
+                // })
+                .catch(error => {
+                    console.error('Error fetching and parsing JSON:', error);
+                });
+            return data;
+        }
+        async function fetchIcal() {
+            let url = localStorage.getItem("urlIcal");
+            if (url) {
+                url = JSON.parse(url);
+            } else {
+                url = prompt("Skriv inn iCal-lenken din:");
+                if (url) {
+                    localStorage.setItem("urlIcal", JSON.stringify(url));
+                } else {
+                    alert("Du må oppgi en iCal-lenke for å fortsette.");
+                    throw new Error("Ingen iCal-lenke oppgitt.");
+                }
+            }
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Kan ikke hente kalenderen.");
+                icsText = await response.text();
+                localStorage.setItem("icalFetched", JSON.stringify(icsText));
+                return icsText;
+            } catch (err) {
+                console.error("Feil ved henting av kalender:", err);
+                document.getElementById("activities").innerHTML = `<li>${err.message}</li>`;
+            }
+        }
+        async function fetchAndShowICal() {
+            const recipes = await readRecipesFileOnLoad();
+            let chosen = JSON.parse(localStorage.getItem("loadRecipes"));
+            let currentDate = JSON.parse(localStorage.getItem("lastLoad"));
+            const listOfRecipes = chosen.find(l => l.date === currentDate);
+            const datePicker = document.getElementById("datePicker");
+            let selectedDate = datePicker.value;
+            let icsText = await fetchIcal();
+            function updateDate() {
+                // Set datePicker to today if not already set
+                if (!datePicker.value) {
+                    if (localStorage.getItem("lastDate")) {
+                        const lastDate = JSON.parse(localStorage.getItem("lastDate"));
+                        datePicker.value = lastDate;
+                    } else {
+                        const today = new Date().toISOString().slice(0, 10);
+                        datePicker.value = today;
+                    }
+                }
+                selectedDate = this.value || datePicker.value;
+                localStorage.setItem("lastDate", JSON.stringify(selectedDate));
+                parseAndDisplayICal(icsText);
+                // You can use selectedDate as needed
+            }
+            datePicker.addEventListener("change", updateDate);
+            updateDate();
+            function parseAndDisplayICal(icsText) {
+                
+                const events = [];
+                const eventBlocks = icsText.split("BEGIN:VEVENT").slice(1);
+                eventBlocks.forEach(block => {
+                    const summary = (block.match(/SUMMARY:(.*)/) || [])[1];
+                    const dtstart = (block.match(/DTSTART.*:(.*)/) || [])[1];
+                    const dtend = (block.match(/DTEND.*:(.*)/) || [])[1];
+                    // Skip events named F1, F2, F3
+                    if ((summary === 'F1' || summary === 'F2' || summary === 'F3')) return;
+                    if (summary && dtstart) {
+                        // Parse date to YYYY-MM-DD
+                        let date = dtstart;
+                        if (date.length >= 8) {
+                            date = date.substring(0, 8);
+                            date = `${date.substring(0,4)}-${date.substring(4,6)}-${date.substring(6,8)}`;
+                        }
+                        events.push({ summary, dtstart, dtend, date });
+                    }
+                });
+
+                // Group events by date and also keep parsed start/end times for time-based coloring
+                const grouped = {};
+                const eventTimes = {};
+                events.forEach(ev => {
+                    if (!grouped[ev.date]) grouped[ev.date] = [];
+                    grouped[ev.date].push(ev.summary);
+
+                    // Parse start and end time from DTSTART/DTEND if available
+                    let dtstart = ev.dtstart;
+                    let dtend = ev.dtend;
+                    if (!(/T\d{6}/.test(dtstart) && /T\d{6}/.test(dtend))) {
+                        dtstart += "T000000"; // Default to midnight if no time is specified
+                        let dtendDate = new Date(
+                            parseInt(dtend.substring(0, 4), 10),
+                            parseInt(dtend.substring(4, 6), 10) - 1,
+                            parseInt(dtend.substring(6, 8), 10)
+                        );
+                        // dtendDate.setDate(dtendDate.getDate());
+                        dtend = dtendDate.toISOString().slice(0,10).replace(/-/g,"") + "T000000";
+                        dtend += "T235959"; // Default to end of day if no time is
+                    }
+                                    
+                    start = dtstart.match(/T(\d{2})(\d{2})/);
+                    end = dtend.match(/T(\d{2})(\d{2})/);
+
+                    // Parse start and end dates
+                    const startDateStr = dtstart.substring(0, 8);
+                    const endDateStr = dtend.substring(0, 8);
+                    const startDate = new Date(
+                        parseInt(startDateStr.substring(0, 4), 10),
+                        parseInt(startDateStr.substring(4, 6), 10) - 1,
+                        parseInt(startDateStr.substring(6, 8), 10)
+                    );
+                    const endDate = new Date(
+                        parseInt(endDateStr.substring(0, 4), 10),
+                        parseInt(endDateStr.substring(4, 6), 10) - 1,
+                        parseInt(endDateStr.substring(6, 8), 10)
+                    );
+
+                    // If event spans multiple days, add to each day
+                    let current = new Date(startDate);
+                    let isMultiDay = startDate.getTime() !== endDate.getTime();
+                    
+                    while (current <= endDate) {
+                        const dateKey = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}-${String(current.getDate()).padStart(2, '0')}`;
+                        if (!grouped[dateKey]) grouped[dateKey] = [];
+                        let label = ev.summary;
+                        let labelBefore = ev.summary;
+                        if (isMultiDay) {
+                            if (current.getTime() === startDate.getTime()) {
+                                label += " (start)";
+                            } else if (current.getTime() === endDate.getTime()) {
+                                label += " (slutt)";
+                            }
+                        }
+                        if (grouped[dateKey].includes(labelBefore) && label !== labelBefore) {
+                            grouped[dateKey].pop(labelBefore);
+                        }
+                        if (!grouped[dateKey].includes(label)) grouped[dateKey].push(label);
+                        if (!eventTimes[dateKey]) eventTimes[dateKey] = [];
+                        // For first day, use actual start time; for last day, use actual end time; for middle days, use 00:00-23:59
+                        let sh = 0, sm = 0, eh = 23, em = 59;
+                        if (current.getTime() === startDate.getTime()) {
+                            sh = parseInt(start[1], 10);
+                            sm = parseInt(start[2], 10);
+                        }
+                        if (current.getTime() === endDate.getTime()) {
+                            eh = parseInt(end[1], 10);
+                            em = parseInt(end[2], 10);
+                        }
+                        eventTimes[dateKey].push({
+                            startHour: sh,
+                            startMin: sm,
+                            endHour: eh,
+                            endMin: em
+                        });
+
+                        current.setDate(current.getDate() + 1);
+                    }
+                });
+
+                // Render as a calendar table
+                const ul = document.getElementById("activities");
+                ul.innerHTML = "";
+
+                // Get current month and year
+                const now = new Date();
+                const year = now.getFullYear();
+                let monthGlobal = now.getMonth();
+
+                // Get first day of month and number of days
+                const firstDay = new Date(year, monthGlobal, 1).getDay();
+                const daysInMonth = new Date(year, monthGlobal + 1, 0).getDate();
+
+                // Create table
+                const table = document.createElement("table");
+                table.style.borderCollapse = "collapse";
+                table.style.width = "100%";
+                // Add navigation for previous/next month
+                let navDiv = document.createElement("div");
+                navDiv.style.margin = "10px 0";
+                navDiv.style.display = "flex";
+                navDiv.style.justifyContent = "center";
+                navDiv.innerHTML = `
+                    <button id="prevMonthBtn">&lt; Forrige</button>
+                    <span style="margin: 0 15px;" id="monthLabel">${now.toLocaleString("nb-NO", { month: "long", year: "numeric" })}</span>
+                    <button id="nextMonthBtn">Neste &gt;</button>
+                `;
+                ul.parentNode.insertBefore(navDiv, ul.nextSibling);
+
+                function renderCalendar(year, month) {
+                    // Get first day of week (0=Sunday, 1=Monday, ...)
+                    // Adjust so week starts on Monday (Norwegian standard)
+                    monthGlobal = month;
+                    let firstDayOfWeek = new Date(year, month, 1).getDay();
+                    firstDayOfWeek = (firstDayOfWeek === 0) ? 6 : firstDayOfWeek - 1;
+
+                    const totalDays = new Date(year, month + 1, 0).getDate();
+
+                    // Update month label
+                    document.getElementById("monthLabel").textContent =
+                        new Date(year, month, 1).toLocaleString("nb-NO", { month: "long", year: "numeric" });
+
+                    // Build calendar header
+                    let calendarHtml = `
+                        <thead>
+                            <tr>
+                                <th>Mandag</th>
+                                <th>Tirsdag</th>
+                                <th>Onsdag</th>
+                                <th>Torsdag</th>
+                                <th>Fredag</th>
+                                <th>Lørdag</th>
+                                <th>Søndag</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                table.innerHTML = calendarHtml;
+
+                    // Create empty rows for the calendar
+                    let row = document.createElement("tr");
+                    for (let i = 0; i < firstDayOfWeek; i++) {
+                        let cell = document.createElement("td");
+                        row.appendChild(cell);
+                    }
+
+                    // Fill in the days of the month
+                    let recipeIdx = 0;
+                    let recipeDate = new Date(selectedDate);
+                    recipeDate.setHours(0, 0, 0, 0); // Normalize to start of day
+                    for (let day = 1; day <= totalDays; day++) {
+                        const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                        const activities = grouped[dateKey] || [];
+                        // Filter out F1, F2, F3 for display
+                        const displayActivities = activities.filter(a => a !== 'F1' && a !== 'F2' && a !== 'F3');
+                        const cell = document.createElement("td");
+                        cell.textContent = day;
+                        if (displayActivities.length > 0) {
+                            cell.innerHTML += `<br>${displayActivities.join("<br>")}`;
+                        }
+                        // Helper to check if cell is red (event at 19:00)
+                        function isEventAt(dateKey, hour) {
+                            if (eventTimes[dateKey]) {
+                                for (const t of eventTimes[dateKey]) {
+                                    const startMins = t.startHour * 60 + t.startMin;
+                                    const endMins = t.endHour * 60 + t.endMin;
+                                    const targetMins = hour * 60;
+                                    if (startMins <= targetMins && targetMins < endMins) {
+                                        return true;
+                                    }
+                                }
+                            }
+                            return false;
+                        }
+                        let colored = false;
+                        if (isEventAt(dateKey, 2) && isEventAt(dateKey, 12) && isEventAt(dateKey, 23)) {
+                            // Check if any event on this day covers 02:00 and 23:00
+                            // cell.style.background = '#ffa500'; // orange
+                        }
+                        else if (isEventAt(dateKey, 2)) {
+                            cell.style.background = '#ffa500'; // orange
+                            colored = true;
+                        }
+                        else if (isEventAt(dateKey, 2) || isEventAt(dateKey, 23)) {
+                            cell.style.background = '#ffa500'; // orange
+                            colored = true;
+                        }
+                        else if (activities.length === 0 || displayActivities.length === 0) {
+                            cell.style.background = '#c8f7c5'; // light green
+                            colored = true;
+                        }
+                        else if (isEventAt(dateKey, 19)) {
+                            cell.style.background = '#ffb3b3'; // light red
+                            colored = false;
+                        }
+                        else if (isEventAt(dateKey, 11)) {
+                            cell.style.background = '#b3d8ff'; // light blue
+                            colored = true;
+                        }
+                        // Add recipe if not red or gray (default)
+                        if (colored && !!listOfRecipes && recipeIdx < listOfRecipes.recipes.length) {
+                            // Only add recipes from selectedDate and forward
+                            let cellDate = new Date(year, month, day);
+                            cellDate.setHours(0, 0, 0, 0); // Normalize to start of day
+                            if (cellDate >= recipeDate) {
+                                cell.innerHTML += `<br><span style='font-size:0.9em;color:#444;'>${listOfRecipes.recipes[recipeIdx]}</span>`;
+                                recipeIdx++;
+                            }
+                        }
+                        row.appendChild(cell);
+
+                        // Start a new row after Sunday
+                        if ((firstDayOfWeek + day) % 7 === 0) {
+                            table.querySelector("tbody").appendChild(row);
+                            row = document.createElement("tr");
+                        }
+                    }
+
+                    // Only append the last row if it contains any days of the current month
+                    let hasDay = false;
+                    for (let i = 0; i < row.children.length; i++) {
+                        if (row.children[i].textContent && row.children[i].textContent.trim() !== "") {
+                            hasDay = true;
+                            break;
+                        }
+                    }
+                    if (hasDay) {
+                        while (row.children.length < 7) {
+                            row.appendChild(document.createElement("td"));
+                        }
+                        table.querySelector("tbody").appendChild(row);
+                    }
+                }
+                renderCalendar(year, monthGlobal);
+                document.getElementById("prevMonthBtn").onclick = function() {
+                    table.innerHTML = "";
+                    renderCalendar(monthGlobal === 0 ? year - 1 : year, monthGlobal === 0 ? 11 : monthGlobal - 1);
+                };
+                document.getElementById("nextMonthBtn").onclick = function() {
+                    table.innerHTML = "";
+                    renderCalendar(monthGlobal === 11 ? year + 1 : year, monthGlobal === 11 ? 0 : monthGlobal + 1);
+                };
+                ul.parentNode.insertBefore(table, ul.nextSibling);
+            }
+        }
+
+        document.getElementById('pdfBtn').onclick = async function() {
+            const { jsPDF } = window.jspdf;
+            // Get month name
+            const monthLabel = document.getElementById('monthLabel').textContent;
+            // Clone the table for PDF
+            const table = document.querySelector('table');
+            const tableClone = table.cloneNode(true);
+            // Style the table for PDF: stretch to 100% width, no margin/gap between columns
+            tableClone.style.width = '100%';
+            tableClone.style.fontSize = '18px';
+            tableClone.style.borderCollapse = 'collapse';
+            tableClone.style.tableLayout = 'fixed';
+            tableClone.style.borderSpacing = '0';
+            // Make all cells fill the width, no margin, less padding for lower row height
+            tableClone.querySelectorAll('th, td').forEach(cell => {
+                cell.style.width = ((1082-(16*7))/7) + 'px';
+                cell.style.wordBreak = 'break-word';
+                cell.style.fontSize = '18px';
+                // cell.style.padding = '6px 2px';
+                cell.style.margin = '0';
+                cell.style.border = '1px solid #333';
+            });
+            // Create a container for PDF content
+            const pdfContainer = document.createElement('div');
+            pdfContainer.style.background = '#fff';
+            // pdfContainer.style.padding = '20px';
+            pdfContainer.style.width = '1122px'; // A4 landscape px at 96dpi
+            pdfContainer.style.height = '793px';
+            pdfContainer.style.boxSizing = 'border-box';
+            const h2 = document.createElement('h2');
+            h2.textContent = monthLabel;
+            h2.style.textAlign = 'center';
+            h2.style.fontSize = '28px';
+            pdfContainer.appendChild(h2);
+            pdfContainer.appendChild(tableClone);
+            document.body.appendChild(pdfContainer);
+            // Use html2canvas to render the container
+            const canvas = await html2canvas(pdfContainer, { backgroundColor: '#fff', scale: 2, width: 1122, height: 793 });
+            document.body.removeChild(pdfContainer);
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+            // Fill the page
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pageHeight);
+            pdf.save('kalender.pdf');
+        };
+        document.getElementById('removeIcal').onclick = function() {
+            localStorage.removeItem("icalFetched");
+            localStorage.removeItem("urlIcal");
+            document.getElementById("activities").innerHTML = "<li>iCal fjernet.</li>";
+            fetchAndShowICal();
+        };
+        fetchAndShowICal();
+    </script>
+</body>
+</html>
