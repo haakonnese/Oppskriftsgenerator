@@ -267,6 +267,10 @@
                 `;
                 ul.parentNode.insertBefore(navDiv, ul.nextSibling);
 
+                let recipeIdx = 0; // Move recipeIdx here so it persists across months
+                let recipeDate = new Date(selectedDate);
+                let totalRecipesMonth = []; // Track total recipes for the month
+                recipeDate.setHours(0, 0, 0, 0); // Normalize to start of day
                 function renderCalendar(year, month) {
                     // Get first day of week (0=Sunday, 1=Monday, ...)
                     // Adjust so week starts on Monday (Norwegian standard)
@@ -305,9 +309,7 @@
                     }
 
                     // Fill in the days of the month
-                    let recipeIdx = 0;
-                    let recipeDate = new Date(selectedDate);
-                    recipeDate.setHours(0, 0, 0, 0); // Normalize to start of day
+                    totalRecipesMonth.push(0); // Initialize for this month
                     for (let day = 1; day <= totalDays; day++) {
                         const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                         const activities = grouped[dateKey] || [];
@@ -360,6 +362,7 @@
                             if (cellDate >= recipeDate) {
                                 cell.innerHTML += `<br><span style='font-size:0.9em;color:#444;'>${listOfRecipes.recipes[recipeIdx]}</span>`;
                                 recipeIdx++;
+                                totalRecipesMonth[totalRecipesMonth.length - 1]++;
                             }
                         }
                         row.appendChild(cell);
@@ -389,6 +392,11 @@
                 renderCalendar(year, monthGlobal);
                 document.getElementById("prevMonthBtn").onclick = function() {
                     table.innerHTML = "";
+                    recipeIdx -= totalRecipesMonth[totalRecipesMonth.length - 1]; // Reset recipe index for previous month
+                    totalRecipesMonth.pop();
+                    recipeIdx -= totalRecipesMonth[totalRecipesMonth.length - 1]; // Reset recipe index for previous month
+                    totalRecipesMonth.pop();
+
                     renderCalendar(monthGlobal === 0 ? year - 1 : year, monthGlobal === 0 ? 11 : monthGlobal - 1);
                 };
                 document.getElementById("nextMonthBtn").onclick = function() {
