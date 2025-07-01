@@ -124,10 +124,15 @@
                 }
                 selectedDate = this.value || datePicker.value;
                 localStorage.setItem("lastDate", JSON.stringify(selectedDate));
+                monthGlobal = new Date(selectedDate).getMonth();
+                yearGlobal = new Date(selectedDate).getFullYear();
                 parseAndDisplayICal(icsText);
                 // You can use selectedDate as needed
             }
             datePicker.addEventListener("change", updateDate);
+            const now = new Date();
+            let yearGlobal = now.getFullYear();
+            let monthGlobal = now.getMonth();
             updateDate();
             function parseAndDisplayICal(icsText) {
                 const existingNav = document.getElementById("prevMonthBtn");
@@ -243,13 +248,11 @@
                 ul.innerHTML = "";
 
                 // Get current month and year
-                const now = new Date();
-                const year = now.getFullYear();
-                let monthGlobal = now.getMonth();
+                
 
                 // Get first day of month and number of days
-                const firstDay = new Date(year, monthGlobal, 1).getDay();
-                const daysInMonth = new Date(year, monthGlobal + 1, 0).getDate();
+                const firstDay = new Date(yearGlobal, monthGlobal, 1).getDay();
+                const daysInMonth = new Date(yearGlobal, monthGlobal + 1, 0).getDate();
 
                 // Create table
                 const table = document.createElement("table");
@@ -262,7 +265,7 @@
                 navDiv.style.justifyContent = "center";
                 navDiv.innerHTML = `
                     <button id="prevMonthBtn">&lt; Forrige</button>
-                    <span style="margin: 0 15px;" id="monthLabel">${now.toLocaleString("nb-NO", { month: "long", year: "numeric" })}</span>
+                    <span style="margin: 0 15px;" id="monthLabel">${now.toLocaleString("nb-NO", { monthGlobal: "long", yearGlobal: "numeric" })}</span>
                     <button id="nextMonthBtn">Neste &gt;</button>
                 `;
                 ul.parentNode.insertBefore(navDiv, ul.nextSibling);
@@ -275,6 +278,7 @@
                     // Get first day of week (0=Sunday, 1=Monday, ...)
                     // Adjust so week starts on Monday (Norwegian standard)
                     monthGlobal = month;
+                    yearGlobal = year;
                     let firstDayOfWeek = new Date(year, month, 1).getDay();
                     firstDayOfWeek = (firstDayOfWeek === 0) ? 6 : firstDayOfWeek - 1;
 
@@ -389,19 +393,21 @@
                         table.querySelector("tbody").appendChild(row);
                     }
                 }
-                renderCalendar(year, monthGlobal);
+                renderCalendar(yearGlobal, monthGlobal);
                 document.getElementById("prevMonthBtn").onclick = function() {
                     table.innerHTML = "";
                     recipeIdx -= totalRecipesMonth[totalRecipesMonth.length - 1]; // Reset recipe index for previous month
                     totalRecipesMonth.pop();
-                    recipeIdx -= totalRecipesMonth[totalRecipesMonth.length - 1]; // Reset recipe index for previous month
-                    totalRecipesMonth.pop();
+                    if (totalRecipesMonth.length > 0) {
+                        recipeIdx -= totalRecipesMonth[totalRecipesMonth.length - 1]; // Reset recipe index for previous month
+                        totalRecipesMonth.pop();
+                    }
 
-                    renderCalendar(monthGlobal === 0 ? year - 1 : year, monthGlobal === 0 ? 11 : monthGlobal - 1);
+                    renderCalendar(monthGlobal === 0 ? yearGlobal - 1 : yearGlobal, monthGlobal === 0 ? 11 : monthGlobal - 1);
                 };
                 document.getElementById("nextMonthBtn").onclick = function() {
                     table.innerHTML = "";
-                    renderCalendar(monthGlobal === 11 ? year + 1 : year, monthGlobal === 11 ? 0 : monthGlobal + 1);
+                    renderCalendar(monthGlobal === 11 ? yearGlobal + 1 : yearGlobal, monthGlobal === 11 ? 0 : monthGlobal + 1);
                 };
                 ul.parentNode.insertBefore(table, ul.nextSibling);
             }
